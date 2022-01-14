@@ -1,16 +1,16 @@
-package order
+package builders
 
 import (
 	"fmt"
+	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethclient"
 	signer "github.com/ethereum/go-ethereum/signer/core/apitypes"
 	"github.com/fatih/structs"
-	"github.com/polymarket/order-utils/pkg/eip712"
-	"github.com/polymarket/order-utils/pkg/signature"
+	"github.com/polymarket/order-utils/pkg/model"
+	"github.com/polymarket/order-utils/pkg/utils"
 )
 
 type MarketOrderBuilder interface {
@@ -22,30 +22,26 @@ type MarketOrderBuilder interface {
 		signer string,
 		takerAssetID,
 		makerAssetID int,
-		sigType signature.SignatureType,
-	) *MarketOrder
-	BuildOrderSignature(walletAddress string, typedData signer.TypedData) (common.Hash, error)
+		sigType model.SignatureType,
+	) *model.MarketOrder
+	BuildMarketOrderTypedData(order *model.MarketOrder) *signer.TypedData
+	BuildOrderSignature(typedData signer.TypedData) (common.Hash, error)
 }
 
 type MarketOrderBuilderImpl struct {
-	contractAddress string
+	contractAddress common.Address
 	chainId         *math.HexOrDecimal256
-	rpcClient       *ethclient.Client
-	saltGenerator   func() int
+	saltGenerator   func() int64
 }
 
-func NewMarketOrderBuilderImpl(contractAddress string, chainId int, rpcClient *ethclient.Client, saltGenerator func() int) *MarketOrderBuilderImpl {
+func NewMarketOrderBuilderImpl(contractAddress common.Address, chainId int, saltGenerator func() int64) *MarketOrderBuilderImpl {
 	if saltGenerator == nil {
-		// TODO(REC): Implement a real salt func
-		saltGenerator = func() int {
-			return 0
-		}
+		saltGenerator = utils.GenerateRandomSalt
 	}
 
 	return &MarketOrderBuilderImpl{
 		contractAddress: contractAddress,
 		chainId:         math.NewHexOrDecimal256(int64(chainId)),
-		rpcClient:       rpcClient,
 		saltGenerator:   saltGenerator,
 	}
 }
@@ -54,21 +50,21 @@ func (m *MarketOrderBuilderImpl) BuildMarketOrder(
 	makerAssetAddress,
 	takerAssetAddress,
 	makerAddress,
+	signer common.Address,
 	makerAmount,
-	signer string,
 	takerAssetID,
-	makerAssetID int,
-	sigType signature.SignatureType,
-) *MarketOrder {
-	if signer == "" {
+	makerAssetID *big.Int,
+	sigType model.SignatureType,
+) *model.MarketOrder {
+	if signer.String() == "" {
 		signer = makerAddress
 	}
 	if sigType == 0 {
-		sigType = signature.EOA
+		sigType = model.EOA
 	}
 
-	return &MarketOrder{
-		Salt:         m.saltGenerator(),
+	return &model.MarketOrder{
+		Salt:         big.NewInt(m.saltGenerator()),
 		Signer:       signer,
 		Maker:        makerAddress,
 		MakerAsset:   makerAssetAddress,
@@ -76,22 +72,23 @@ func (m *MarketOrderBuilderImpl) BuildMarketOrder(
 		MakerAssetID: makerAssetID,
 		TakerAsset:   takerAssetAddress,
 		TakerAssetID: takerAssetID,
-		SigType:      sigType,
+		SigType:      big.NewInt(int64(sigType)),
 	}
 }
 
-func (m *MarketOrderBuilderImpl) BuildOrderTypedData(order *MarketOrder) *signer.TypedData {
+func (m *MarketOrderBuilderImpl) BuildMarketOrderTypedData(order *model.MarketOrder) *signer.TypedData {
 	return &signer.TypedData{
 		PrimaryType: "MarketOrder",
 		Types: signer.Types{
-			"MarketOrder":  eip712.MARKET_ORDER_STRUCTURE,
-			"EIP712Domain": eip712.EIP712_DOMAIN,
+			"MarketOrder":  MARKET_ORDER_STRUCTURE,
+			"EIP712Domain": EIP712_DOMAIN,
 		},
 		Domain: signer.TypedDataDomain{
-			Name:              eip712.PROTOCOL_NAME,
-			Version:           eip712.PROTOCOL_VERSION,
+			Name:              PROTOCOL_NAME,
+			Version:           PROTOCOL_VERSION,
 			ChainId:           m.chainId,
-			VerifyingContract: m.contractAddress,
+			VerifyingContract: m.contractAddress.String(),
+			Salt:              fmt.Sprintf("%d", order.Salt.Int64()),
 		},
 		Message: structs.Map(order),
 	}

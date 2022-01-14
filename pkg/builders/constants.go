@@ -1,7 +1,6 @@
-package eip712
+package builders
 
 import (
-	"github.com/ethereum/go-ethereum/crypto"
 	signer "github.com/ethereum/go-ethereum/signer/core/apitypes"
 )
 
@@ -10,18 +9,12 @@ const (
 	PROTOCOL_VERSION = "1"
 )
 
-var EIP_712_TypeHASH [32]byte = crypto.Keccak256Hash(
-	[]byte("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
-)
-var LIMIT_ORDER_PROTOCOL_Type_HASH [32]byte = crypto.Keccak256Hash(
-	[]byte("Order(uint256 salt,address makerAsset,address takerAsset,bytes makerAssetData,bytes takerAssetData,bytes getMakerAmount,bytes getTakerAmount,bytes predicate,bytes permit,bytes interaction)"),
-)
-
 var EIP712_DOMAIN = []signer.Type{
 	{Name: "name", Type: "string"},
 	{Name: "version", Type: "string"},
 	{Name: "chainId", Type: "uint256"},
 	{Name: "verifyingContract", Type: "address"},
+	{Name: "salt", Type: "string"},
 }
 
 var MARKET_ORDER_STRUCTURE = []signer.Type{
@@ -33,5 +26,20 @@ var MARKET_ORDER_STRUCTURE = []signer.Type{
 	{Name: "makerAssetID", Type: "uint256"},
 	{Name: "takerAsset", Type: "address"},
 	{Name: "takerAssetID", Type: "uint256"},
+	{Name: "sigType", Type: "uint256"},
+}
+
+var LIMIT_ORDER_STRUCTURE = []signer.Type{
+	{Name: "salt", Type: "uint256"},
+	{Name: "makerAsset", Type: "address"},
+	{Name: "takerAsset", Type: "address"},
+	{Name: "makerAssetData", Type: "bytes"},
+	{Name: "takerAssetData", Type: "bytes"},
+	{Name: "getMakerAmount", Type: "bytes"},
+	{Name: "getTakerAmount", Type: "bytes"},
+	{Name: "predicate", Type: "bytes"},
+	{Name: "permit", Type: "bytes"},
+	{Name: "interaction", Type: "bytes"},
+	{Name: "signer", Type: "address"},
 	{Name: "sigType", Type: "uint256"},
 }
