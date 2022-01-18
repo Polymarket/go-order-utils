@@ -1,4 +1,4 @@
-module github.com/polymarket/order-utils
+module github.com/polymarket/go-order-utils
 
 go 1.17
 
