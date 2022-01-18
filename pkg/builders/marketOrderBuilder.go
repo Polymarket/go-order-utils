@@ -6,14 +6,15 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/ethereum/go-ethereum/crypto"
 	signer "github.com/ethereum/go-ethereum/signer/core/apitypes"
 	"github.com/fatih/structs"
-	"github.com/polymarket/order-utils/pkg/model"
-	"github.com/polymarket/order-utils/pkg/utils"
+	"github.com/polymarket/go-order-utils/pkg/model"
+	"github.com/polymarket/go-order-utils/pkg/sign"
+	"github.com/polymarket/go-order-utils/pkg/utils"
 )
 
 type MarketOrderBuilder interface {
+	sign.Signer
 	BuildMarketOrder(
 		makerAssetAddress,
 		takerAssetAddress,
@@ -25,7 +26,6 @@ type MarketOrderBuilder interface {
 		sigType model.SignatureType,
 	) *model.MarketOrder
 	BuildMarketOrderTypedData(order *model.MarketOrder) *signer.TypedData
-	BuildOrderSignature(typedData signer.TypedData) (common.Hash, error)
 }
 
 type MarketOrderBuilderImpl struct {
@@ -92,21 +92,4 @@ func (m *MarketOrderBuilderImpl) BuildMarketOrderTypedData(order *model.MarketOr
 		},
 		Message: structs.Map(order),
 	}
-}
-
-func (m *MarketOrderBuilderImpl) BuildOrderSignature(typedData *signer.TypedData) (common.Hash, error) {
-	typedDataHash, err := typedData.HashStruct(typedData.PrimaryType, typedData.Message)
-	if err != nil {
-		return [common.HashLength]byte{}, err
-	}
-
-	domainSeparator, err := typedData.HashStruct("EIP712Domain", typedData.Domain.Map())
-	if err != nil {
-		return [common.HashLength]byte{}, err
-	}
-
-	rawData := []byte(fmt.Sprintf("\x19\x01%s%s", string(domainSeparator), string(typedDataHash)))
-	hash := crypto.Keccak256Hash(rawData)
-
-	return hash, nil
 }

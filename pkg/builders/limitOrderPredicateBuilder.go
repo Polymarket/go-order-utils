@@ -4,7 +4,7 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/polymarket/order-utils/pkg/facades"
+	"github.com/polymarket/go-order-utils/pkg/facades"
 )
 
 type LimitOrderPredicateCallData = []byte

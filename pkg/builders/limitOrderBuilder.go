@@ -6,15 +6,16 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/ethereum/go-ethereum/crypto"
 	signer "github.com/ethereum/go-ethereum/signer/core/apitypes"
 	"github.com/fatih/structs"
-	"github.com/polymarket/order-utils/pkg/facades"
-	"github.com/polymarket/order-utils/pkg/model"
-	"github.com/polymarket/order-utils/pkg/utils"
+	"github.com/polymarket/go-order-utils/pkg/facades"
+	"github.com/polymarket/go-order-utils/pkg/model"
+	"github.com/polymarket/go-order-utils/pkg/sign"
+	"github.com/polymarket/go-order-utils/pkg/utils"
 )
 
 type LimitOrderBuilder interface {
+	sign.Signer
 	BuildLimitOrder(
 		exchangeAddress,
 		makerAssetAddress,
@@ -34,7 +35,6 @@ type LimitOrderBuilder interface {
 		sigType model.SignatureType,
 	) (*model.LimitOrder, error)
 	BuildLimitOrderTypedData(order *model.LimitOrder) *signer.TypedData
-	BuildLimitOrderSignature(typedData *signer.TypedData) (common.Hash, error)
 }
 
 type LimitOrderBuilderImpl struct {
@@ -193,21 +193,4 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrderTypedData(order *model.LimitOrder
 		},
 		Message: structs.Map(order),
 	}
-}
-
-func (l *LimitOrderBuilderImpl) BuildLimitOrderSignature(typedData *signer.TypedData) (common.Hash, error) {
-	typedDataHash, err := typedData.HashStruct(typedData.PrimaryType, typedData.Message)
-	if err != nil {
-		return [common.HashLength]byte{}, err
-	}
-
-	domainSeparator, err := typedData.HashStruct("EIP712Domain", typedData.Domain.Map())
-	if err != nil {
-		return [common.HashLength]byte{}, err
-	}
-
-	rawData := []byte(fmt.Sprintf("\x19\x01%s%s", string(domainSeparator), string(typedDataHash)))
-	hash := crypto.Keccak256Hash(rawData)
-
-	return hash, nil
 }

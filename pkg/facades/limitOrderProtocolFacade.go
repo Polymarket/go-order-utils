@@ -6,8 +6,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/polymarket/order-utils/pkg/contracts/limitOrder"
-	"github.com/polymarket/order-utils/pkg/model"
+	"github.com/polymarket/go-order-utils/pkg/contracts/limitOrder"
+	"github.com/polymarket/go-order-utils/pkg/model"
 )
 
 const (
