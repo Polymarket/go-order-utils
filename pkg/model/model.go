@@ -21,6 +21,12 @@ type LimitOrder struct {
 	SigType        *big.Int       `json:"sigType"`
 }
 
+type LimitOrderAndSignature struct {
+	Order     *LimitOrder `json:"order"`
+	Signature []byte      `json:"signature"`
+	OrderType string      `json:"orderType"`
+}
+
 type MarketOrder struct {
 	Salt         *big.Int       `json:"salt"`
 	Signer       common.Address `json:"signer"`
@@ -31,6 +37,12 @@ type MarketOrder struct {
 	TakerAsset   common.Address `json:"takerAsset"`
 	TakerAssetID *big.Int       `json:"takerAssetID"`
 	SigType      *big.Int       `json:"sigType"`
+}
+
+type MarketOrderAndSignature struct {
+	Order     *MarketOrder `json:"order"`
+	Signature []byte       `json:"signature"`
+	OrderType string       `json:"orderType"`
 }
 
 type SignatureType = int

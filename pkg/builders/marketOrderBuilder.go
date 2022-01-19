@@ -7,7 +7,6 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
 	signer "github.com/ethereum/go-ethereum/signer/core/apitypes"
-	"github.com/fatih/structs"
 	"github.com/polymarket/go-order-utils/pkg/model"
 	"github.com/polymarket/go-order-utils/pkg/sign"
 	"github.com/polymarket/go-order-utils/pkg/utils"
@@ -19,16 +18,17 @@ type MarketOrderBuilder interface {
 		makerAssetAddress,
 		takerAssetAddress,
 		makerAddress,
+		signer common.Address,
 		makerAmount,
-		signer string,
 		takerAssetID,
-		makerAssetID int,
+		makerAssetID *big.Int,
 		sigType model.SignatureType,
 	) *model.MarketOrder
 	BuildMarketOrderTypedData(order *model.MarketOrder) *signer.TypedData
 }
 
 type MarketOrderBuilderImpl struct {
+	sign.Signer
 	contractAddress common.Address
 	chainId         *math.HexOrDecimal256
 	saltGenerator   func() int64
@@ -40,6 +40,7 @@ func NewMarketOrderBuilderImpl(contractAddress common.Address, chainId int, salt
 	}
 
 	return &MarketOrderBuilderImpl{
+		Signer:          sign.NewSignerImpl(),
 		contractAddress: contractAddress,
 		chainId:         math.NewHexOrDecimal256(int64(chainId)),
 		saltGenerator:   saltGenerator,
@@ -59,7 +60,7 @@ func (m *MarketOrderBuilderImpl) BuildMarketOrder(
 	if signer.String() == "" {
 		signer = makerAddress
 	}
-	if sigType == 0 {
+	if sigType < 0 {
 		sigType = model.EOA
 	}
 
@@ -90,6 +91,16 @@ func (m *MarketOrderBuilderImpl) BuildMarketOrderTypedData(order *model.MarketOr
 			VerifyingContract: m.contractAddress.String(),
 			Salt:              fmt.Sprintf("%d", order.Salt.Int64()),
 		},
-		Message: structs.Map(order),
+		Message: signer.TypedDataMessage{
+			"salt":         order.Salt.String(),
+			"signer":       order.Signer.String(),
+			"maker":        order.Maker.String(),
+			"makerAsset":   order.MakerAsset.String(),
+			"makerAmount":  order.MakerAmount.String(),
+			"makerAssetID": order.MakerAssetID.String(),
+			"takerAsset":   order.TakerAsset.String(),
+			"takerAssetID": order.TakerAssetID.String(),
+			"sigType":      order.SigType.String(),
+		},
 	}
 }

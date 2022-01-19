@@ -7,7 +7,6 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
 	signer "github.com/ethereum/go-ethereum/signer/core/apitypes"
-	"github.com/fatih/structs"
 	"github.com/polymarket/go-order-utils/pkg/facades"
 	"github.com/polymarket/go-order-utils/pkg/model"
 	"github.com/polymarket/go-order-utils/pkg/sign"
@@ -38,6 +37,7 @@ type LimitOrderBuilder interface {
 }
 
 type LimitOrderBuilderImpl struct {
+	sign.Signer
 	contractAddress            common.Address
 	chainId                    *math.HexOrDecimal256
 	saltGenerator              func() int64
@@ -47,14 +47,33 @@ type LimitOrderBuilderImpl struct {
 	limitOrderProtocolFacade   facades.LimitOrderProtocolFacade
 }
 
-func NewLimitOrderBuilderImpl(contractAddress common.Address, chainId int, saltGenerator func() int64,
-	limitOrderPredicateBuilder LimitOrderPredicateBuilder, erc20Facade facades.ERC20Facade,
-	erc1155Facade facades.ERC1155Facade, limitOrderProtocolFacade facades.LimitOrderProtocolFacade) *LimitOrderBuilderImpl {
+func NewLimitOrderBuilderImpl(contractAddress common.Address, chainId int,
+	saltGenerator func() int64) (*LimitOrderBuilderImpl, error) {
 	if saltGenerator == nil {
 		saltGenerator = utils.GenerateRandomSalt
 	}
 
+	limitOrderProtocolFacade, err := facades.NewLimitOrderProtocolFacadeImpl()
+	if err != nil {
+		return nil, err
+	}
+
+	limitOrderPredicateBuilder := NewLimitOrderPredicateBuilderImpl(limitOrderProtocolFacade)
+
+	erc20Facade, err := facades.NewERC20FacadeImpl()
+
+	if err != nil {
+		return nil, err
+	}
+
+	erc1155Facade, err := facades.NewERC1155FacadeImpl()
+
+	if err != nil {
+		return nil, err
+	}
+
 	return &LimitOrderBuilderImpl{
+		Signer:                     sign.NewSignerImpl(),
 		contractAddress:            contractAddress,
 		chainId:                    math.NewHexOrDecimal256(int64(chainId)),
 		saltGenerator:              saltGenerator,
@@ -62,7 +81,7 @@ func NewLimitOrderBuilderImpl(contractAddress common.Address, chainId int, saltG
 		erc20Facade:                erc20Facade,
 		erc1155Facade:              erc1155Facade,
 		limitOrderProtocolFacade:   limitOrderProtocolFacade,
-	}
+	}, nil
 }
 
 func (l *LimitOrderBuilderImpl) BuildLimitOrder(
@@ -145,6 +164,7 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrder(
 		}
 
 		predicate, err = l.limitOrderPredicateBuilder.And(
+			l.contractAddress,
 			timestampBelow,
 			nonceEquals,
 		)
@@ -157,7 +177,7 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrder(
 		signer = makerAddress
 	}
 
-	if sigType == 0 {
+	if sigType < 0 {
 		sigType = model.EOA
 	}
 
@@ -191,6 +211,19 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrderTypedData(order *model.LimitOrder
 			VerifyingContract: l.contractAddress.String(),
 			Salt:              fmt.Sprintf("%d", order.Salt.Int64()),
 		},
-		Message: structs.Map(order),
+		Message: signer.TypedDataMessage{
+			"salt":           order.Salt.String(),
+			"makerAsset":     order.MakerAsset.String(),
+			"takerAsset":     order.TakerAsset.String(),
+			"makerAssetData": order.MakerAssetData,
+			"takerAssetData": order.TakerAssetData,
+			"getMakerAmount": order.GetMakerAmount,
+			"getTakerAmount": order.GetTakerAmount,
+			"predicate":      order.Predicate,
+			"permit":         order.Permit,
+			"interaction":    order.Interaction,
+			"signer":         order.Signer.String(),
+			"sigType":        order.SigType.String(),
+		},
 	}
 }

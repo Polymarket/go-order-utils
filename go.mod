@@ -4,7 +4,6 @@ go 1.17
 
 require (
 	github.com/ethereum/go-ethereum v1.10.15
-	github.com/fatih/structs v1.1.0
 	github.com/stretchr/testify v1.7.0
 )
 
