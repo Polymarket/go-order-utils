@@ -202,7 +202,7 @@ func TestLimitOrderBuilderAndSign(t *testing.T) {
 	assert.NotNil(t, hash)
 	assert.Nil(t, err)
 
-	privateKey, err := crypto.HexToECDSA(privateKey)
+	privateKey, err := crypto.GenerateKey()
 	assert.NotNil(t, privateKey)
 	assert.Nil(t, err)
 

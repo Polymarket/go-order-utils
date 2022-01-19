@@ -9,8 +9,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const privateKey = "fad9c8855b740a0b7ed4c221dbad0f33a83a49cad6b3fe8d5817ac83d38b6a19"
-
 func TestSigner(t *testing.T) {
 	signerImpl := NewSignerImpl()
 	assert.NotNil(t, signerImpl)
@@ -41,7 +39,7 @@ func TestSigner(t *testing.T) {
 	assert.NotNil(t, hash)
 	assert.Nil(t, err)
 
-	privateKey, err := crypto.HexToECDSA(privateKey)
+	privateKey, err := crypto.GenerateKey()
 	assert.NotNil(t, privateKey)
 	assert.Nil(t, err)
 

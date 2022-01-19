@@ -14,7 +14,6 @@ import (
 
 const (
 	contractAddress = "0xE7819d9745e64c14541732ca07CC3898670b7650"
-	privateKey      = "fad9c8855b740a0b7ed4c221dbad0f33a83a49cad6b3fe8d5817ac83d38b6a19"
 	chainId         = 5
 )
 
@@ -118,7 +117,7 @@ func TestMarketOrderBuilderAndSign(t *testing.T) {
 	assert.NotNil(t, hash)
 	assert.Nil(t, err)
 
-	privateKey, err := crypto.HexToECDSA(privateKey)
+	privateKey, err := crypto.GenerateKey()
 	assert.NotNil(t, privateKey)
 	assert.Nil(t, err)
 
