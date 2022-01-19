@@ -177,7 +177,7 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrder(
 		signer = makerAddress
 	}
 
-	if sigType < 0 {
+	if sigType < model.EOA || sigType > model.POLY_PROXY {
 		sigType = model.EOA
 	}
 

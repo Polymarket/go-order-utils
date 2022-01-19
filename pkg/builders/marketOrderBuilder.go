@@ -60,7 +60,8 @@ func (m *MarketOrderBuilderImpl) BuildMarketOrder(
 	if signer.String() == "" {
 		signer = makerAddress
 	}
-	if sigType < 0 {
+
+	if sigType < model.EOA || sigType > model.POLY_PROXY {
 		sigType = model.EOA
 	}
 
