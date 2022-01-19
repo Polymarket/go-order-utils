@@ -1,0 +1,25 @@
+name: Lint
+
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: "*"
+
+jobs:
+  go-lint:
+    runs-on: ubuntu-latest
+    env:
+      GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Configure git
+        run: git config --global url.https://$GH_ACCESS_TOKEN@github.com/.insteadOf https://github.com/
+
+      - name: Lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          working-directory: ./
+          args: -E gofmt
