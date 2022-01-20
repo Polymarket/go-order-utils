@@ -1,13 +1,13 @@
 package builders
 
 import (
+	"encoding/hex"
 	"math/big"
 	"testing"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/crypto"
-	signer "github.com/ethereum/go-ethereum/signer/core/apitypes"
 	"github.com/polymarket/go-order-utils/pkg/facades"
 	"github.com/polymarket/go-order-utils/pkg/model"
 	"github.com/stretchr/testify/assert"
@@ -119,7 +119,7 @@ func TestBuildLimitOrder(t *testing.T) {
 	assert.Equal(t, limitOrder.SigType.Int64(), int64(model.POLY_PROXY))
 }
 
-func TestBuildLimitOrderTypedData(t *testing.T) {
+func TestBuildLimitOrderHash(t *testing.T) {
 	limitOrderBuilder := getLimitOrderBuilderImpl(t)
 
 	limitOrder, err := limitOrderBuilder.BuildLimitOrder(
@@ -143,32 +143,99 @@ func TestBuildLimitOrderTypedData(t *testing.T) {
 	assert.NotNil(t, limitOrder)
 	assert.Nil(t, err)
 
-	orderTypedData := limitOrderBuilder.BuildLimitOrderTypedData(limitOrder)
-	assert.NotNil(t, orderTypedData)
-	assert.Equal(t, orderTypedData.PrimaryType, "LimitOrder")
-	assert.Equal(t, orderTypedData.Types["LimitOrder"], LIMIT_ORDER_STRUCTURE)
-	assert.Equal(t, orderTypedData.Types["EIP712Domain"], EIP712_DOMAIN)
-	assert.Equal(t, orderTypedData.Domain.Name, PROTOCOL_NAME)
-	assert.Equal(t, orderTypedData.Domain.Version, PROTOCOL_VERSION)
-	assert.Equal(t, orderTypedData.Domain.ChainId, math.NewHexOrDecimal256(int64(chainId)))
-	assert.Equal(t, orderTypedData.Domain.VerifyingContract, contractAddress)
-	assert.NotNil(t, orderTypedData.Domain.Salt)
+	orderHash, err := limitOrderBuilder.BuildLimitOrderHash(limitOrder)
+	assert.NotNil(t, orderHash)
+	assert.Nil(t, err)
+}
 
-	assert.NotNil(t, orderTypedData.Message)
-	assert.Equal(t, orderTypedData.Message, signer.TypedDataMessage{
-		"salt":           limitOrder.Salt.String(),
-		"makerAsset":     limitOrder.MakerAsset.String(),
-		"takerAsset":     limitOrder.TakerAsset.String(),
-		"makerAssetData": limitOrder.MakerAssetData,
-		"takerAssetData": limitOrder.TakerAssetData,
-		"getMakerAmount": limitOrder.GetMakerAmount,
-		"getTakerAmount": limitOrder.GetTakerAmount,
-		"predicate":      limitOrder.Predicate,
-		"permit":         limitOrder.Permit,
-		"interaction":    limitOrder.Interaction,
-		"signer":         limitOrder.Signer.String(),
-		"sigType":        limitOrder.SigType.String(),
-	})
+func TestBuildLimitOrderAndSignature(t *testing.T) {
+	limitOrderBuilder := getLimitOrderBuilderImpl(t)
+
+	limitOrder, err := limitOrderBuilder.BuildLimitOrder(
+		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7651"),
+		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7652"),
+		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7653"),
+		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7654"),
+		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7655"),
+		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7656"),
+		[]byte("1"),
+		[]byte("1"),
+		[]byte("3"),
+		big.NewInt(int64(1)),
+		big.NewInt(int64(2)),
+		big.NewInt(int64(3)),
+		big.NewInt(int64(4)),
+		big.NewInt(int64(5)),
+		big.NewInt(int64(6)),
+		model.POLY_PROXY,
+	)
+	assert.NotNil(t, limitOrder)
+	assert.Nil(t, err)
+
+	orderHash, err := limitOrderBuilder.BuildLimitOrderHash(limitOrder)
+	assert.NotNil(t, orderHash)
+	assert.Nil(t, err)
+
+	privateKey, err := crypto.GenerateKey()
+	assert.NotNil(t, privateKey)
+	assert.Nil(t, err)
+
+	signature, err := limitOrderBuilder.BuildSignature(privateKey, orderHash)
+	assert.NotNil(t, signature)
+	assert.Nil(t, err)
+
+	limitOrderAndSignature := limitOrderBuilder.BuildLimitOrderAndSignature(limitOrder, signature)
+	assert.NotNil(t, limitOrderAndSignature)
+
+	assert.Equal(t, limitOrderAndSignature.OrderType, "limit")
+
+	recoveredSignature, err := hex.DecodeString(limitOrderAndSignature.Signature[2:])
+	assert.Nil(t, err)
+	assert.Equal(t, recoveredSignature, signature)
+
+	assert.Positive(t, limitOrderAndSignature.Order.Salt)
+
+	recoveredMakerAsset, err := hex.DecodeString(limitOrderAndSignature.Order.MakerAsset[2:])
+	assert.Nil(t, err)
+	assert.Equal(t, recoveredMakerAsset, limitOrder.MakerAsset.Bytes())
+
+	recoveredTakerAsset, err := hex.DecodeString(limitOrderAndSignature.Order.TakerAsset[2:])
+	assert.Nil(t, err)
+	assert.Equal(t, recoveredTakerAsset, limitOrder.TakerAsset.Bytes())
+
+	recoveredMakerAssetData, err := hex.DecodeString(limitOrderAndSignature.Order.MakerAssetData[2:])
+	assert.Nil(t, err)
+	assert.Equal(t, recoveredMakerAssetData, limitOrder.MakerAssetData)
+
+	recoveredTakerAssetData, err := hex.DecodeString(limitOrderAndSignature.Order.TakerAssetData[2:])
+	assert.Nil(t, err)
+	assert.Equal(t, recoveredTakerAssetData, limitOrder.TakerAssetData)
+
+	recoveredGetMakerAmount, err := hex.DecodeString(limitOrderAndSignature.Order.GetMakerAmount[2:])
+	assert.Nil(t, err)
+	assert.Equal(t, recoveredGetMakerAmount, limitOrder.GetMakerAmount)
+
+	recoveredGetTakerAmount, err := hex.DecodeString(limitOrderAndSignature.Order.GetTakerAmount[2:])
+	assert.Nil(t, err)
+	assert.Equal(t, recoveredGetTakerAmount, limitOrder.GetTakerAmount)
+
+	recoveredPredicate, err := hex.DecodeString(limitOrderAndSignature.Order.Predicate[2:])
+	assert.Nil(t, err)
+	assert.Equal(t, recoveredPredicate, limitOrder.Predicate)
+
+	recoveredPermit, err := hex.DecodeString(limitOrderAndSignature.Order.Permit[2:])
+	assert.Nil(t, err)
+	assert.Equal(t, recoveredPermit, limitOrder.Permit)
+
+	recoveredInteraction, err := hex.DecodeString(limitOrderAndSignature.Order.Interaction[2:])
+	assert.Nil(t, err)
+	assert.Equal(t, recoveredInteraction, limitOrder.Interaction)
+
+	recoveredSigner, err := hex.DecodeString(limitOrderAndSignature.Order.Signer[2:])
+	assert.Nil(t, err)
+	assert.Equal(t, recoveredSigner, limitOrder.Signer.Bytes())
+
+	assert.Equal(t, limitOrderAndSignature.Order.SigType, int(limitOrder.SigType.Int64()))
 }
 
 func TestLimitOrderBuilderAndSign(t *testing.T) {
@@ -195,22 +262,20 @@ func TestLimitOrderBuilderAndSign(t *testing.T) {
 	assert.NotNil(t, limitOrder)
 	assert.Nil(t, err)
 
-	orderTypedData := limitOrderBuilder.BuildLimitOrderTypedData(limitOrder)
-	assert.NotNil(t, orderTypedData)
-
-	hash, err := limitOrderBuilder.BuildHash(orderTypedData)
-	assert.NotNil(t, hash)
+	orderHash, err := limitOrderBuilder.BuildLimitOrderHash(limitOrder)
+	assert.NotNil(t, orderHash)
 	assert.Nil(t, err)
 
 	privateKey, err := crypto.GenerateKey()
 	assert.NotNil(t, privateKey)
 	assert.Nil(t, err)
 
-	signature, err := limitOrderBuilder.BuildSignature(privateKey, hash)
+	signature, err := limitOrderBuilder.BuildSignature(privateKey, orderHash)
 	assert.NotNil(t, signature)
 	assert.Nil(t, err)
 
-	match, err := limitOrderBuilder.ValidateSignature(&privateKey.PublicKey, hash, signature)
+	signature[64] -= 27 // Transform V from 27/28 to 0/1 according to the yellow papers
+	match, err := limitOrderBuilder.ValidateSignature(&privateKey.PublicKey, orderHash, signature)
 	assert.NotNil(t, match)
 	assert.True(t, match)
 	assert.Nil(t, err)

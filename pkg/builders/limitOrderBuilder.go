@@ -1,12 +1,15 @@
 package builders
 
 import (
-	"fmt"
+	"encoding/hex"
 	"math/big"
 
+	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
-	signer "github.com/ethereum/go-ethereum/signer/core/apitypes"
+	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/polymarket/go-order-utils/pkg/config"
+	"github.com/polymarket/go-order-utils/pkg/eip712"
 	"github.com/polymarket/go-order-utils/pkg/facades"
 	"github.com/polymarket/go-order-utils/pkg/model"
 	"github.com/polymarket/go-order-utils/pkg/sign"
@@ -33,7 +36,8 @@ type LimitOrderBuilder interface {
 		nonce *big.Int,
 		sigType model.SignatureType,
 	) (*model.LimitOrder, error)
-	BuildLimitOrderTypedData(order *model.LimitOrder) *signer.TypedData
+	BuildLimitOrderHash(order *model.LimitOrder) (common.Hash, error)
+	BuildLimitOrderAndSignature(order *model.LimitOrder, signature []byte) *model.LimitOrderAndSignature
 }
 
 type LimitOrderBuilderImpl struct {
@@ -47,8 +51,7 @@ type LimitOrderBuilderImpl struct {
 	limitOrderProtocolFacade   facades.LimitOrderProtocolFacade
 }
 
-func NewLimitOrderBuilderImpl(contractAddress common.Address, chainId int,
-	saltGenerator func() int64) (*LimitOrderBuilderImpl, error) {
+func NewLimitOrderBuilderImpl(contractAddress common.Address, chainId int, saltGenerator func() int64) (*LimitOrderBuilderImpl, error) {
 	if saltGenerator == nil {
 		saltGenerator = utils.GenerateRandomSalt
 	}
@@ -197,33 +200,90 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrder(
 	}, nil
 }
 
-func (l *LimitOrderBuilderImpl) BuildLimitOrderTypedData(order *model.LimitOrder) *signer.TypedData {
-	return &signer.TypedData{
-		PrimaryType: "LimitOrder",
-		Types: signer.Types{
-			"LimitOrder":   LIMIT_ORDER_STRUCTURE,
-			"EIP712Domain": EIP712_DOMAIN,
+func (l *LimitOrderBuilderImpl) BuildLimitOrderHash(order *model.LimitOrder) (common.Hash, error) {
+	c, err := config.GetContracts(int((*big.Int)(l.chainId).Int64()))
+	if err != nil {
+		return [32]byte{}, err
+	}
+	exchangeAddress := common.HexToAddress(c.Exchange.Address)
+	nameHash := crypto.Keccak256Hash([]byte(c.Exchange.Name))
+	versionHash := crypto.Keccak256Hash([]byte(c.Exchange.Version))
+
+	domainSeparator, err := eip712.BuildEIP712DomainSeparator(nameHash, versionHash, (*big.Int)(l.chainId), exchangeAddress)
+	if err != nil {
+		return [32]byte{}, err
+	}
+	var domainSep32Bytes [32]byte
+	copy(domainSep32Bytes[:], domainSeparator)
+
+	types := []abi.Type{
+		eip712.Bytes32, // typehash
+		eip712.Uint256, // salt
+		eip712.Address, // makerAsset
+		eip712.Address, // takerAsset
+		eip712.Bytes32, // makerAssetData hash
+		eip712.Bytes32, // takerAssetData hash
+		eip712.Bytes32, // getMakerAmount hash
+		eip712.Bytes32, // getTakerAmount hash
+		eip712.Bytes32, // predicate hash
+		eip712.Bytes32, // permit hash
+		eip712.Bytes32, // interaction hash
+		eip712.Address, // signer
+		eip712.Uint256, // sig type
+	}
+
+	values := []interface{}{
+		eip712.LIMIT_ORDER_PROTOCOL_TYPE_HASH,
+		order.Salt,
+		order.MakerAsset,
+		order.TakerAsset,
+		crypto.Keccak256Hash(order.MakerAssetData),
+		crypto.Keccak256Hash(order.TakerAssetData),
+		crypto.Keccak256Hash(order.GetMakerAmount),
+		crypto.Keccak256Hash(order.GetTakerAmount),
+		crypto.Keccak256Hash(order.Predicate),
+		crypto.Keccak256Hash(order.Permit),
+		crypto.Keccak256Hash(order.Interaction),
+		order.Signer,
+		order.SigType,
+	}
+
+	encoded, err := eip712.Encode(
+		types, values,
+	)
+	if err != nil {
+		return [32]byte{}, err
+	}
+
+	orderHash := eip712.HashTypedDataV4(domainSep32Bytes,
+		crypto.Keccak256Hash(
+			encoded,
+		),
+	)
+
+	var orderHash32Bytes [32]byte
+	copy(orderHash32Bytes[:], orderHash)
+
+	return orderHash32Bytes, nil
+}
+
+func (l *LimitOrderBuilderImpl) BuildLimitOrderAndSignature(order *model.LimitOrder, signature []byte) *model.LimitOrderAndSignature {
+	return &model.LimitOrderAndSignature{
+		Order: &model.CannonicalLimitOrder{
+			Salt:           int(order.Salt.Int64()),
+			MakerAsset:     "0x" + hex.EncodeToString(order.MakerAsset.Bytes()),
+			TakerAsset:     "0x" + hex.EncodeToString(order.TakerAsset.Bytes()),
+			MakerAssetData: "0x" + hex.EncodeToString(order.MakerAssetData),
+			TakerAssetData: "0x" + hex.EncodeToString(order.TakerAssetData),
+			GetMakerAmount: "0x" + hex.EncodeToString(order.GetMakerAmount),
+			GetTakerAmount: "0x" + hex.EncodeToString(order.GetTakerAmount),
+			Predicate:      "0x" + hex.EncodeToString(order.Predicate),
+			Permit:         "0x" + hex.EncodeToString(order.Permit),
+			Interaction:    "0x" + hex.EncodeToString(order.Interaction),
+			Signer:         "0x" + hex.EncodeToString(order.Signer.Bytes()),
+			SigType:        int(order.SigType.Int64()),
 		},
-		Domain: signer.TypedDataDomain{
-			Name:              PROTOCOL_NAME,
-			Version:           PROTOCOL_VERSION,
-			ChainId:           l.chainId,
-			VerifyingContract: l.contractAddress.String(),
-			Salt:              fmt.Sprintf("%d", order.Salt.Int64()),
-		},
-		Message: signer.TypedDataMessage{
-			"salt":           order.Salt.String(),
-			"makerAsset":     order.MakerAsset.String(),
-			"takerAsset":     order.TakerAsset.String(),
-			"makerAssetData": order.MakerAssetData,
-			"takerAssetData": order.TakerAssetData,
-			"getMakerAmount": order.GetMakerAmount,
-			"getTakerAmount": order.GetTakerAmount,
-			"predicate":      order.Predicate,
-			"permit":         order.Permit,
-			"interaction":    order.Interaction,
-			"signer":         order.Signer.String(),
-			"sigType":        order.SigType.String(),
-		},
+		Signature: "0x" + hex.EncodeToString(signature),
+		OrderType: "limit",
 	}
 }
