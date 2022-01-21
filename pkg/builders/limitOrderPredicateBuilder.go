@@ -4,14 +4,14 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/polymarket/order-utils/pkg/facades"
+	"github.com/polymarket/go-order-utils/pkg/facades"
 )
 
 type LimitOrderPredicateCallData = []byte
 
 type LimitOrderPredicateBuilder interface {
-	And(predicates ...LimitOrderPredicateCallData) (LimitOrderPredicateCallData, error)
-	Or(predicates ...LimitOrderPredicateCallData) (LimitOrderPredicateCallData, error)
+	And(contractAddress common.Address, predicates ...LimitOrderPredicateCallData) (LimitOrderPredicateCallData, error)
+	Or(contractAddress common.Address, predicates ...LimitOrderPredicateCallData) (LimitOrderPredicateCallData, error)
 	Eq(value *big.Int, address common.Address, callData []byte) (LimitOrderPredicateCallData, error)
 	Lt(value *big.Int, address common.Address, callData []byte) (LimitOrderPredicateCallData, error)
 	Gt(value *big.Int, address common.Address, callData []byte) (LimitOrderPredicateCallData, error)
@@ -57,10 +57,10 @@ func (l *LimitOrderPredicateBuilderImpl) Gt(value *big.Int, address common.Addre
 	return l.limitOrderProtocolFacade.Gt(value, address, callData)
 }
 
-func (l *LimitOrderPredicateBuilderImpl) NonceEquals(makerAddress common.Address, makerNonce *big.Int) (LimitOrderPredicateCallData, error) {
-	return l.limitOrderProtocolFacade.NonceEquals(makerAddress, makerNonce)
-}
-
 func (l *LimitOrderPredicateBuilderImpl) TimestampBelow(timestamp *big.Int) (LimitOrderPredicateCallData, error) {
 	return l.limitOrderProtocolFacade.TimestampBelow(timestamp)
+}
+
+func (l *LimitOrderPredicateBuilderImpl) NonceEquals(makerAddress common.Address, makerNonce *big.Int) (LimitOrderPredicateCallData, error) {
+	return l.limitOrderProtocolFacade.NonceEquals(makerAddress, makerNonce)
 }

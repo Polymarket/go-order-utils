@@ -6,7 +6,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/polymarket/order-utils/pkg/contracts/erc20"
+	"github.com/polymarket/go-order-utils/pkg/contracts/erc20"
 )
 
 const (
