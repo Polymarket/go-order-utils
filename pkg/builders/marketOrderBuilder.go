@@ -70,15 +70,27 @@ func (m *MarketOrderBuilderImpl) BuildMarketOrder(
 		sigType = model.EOA
 	}
 
+	var makerTokenID, takerTokenID *big.Int
+	if makerAssetID != nil {
+		makerTokenID = makerAssetID
+	} else {
+		makerTokenID = big.NewInt(-1)
+	}
+	if takerAssetID != nil {
+		takerTokenID = takerAssetID
+	} else {
+		takerTokenID = big.NewInt(-1)
+	}
+
 	return &model.MarketOrder{
 		Salt:         big.NewInt(m.saltGenerator()),
 		Signer:       signer,
 		Maker:        makerAddress,
 		MakerAsset:   makerAssetAddress,
 		MakerAmount:  makerAmount,
-		MakerAssetID: makerAssetID,
+		MakerAssetID: makerTokenID,
 		TakerAsset:   takerAssetAddress,
-		TakerAssetID: takerAssetID,
+		TakerAssetID: takerTokenID,
 		SigType:      big.NewInt(int64(sigType)),
 	}
 }
@@ -113,6 +125,19 @@ func (m *MarketOrderBuilderImpl) BuildMarketOrderHash(order *model.MarketOrder) 
 		eip712.Uint256, // sig type
 	}
 
+	// Convert tokenIDs to 0, if -1 to adhere to unsigned int in solidity
+	var makerAssetID, takerAssetID *big.Int
+	if order.MakerAssetID.Int64() < 0 {
+		makerAssetID = big.NewInt(0)
+	} else {
+		makerAssetID = order.MakerAssetID
+	}
+	if order.TakerAssetID.Int64() < 0 {
+		takerAssetID = big.NewInt(0)
+	} else {
+		takerAssetID = order.TakerAssetID
+	}
+
 	values := []interface{}{
 		eip712.MARKET_ORDER_TYPE_HASH,
 		order.Salt,
@@ -120,9 +145,9 @@ func (m *MarketOrderBuilderImpl) BuildMarketOrderHash(order *model.MarketOrder) 
 		order.Maker,
 		order.MakerAsset,
 		order.MakerAmount,
-		order.MakerAssetID,
+		makerAssetID,
 		order.TakerAsset,
-		order.TakerAssetID,
+		takerAssetID,
 		order.SigType,
 	}
 
