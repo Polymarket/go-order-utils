@@ -1,7 +1,6 @@
 package eip712
 
 import (
-	"bytes"
 	"fmt"
 	"math/big"
 
@@ -40,20 +39,4 @@ func BuildEIP712DomainSeparator(nameHash [32]byte, versionHash [32]byte, chainID
 
 func HashTypedDataV4(domainSeparator [32]byte, structHash [32]byte) []byte {
 	return toTypedDataHash(domainSeparator, structHash)
-}
-
-// Verifies an EIP712 signature
-func VerifySignature(address common.Address, structHash [32]byte, signature []byte) bool {
-	sigCopy := make([]byte, len(signature))
-	copy(sigCopy, signature)
-
-	sigCopy[64] -= 27 // Transform V from 27/28 to 0/1 according to the yellow paper
-	recoveredPublicKey, err := crypto.SigToPub(structHash[:], sigCopy)
-
-	if err != nil {
-		return false
-	}
-
-	recoveredAddress := crypto.PubkeyToAddress(*recoveredPublicKey)
-	return bytes.Equal(address.Bytes(), recoveredAddress.Bytes())
 }

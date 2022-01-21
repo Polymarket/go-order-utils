@@ -51,18 +51,4 @@ var _ = Describe("EIP712 Tests", func() {
 
 		Expect(typedDataHash).Should(Equal(expectedTypedDataHash))
 	})
-
-	It("should correctly verfiy a signature given a hash", func() {
-		// Signed message generated the following values
-
-		address := common.HexToAddress("0x798F0fC66080bD1dF04728617cFD3756927D4495")
-		structHash := common.Hex2Bytes("ec8822f36e01c9707e826eebddb80c06f277f73f22bd1e8aa6635eb086a5efc1")
-		signature := common.Hex2Bytes("f4ad869399a8d786b3da2fe5554f671b9ed04d71043c7168c7b794bc97b8eadd12578cf6778de425f24abb864cfc3fb0849b024081428aa2ae5539a80684b9241c")
-
-		var structHash32Bytes [32]byte
-		copy(structHash32Bytes[:], structHash)
-
-		ok := VerifySignature(address, structHash32Bytes, signature)
-		Expect(ok).To(BeTrue())
-	})
 })
