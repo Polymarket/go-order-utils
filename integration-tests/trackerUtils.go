@@ -38,6 +38,7 @@ const (
 	MESSAGE_TO_SIGN  = "This message attests that I control the given wallet"
 )
 
+//nolint:unused
 func createL1Headers(privateKey *ecdsa.PrivateKey) (map[string]string, error) {
 	timestamp := fmt.Sprintf("%d", time.Now().Unix())
 
@@ -103,7 +104,6 @@ func buildPolyHmacSignature(base64Secret, timestamp, method, requestPath, body s
 	return strings.ReplaceAll(strings.ReplaceAll(base64.StdEncoding.EncodeToString(sig), "+", "-"), "/", "_"), nil
 }
 
-// Create a SHA256 HMAC signature
 func createHmac(key, data []byte) ([]byte, error) {
 	// Create a SHA256 HMAC, with the key
 	h := hmac.New(sha256.New, key)
@@ -115,6 +115,7 @@ func createHmac(key, data []byte) ([]byte, error) {
 	return h.Sum(nil), nil
 }
 
+//nolint:unused
 func buildClobEip712Signature(privateKey *ecdsa.PrivateKey, timestamp string) ([]byte, error) {
 	address, err := sign.GetPublicAddress(privateKey)
 	if err != nil {

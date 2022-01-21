@@ -7,20 +7,9 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-
-	"github.com/ethereum/go-ethereum/crypto"
 )
 
-func marketOrderCheck(ctx context.Context, httpClient *http.Client) {
-	privateKey, err := crypto.GenerateKey()
-	if err != nil {
-		panic(err)
-	}
-
-	credentials, err := getCredentials(ctx, httpClient, privateKey)
-	if err != nil {
-		panic(err)
-	}
+func marketOrderCheck(ctx context.Context, httpClient *http.Client, credentials map[string]interface{}, privateKey *ecdsa.PrivateKey) {
 
 	marketOrder, err := buildMarketOrderAndSignature(privateKey)
 	if err != nil {
@@ -45,7 +34,6 @@ func marketOrderCheck(ctx context.Context, httpClient *http.Client) {
 		panic(err)
 	}
 
-	//payload :=
 	createOrderReq, err := generateHTTPRequest(
 		ctx,
 		"POST",
@@ -64,20 +52,16 @@ func marketOrderCheck(ctx context.Context, httpClient *http.Client) {
 
 	if createOrderResp.StatusCode != 200 {
 		panic(parseHttpResponseWithError("create market order response status != 200", createOrderResp))
+	} else {
+		b, err := readBody(createOrderResp)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("market order:\n%v", b)
 	}
 }
 
-func limitOrderCheck(ctx context.Context, httpClient *http.Client) {
-	privateKey, err := crypto.GenerateKey()
-	if err != nil {
-		panic(err)
-	}
-
-	credentials, err := getCredentials(ctx, httpClient, privateKey)
-	if err != nil {
-		panic(err)
-	}
-
+func limitOrderCheck(ctx context.Context, httpClient *http.Client, credentials map[string]interface{}, privateKey *ecdsa.PrivateKey) {
 	limitOrder, err := buildLimitOrderAndSignature(privateKey)
 	if err != nil {
 		panic(err)
@@ -101,7 +85,6 @@ func limitOrderCheck(ctx context.Context, httpClient *http.Client) {
 		panic(err)
 	}
 
-	//payload :=
 	createOrderReq, err := generateHTTPRequest(
 		ctx,
 		"POST",
@@ -120,9 +103,16 @@ func limitOrderCheck(ctx context.Context, httpClient *http.Client) {
 
 	if createOrderResp.StatusCode != 200 {
 		panic(parseHttpResponseWithError("create limit order response status != 200", createOrderResp))
+	} else {
+		b, err := readBody(createOrderResp)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("limit order:\n%v", b)
 	}
 }
 
+//nolint:deadcode,unused
 func getCredentials(ctx context.Context, httpClient *http.Client, privateKey *ecdsa.PrivateKey) (map[string]interface{}, error) {
 	l1Headers, err := createL1Headers(privateKey)
 	if err != nil {

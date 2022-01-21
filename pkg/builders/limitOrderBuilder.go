@@ -108,7 +108,7 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrder(
 ) (*model.LimitOrder, error) {
 	var makerAssetData []byte
 	var makerAsset common.Address
-	if makerAssetID.Int64() > 0 {
+	if makerAssetID.Int64() >= 0 {
 		makerAsset = exchangeAddress
 
 		var err error
@@ -128,7 +128,7 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrder(
 
 	var takerAssetData []byte
 	var takerAsset common.Address
-	if takerAssetID.Int64() > 0 {
+	if takerAssetID.Int64() >= 0 {
 		takerAsset = exchangeAddress
 
 		var err error
@@ -146,12 +146,12 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrder(
 		}
 	}
 
-	getMakerAmount, err := l.limitOrderProtocolFacade.GetMakerAmount(makerAmount, takerAmount, &big.Int{})
+	getMakerAmount, err := l.limitOrderProtocolFacade.GetMakerAmount(makerAmount, takerAmount, big.NewInt(0))
 	if err != nil {
 		return nil, err
 	}
 
-	getTakerAmount, err := l.limitOrderProtocolFacade.GetTakerAmount(makerAmount, takerAmount, &big.Int{})
+	getTakerAmount, err := l.limitOrderProtocolFacade.GetTakerAmount(makerAmount, takerAmount, big.NewInt(0))
 	if err != nil {
 		return nil, err
 	}
@@ -191,8 +191,8 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrder(
 		TakerAsset:     takerAsset,
 		MakerAssetData: makerAssetData,
 		TakerAssetData: takerAssetData,
-		GetMakerAmount: getMakerAmount,
-		GetTakerAmount: getTakerAmount,
+		GetMakerAmount: getMakerAmount[0:68],
+		GetTakerAmount: getTakerAmount[0:68],
 		Predicate:      predicate,
 		Permit:         permit,
 		Interaction:    interaction,
