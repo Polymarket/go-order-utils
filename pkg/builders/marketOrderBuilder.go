@@ -2,6 +2,7 @@ package builders
 
 import (
 	"encoding/hex"
+	"fmt"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
@@ -28,7 +29,7 @@ type MarketOrderBuilder interface {
 		sigType model.SignatureType,
 	) *model.MarketOrder
 	BuildMarketOrderHash(order *model.MarketOrder) (common.Hash, error)
-	BuildMarketOrderAndSignature(order *model.MarketOrder, signature []byte) *model.MarketOrderAndSignature
+	BuildMarketOrderAndSignature(order *model.MarketOrder, orderHash common.Hash, signature []byte) (*model.MarketOrderAndSignature, error)
 }
 
 type MarketOrderBuilderImpl struct {
@@ -142,7 +143,19 @@ func (m *MarketOrderBuilderImpl) BuildMarketOrderHash(order *model.MarketOrder) 
 	return orderHash32Bytes, nil
 }
 
-func (m *MarketOrderBuilderImpl) BuildMarketOrderAndSignature(order *model.MarketOrder, signature []byte) *model.MarketOrderAndSignature {
+func (m *MarketOrderBuilderImpl) BuildMarketOrderAndSignature(order *model.MarketOrder, orderHash common.Hash,
+	signature []byte) (*model.MarketOrderAndSignature, error) {
+	sigCopy := make([]byte, len(signature))
+	copy(sigCopy, signature)
+	sigCopy[64] -= 27 // Transform V from 27/28 to 0/1 according to the yellow paper
+	match, err := m.ValidateSignature(order.Signer, orderHash, sigCopy)
+	if err != nil {
+		return nil, err
+	}
+	if !match {
+		return nil, fmt.Errorf("order signer does not match with the generated signature")
+	}
+
 	return &model.MarketOrderAndSignature{
 		Order: &model.CannonicalMarketOrder{
 			Salt:         int(order.Salt.Int64()),
@@ -157,5 +170,5 @@ func (m *MarketOrderBuilderImpl) BuildMarketOrderAndSignature(order *model.Marke
 		},
 		Signature: "0x" + hex.EncodeToString(signature),
 		OrderType: "market",
-	}
+	}, nil
 }

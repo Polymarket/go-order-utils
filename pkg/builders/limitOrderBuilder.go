@@ -2,6 +2,7 @@ package builders
 
 import (
 	"encoding/hex"
+	"fmt"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
@@ -37,7 +38,7 @@ type LimitOrderBuilder interface {
 		sigType model.SignatureType,
 	) (*model.LimitOrder, error)
 	BuildLimitOrderHash(order *model.LimitOrder) (common.Hash, error)
-	BuildLimitOrderAndSignature(order *model.LimitOrder, signature []byte) *model.LimitOrderAndSignature
+	BuildLimitOrderAndSignature(order *model.LimitOrder, orderHash common.Hash, signature []byte) (*model.LimitOrderAndSignature, error)
 }
 
 type LimitOrderBuilderImpl struct {
@@ -267,7 +268,19 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrderHash(order *model.LimitOrder) (co
 	return orderHash32Bytes, nil
 }
 
-func (l *LimitOrderBuilderImpl) BuildLimitOrderAndSignature(order *model.LimitOrder, signature []byte) *model.LimitOrderAndSignature {
+func (l *LimitOrderBuilderImpl) BuildLimitOrderAndSignature(order *model.LimitOrder, orderHash common.Hash,
+	signature []byte) (*model.LimitOrderAndSignature, error) {
+	sigCopy := make([]byte, len(signature))
+	copy(sigCopy, signature)
+	sigCopy[64] -= 27 // Transform V from 27/28 to 0/1 according to the yellow paper
+	match, err := l.ValidateSignature(order.Signer, orderHash, sigCopy)
+	if err != nil {
+		return nil, err
+	}
+	if !match {
+		return nil, fmt.Errorf("order signer does not match with the generated signature")
+	}
+
 	return &model.LimitOrderAndSignature{
 		Order: &model.CannonicalLimitOrder{
 			Salt:           int(order.Salt.Int64()),
@@ -285,5 +298,5 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrderAndSignature(order *model.LimitOr
 		},
 		Signature: "0x" + hex.EncodeToString(signature),
 		OrderType: "limit",
-	}
+	}, nil
 }

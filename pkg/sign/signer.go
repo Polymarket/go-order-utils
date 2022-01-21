@@ -10,7 +10,7 @@ import (
 
 type Signer interface {
 	BuildSignature(privateKey *ecdsa.PrivateKey, hash common.Hash) ([]byte, error)
-	ValidateSignature(publicKey *ecdsa.PublicKey, hash common.Hash, signature []byte) (bool, error)
+	ValidateSignature(signer common.Address, hash common.Hash, signature []byte) (bool, error)
 }
 type SignerImpl struct{}
 
@@ -27,12 +27,17 @@ func (o *SignerImpl) BuildSignature(privateKey *ecdsa.PrivateKey, hash common.Ha
 	return sign, err
 }
 
-func (o *SignerImpl) ValidateSignature(publicKey *ecdsa.PublicKey, hash common.Hash, signature []byte) (bool, error) {
+func (o *SignerImpl) ValidateSignature(signer common.Address, hash common.Hash, signature []byte) (bool, error) {
 	sigPublicKey, err := crypto.Ecrecover(hash.Bytes(), signature)
 	if err != nil {
 		return false, err
 	}
 
-	matches := bytes.Equal(sigPublicKey, crypto.FromECDSAPub(publicKey))
-	return matches, nil
+	recoveredPublicKey, err := crypto.UnmarshalPubkey(sigPublicKey)
+	if err != nil {
+		return false, err
+	}
+
+	recoveredAddress := crypto.PubkeyToAddress(*recoveredPublicKey)
+	return bytes.Equal(signer.Bytes(), recoveredAddress.Bytes()), nil
 }

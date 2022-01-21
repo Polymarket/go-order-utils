@@ -13,7 +13,6 @@ import (
 	"time"
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/polymarket/go-order-utils/pkg/eip712"
 	"github.com/polymarket/go-order-utils/pkg/sign"
@@ -47,12 +46,12 @@ func createL1Headers(privateKey *ecdsa.PrivateKey) (map[string]string, error) {
 		return nil, err
 	}
 
-	address, err := getPublicAddress(privateKey)
+	address, err := sign.GetPublicAddress(privateKey)
 	if err != nil {
 		return nil, err
 	}
 	return map[string]string{
-		"POLY_ADDRESS":   address,
+		"POLY_ADDRESS":   address.Hex(),
 		"POLY_SIGNATURE": "0x" + hex.EncodeToString(sig),
 		"POLY_TIMESTAMP": timestamp,
 	}, nil
@@ -60,7 +59,7 @@ func createL1Headers(privateKey *ecdsa.PrivateKey) (map[string]string, error) {
 
 func createL2Headers(privateKey *ecdsa.PrivateKey, creds *ApiKeyCreds, l2HeadersArgs *L2HeaderArgs) (map[string]string, error) {
 	timestamp := fmt.Sprintf("%d", time.Now().Unix())
-	address, err := getPublicAddress(privateKey)
+	address, err := sign.GetPublicAddress(privateKey)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +76,7 @@ func createL2Headers(privateKey *ecdsa.PrivateKey, creds *ApiKeyCreds, l2Headers
 	}
 
 	return map[string]string{
-		"POLY_ADDRESS":    address,
+		"POLY_ADDRESS":    address.Hex(),
 		"POLY_SIGNATURE":  sig,
 		"POLY_TIMESTAMP":  timestamp,
 		"POLY_API_KEY":    creds.key,
@@ -117,11 +116,10 @@ func createHmac(key, data []byte) ([]byte, error) {
 }
 
 func buildClobEip712Signature(privateKey *ecdsa.PrivateKey, timestamp string) ([]byte, error) {
-	addressS, err := getPublicAddress(privateKey)
+	address, err := sign.GetPublicAddress(privateKey)
 	if err != nil {
 		return nil, err
 	}
-	address := common.HexToAddress(addressS)
 
 	// Construct the domain hash
 	// Note that arbitrary length value types(array, string, byte) MUST be hashed
@@ -183,14 +181,4 @@ func buildClobEip712Signature(privateKey *ecdsa.PrivateKey, timestamp string) ([
 	}
 
 	return signature, nil
-}
-
-func getPublicAddress(privateKey *ecdsa.PrivateKey) (string, error) {
-	publicKey := privateKey.Public()
-	publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
-	if !ok {
-		return "", fmt.Errorf("error parsing public key")
-	}
-
-	return crypto.PubkeyToAddress(*publicKeyECDSA).Hex(), nil
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/polymarket/go-order-utils/pkg/model"
+	"github.com/polymarket/go-order-utils/pkg/sign"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -58,11 +59,19 @@ func TestBuildMarketOrder(t *testing.T) {
 func TestBuildMarketOrderAndSignature(t *testing.T) {
 	marketOrderBuilder := getMarketOrderBuilderImpl(t)
 
+	privateKey, err := crypto.GenerateKey()
+	assert.NotNil(t, privateKey)
+	assert.Nil(t, err)
+
+	signer, err := sign.GetPublicAddress(privateKey)
+	assert.NotNil(t, signer)
+	assert.Nil(t, err)
+
 	marketOrder := marketOrderBuilder.BuildMarketOrder(
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7651"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7652"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7653"),
-		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7654"),
+		signer,
 		big.NewInt(int64(100)),
 		big.NewInt(int64(1)),
 		big.NewInt(int64(2)),
@@ -74,16 +83,13 @@ func TestBuildMarketOrderAndSignature(t *testing.T) {
 	assert.NotNil(t, orderHash)
 	assert.Nil(t, err)
 
-	privateKey, err := crypto.GenerateKey()
-	assert.NotNil(t, privateKey)
-	assert.Nil(t, err)
-
 	signature, err := marketOrderBuilder.BuildSignature(privateKey, orderHash)
 	assert.NotNil(t, signature)
 	assert.Nil(t, err)
 
-	marketOrderAndSignature := marketOrderBuilder.BuildMarketOrderAndSignature(marketOrder, signature)
+	marketOrderAndSignature, err := marketOrderBuilder.BuildMarketOrderAndSignature(marketOrder, orderHash, signature)
 	assert.NotNil(t, marketOrderAndSignature)
+	assert.Nil(t, err)
 
 	assert.Equal(t, marketOrderAndSignature.OrderType, "market")
 
@@ -140,11 +146,19 @@ func TestBuildMarketOrderHash(t *testing.T) {
 func TestMarketOrderBuilderAndSign(t *testing.T) {
 	marketOrderBuilder := getMarketOrderBuilderImpl(t)
 
+	privateKey, err := crypto.GenerateKey()
+	assert.NotNil(t, privateKey)
+	assert.Nil(t, err)
+
+	signer, err := sign.GetPublicAddress(privateKey)
+	assert.NotNil(t, signer)
+	assert.Nil(t, err)
+
 	marketOrder := marketOrderBuilder.BuildMarketOrder(
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7651"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7652"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7653"),
-		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7654"),
+		signer,
 		big.NewInt(int64(100)),
 		big.NewInt(int64(1)),
 		big.NewInt(int64(2)),
@@ -156,16 +170,12 @@ func TestMarketOrderBuilderAndSign(t *testing.T) {
 	assert.NotNil(t, orderHash)
 	assert.Nil(t, err)
 
-	privateKey, err := crypto.GenerateKey()
-	assert.NotNil(t, privateKey)
-	assert.Nil(t, err)
-
 	signature, err := marketOrderBuilder.BuildSignature(privateKey, orderHash)
 	assert.NotNil(t, signature)
 	assert.Nil(t, err)
 
 	signature[64] -= 27 // Transform V from 27/28 to 0/1 according to the yellow paper
-	match, err := marketOrderBuilder.ValidateSignature(&privateKey.PublicKey, orderHash, signature)
+	match, err := marketOrderBuilder.ValidateSignature(marketOrder.Signer, orderHash, signature)
 	assert.NotNil(t, match)
 	assert.True(t, match)
 	assert.Nil(t, err)

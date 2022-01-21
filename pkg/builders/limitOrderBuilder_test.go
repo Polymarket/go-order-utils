@@ -10,6 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/polymarket/go-order-utils/pkg/facades"
 	"github.com/polymarket/go-order-utils/pkg/model"
+	"github.com/polymarket/go-order-utils/pkg/sign"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -151,13 +152,21 @@ func TestBuildLimitOrderHash(t *testing.T) {
 func TestBuildLimitOrderAndSignature(t *testing.T) {
 	limitOrderBuilder := getLimitOrderBuilderImpl(t)
 
+	privateKey, err := crypto.GenerateKey()
+	assert.NotNil(t, privateKey)
+	assert.Nil(t, err)
+
+	signer, err := sign.GetPublicAddress(privateKey)
+	assert.NotNil(t, signer)
+	assert.Nil(t, err)
+
 	limitOrder, err := limitOrderBuilder.BuildLimitOrder(
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7651"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7652"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7653"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7654"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7655"),
-		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7656"),
+		signer,
 		[]byte("1"),
 		[]byte("1"),
 		[]byte("3"),
@@ -176,16 +185,13 @@ func TestBuildLimitOrderAndSignature(t *testing.T) {
 	assert.NotNil(t, orderHash)
 	assert.Nil(t, err)
 
-	privateKey, err := crypto.GenerateKey()
-	assert.NotNil(t, privateKey)
-	assert.Nil(t, err)
-
 	signature, err := limitOrderBuilder.BuildSignature(privateKey, orderHash)
 	assert.NotNil(t, signature)
 	assert.Nil(t, err)
 
-	limitOrderAndSignature := limitOrderBuilder.BuildLimitOrderAndSignature(limitOrder, signature)
+	limitOrderAndSignature, err := limitOrderBuilder.BuildLimitOrderAndSignature(limitOrder, orderHash, signature)
 	assert.NotNil(t, limitOrderAndSignature)
+	assert.Nil(t, err)
 
 	assert.Equal(t, limitOrderAndSignature.OrderType, "limit")
 
@@ -241,13 +247,21 @@ func TestBuildLimitOrderAndSignature(t *testing.T) {
 func TestLimitOrderBuilderAndSign(t *testing.T) {
 	limitOrderBuilder := getLimitOrderBuilderImpl(t)
 
+	privateKey, err := crypto.GenerateKey()
+	assert.NotNil(t, privateKey)
+	assert.Nil(t, err)
+
+	signer, err := sign.GetPublicAddress(privateKey)
+	assert.NotNil(t, signer)
+	assert.Nil(t, err)
+
 	limitOrder, err := limitOrderBuilder.BuildLimitOrder(
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7651"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7652"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7653"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7654"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7655"),
-		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7656"),
+		signer,
 		[]byte("1"),
 		[]byte("1"),
 		[]byte("3"),
@@ -266,16 +280,12 @@ func TestLimitOrderBuilderAndSign(t *testing.T) {
 	assert.NotNil(t, orderHash)
 	assert.Nil(t, err)
 
-	privateKey, err := crypto.GenerateKey()
-	assert.NotNil(t, privateKey)
-	assert.Nil(t, err)
-
 	signature, err := limitOrderBuilder.BuildSignature(privateKey, orderHash)
 	assert.NotNil(t, signature)
 	assert.Nil(t, err)
 
 	signature[64] -= 27 // Transform V from 27/28 to 0/1 according to the yellow papers
-	match, err := limitOrderBuilder.ValidateSignature(&privateKey.PublicKey, orderHash, signature)
+	match, err := limitOrderBuilder.ValidateSignature(limitOrder.Signer, orderHash, signature)
 	assert.NotNil(t, match)
 	assert.True(t, match)
 	assert.Nil(t, err)
