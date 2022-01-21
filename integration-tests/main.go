@@ -17,4 +17,5 @@ func main() {
 
 	healthCheck(ctx, httpClient)
 	limitOrderCheck(ctx, httpClient)
+	marketOrderCheck(ctx, httpClient)
 }

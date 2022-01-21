@@ -11,6 +11,62 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 )
 
+func marketOrderCheck(ctx context.Context, httpClient *http.Client) {
+	privateKey, err := crypto.GenerateKey()
+	if err != nil {
+		panic(err)
+	}
+
+	credentials, err := getCredentials(ctx, httpClient, privateKey)
+	if err != nil {
+		panic(err)
+	}
+
+	marketOrder, err := buildMarketOrderAndSignature(privateKey)
+	if err != nil {
+		panic(err)
+	}
+
+	marketOrderJson, err := json.Marshal(marketOrder)
+	if err != nil {
+		panic(err)
+	}
+
+	l2Headers, err := createL2Headers(
+		privateKey,
+		&ApiKeyCreds{
+			key:        credentials["apiKey"].(string),
+			secret:     credentials["secret"].(string),
+			passphrase: credentials["passphrase"].(string),
+		},
+		&L2HeaderArgs{method: "POST", requestPath: "/order", body: string(marketOrderJson)},
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	//payload :=
+	createOrderReq, err := generateHTTPRequest(
+		ctx,
+		"POST",
+		fmt.Sprintf("%s/order", TRACKER_URL),
+		l2Headers,
+		strings.NewReader(string(marketOrderJson)),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	createOrderResp, err := httpClient.Do(createOrderReq)
+	if err != nil {
+		panic(err)
+	}
+
+	if createOrderResp.StatusCode != 200 {
+		panic(parseHttpResponseWithError("create market order response status != 200", createOrderResp))
+	}
+}
+
 func limitOrderCheck(ctx context.Context, httpClient *http.Client) {
 	privateKey, err := crypto.GenerateKey()
 	if err != nil {
@@ -63,7 +119,7 @@ func limitOrderCheck(ctx context.Context, httpClient *http.Client) {
 	}
 
 	if createOrderResp.StatusCode != 200 {
-		panic(parseHttpResponseWithError("create order response status != 200", createOrderResp))
+		panic(parseHttpResponseWithError("create limit order response status != 200", createOrderResp))
 	}
 }
 

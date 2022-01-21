@@ -12,6 +12,58 @@ import (
 	"github.com/polymarket/go-order-utils/pkg/sign"
 )
 
+func buildMarketOrderAndSignature(privateKey *ecdsa.PrivateKey) (*model.MarketOrderAndSignature, error) {
+	chainId := 42
+	contract, err := config.GetContracts(chainId)
+	if err != nil {
+		return nil, err
+	}
+
+	marketOrderBuilder := builders.NewMarketOrderBuilderImpl(
+		common.HexToAddress(contract.Exchange.Address),
+		chainId,
+		nil,
+	)
+
+	signer, err := sign.GetPublicAddress(privateKey)
+	if err != nil {
+		return nil, err
+	}
+
+	/*
+		makerAssetAddress common.Address,
+		takerAssetAddress common.Address,
+		makerAddress common.Address,
+		signer common.Address,
+		makerAmount *big.Int,
+		takerAssetID *big.Int,
+		makerAssetID *big.Int,
+		sigType int
+	*/
+	marketOrder := marketOrderBuilder.BuildMarketOrder(
+		common.HexToAddress(contract.Collateral),                          // makerAssetAddress common.Address
+		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7650"), // takerAssetAddress common.Address
+		signer,                       // makerAddress common.Address
+		signer,                       // signer common.Address
+		big.NewInt(int64(100000000)), // makerAmount *big.Int
+		big.NewInt(int64(0)),         // makerAssetID *big.Int
+		big.NewInt(int64(1)),         // takerAssetID *big.Int
+		model.EOA,                    // sigType int,
+	)
+
+	orderHash, err := marketOrderBuilder.BuildMarketOrderHash(marketOrder)
+	if err != nil {
+		return nil, err
+	}
+
+	signature, err := marketOrderBuilder.BuildSignature(privateKey, orderHash)
+	if err != nil {
+		return nil, err
+	}
+
+	return marketOrderBuilder.BuildMarketOrderAndSignature(marketOrder, orderHash, signature)
+}
+
 func buildLimitOrderAndSignature(privateKey *ecdsa.PrivateKey) (*model.LimitOrderAndSignature, error) {
 	chainId := 42
 	contract, err := config.GetContracts(chainId)
