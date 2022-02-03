@@ -59,9 +59,9 @@ type CannonicalMarketOrder struct {
 	Maker        string `json:"maker"`
 	MakerAsset   string `json:"makerAsset"`
 	MakerAmount  string `json:"makerAmount"`
-	MakerAssetID int    `json:"makerAssetID"`
+	MakerAssetID string `json:"makerAssetID"`
 	TakerAsset   string `json:"takerAsset"`
-	TakerAssetID int    `json:"takerAssetID"`
+	TakerAssetID string `json:"takerAssetID"`
 	SigType      int    `json:"sigType"`
 }
 

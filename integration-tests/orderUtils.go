@@ -41,14 +41,15 @@ func buildMarketOrderAndSignature(privateKey *ecdsa.PrivateKey) (*model.MarketOr
 		sigType int
 	*/
 	makerAmount, _ := big.NewInt(0).SetString("20000000000000000000", 10)
+	makerAssetID, _ := big.NewInt(0).SetString("26319442990640912640927597566187363896165058256070126954393241152928258958718", 10)
 	marketOrder := marketOrderBuilder.BuildMarketOrder(
-		common.HexToAddress("0xadbed21409324e0fcb80ae8b5e662b0c857d85ed"), // makerAssetAddress common.Address
+		common.HexToAddress("0x3E89215CC47670F084cB9f31BBAA6B5E99e45d0d"), // makerAssetAddress common.Address
 		common.HexToAddress("0xe22da380ee6b445bb8273c81944adeb6e8450422"), // takerAssetAddress common.Address
 		signer,                // makerAddress common.Address
 		signer,                // signer common.Address
 		makerAmount,           //big.NewInt(int64(10000000)), // makerAmount *big.Int
 		big.NewInt(int64(-1)), // takerAssetID *big.Int
-		big.NewInt(int64(0)),  // makerAssetID *big.Int
+		makerAssetID,          // makerAssetID *big.Int
 		model.EOA,             // sigType int,
 	)
 
@@ -107,11 +108,12 @@ func buildLimitOrderAndSignature(privateKey *ecdsa.PrivateKey) (*model.LimitOrde
 		) (*model.LimitOrder, error)
 	*/
 	takerAmount, _ := big.NewInt(0).SetString("20000000000000000000", 10)
+	takerAssetID, _ := big.NewInt(0).SetString("26319442990640912640927597566187363896165058256070126954393241152928258958718", 10)
 	limitOrder, err := limitOrderBuilder.BuildLimitOrder(
 		common.HexToAddress(contract.Exchange.Address),                    // exchangeAddress common.Address
 		common.HexToAddress("0xe22da380ee6b445bb8273c81944adeb6e8450422"), // makerAssetAddress common.Address
 		signer, // makerAddress common.Address
-		common.HexToAddress("0xadbed21409324e0fcb80ae8b5e662b0c857d85ed"), // takerAssetAddress common.Address
+		common.HexToAddress("0x3E89215CC47670F084cB9f31BBAA6B5E99e45d0d"), // takerAssetAddress common.Address
 		common.HexToAddress("0x0000000000000000000000000000000000000000"), // takerAddress common.Address
 		signer,                      // signer common.Address
 		[]byte(""),                  // permit []byte
@@ -120,7 +122,7 @@ func buildLimitOrderAndSignature(privateKey *ecdsa.PrivateKey) (*model.LimitOrde
 		big.NewInt(int64(10000000)), // makerAmount *big.Int,
 		takerAmount,                 // takerAmount *big.Int,
 		big.NewInt(int64(-1)),       // makerAssetID *big.Int,
-		big.NewInt(int64(0)),        // takerAssetID *big.Int,
+		takerAssetID,                // takerAssetID *big.Int,
 		big.NewInt(int64(time.Now().Unix()+int64(60000))), // expiry *big.Int,
 		big.NewInt(int64(0)), // nonce *big.Int,
 		model.EOA,            // sigType int,
