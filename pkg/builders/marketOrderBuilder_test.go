@@ -112,13 +112,13 @@ func TestBuildMarketOrderAndSignature(t *testing.T) {
 	assert.Equal(t, recoveredMakerAsset, marketOrder.MakerAsset.Bytes())
 
 	assert.Equal(t, marketOrderAndSignature.Order.MakerAmount, marketOrder.MakerAmount.String())
-	assert.Equal(t, marketOrderAndSignature.Order.MakerAssetID, int(marketOrder.MakerAssetID.Int64()))
+	assert.Equal(t, marketOrderAndSignature.Order.MakerAssetID, marketOrder.MakerAssetID.String())
 
 	recoveredTakerAsset, err := hex.DecodeString(marketOrderAndSignature.Order.TakerAsset[2:])
 	assert.Nil(t, err)
 	assert.Equal(t, recoveredTakerAsset, marketOrder.TakerAsset.Bytes())
 
-	assert.Equal(t, marketOrderAndSignature.Order.TakerAssetID, int(marketOrder.TakerAssetID.Int64()))
+	assert.Equal(t, marketOrderAndSignature.Order.TakerAssetID, marketOrder.TakerAssetID.String())
 	assert.Equal(t, marketOrderAndSignature.Order.SigType, int(marketOrder.SigType.Int64()))
 
 }
