@@ -28,8 +28,8 @@ var (
 	_ = event.NewSubscription
 )
 
-// OrderTypesLimitOrder is an auto generated low-level Go binding around an user-defined struct.
-type OrderTypesLimitOrder struct {
+// OrdersLimitOrder is an auto generated low-level Go binding around an user-defined struct.
+type OrdersLimitOrder struct {
 	Salt           *big.Int
 	MakerAsset     common.Address
 	TakerAsset     common.Address
@@ -38,14 +38,21 @@ type OrderTypesLimitOrder struct {
 	GetMakerAmount []byte
 	GetTakerAmount []byte
 	Predicate      []byte
-	Permit         []byte
-	Interaction    []byte
 	Signer         common.Address
 	SigType        *big.Int
 }
 
-// OrderTypesMarketOrder is an auto generated low-level Go binding around an user-defined struct.
-type OrderTypesMarketOrder struct {
+// OrdersLimitOrderFillData is an auto generated low-level Go binding around an user-defined struct.
+type OrdersLimitOrderFillData struct {
+	Orders           []OrdersLimitOrder
+	Signatures       [][]byte
+	MakingAmounts    []*big.Int
+	TakingAmounts    []*big.Int
+	ThresholdAmounts []*big.Int
+}
+
+// OrdersMarketOrder is an auto generated low-level Go binding around an user-defined struct.
+type OrdersMarketOrder struct {
 	Salt         *big.Int
 	Signer       common.Address
 	Maker        common.Address
@@ -59,7 +66,7 @@ type OrderTypesMarketOrder struct {
 
 // LimitOrderMetaData contains all meta data concerning the LimitOrder contract.
 var LimitOrderMetaData = &bind.MetaData{
-	ABI: "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"maker\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newNonce\",\"type\":\"uint256\"}],\"name\":\"NonceIncreased\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"maker\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"orderHash\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"remaining\",\"type\":\"uint256\"}],\"name\":\"OrderFilled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"oldFactory\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"newFactory\",\"type\":\"address\"}],\"name\":\"ProxyFactoryChanged\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"DOMAIN_SEPARATOR\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"LIMIT_ORDER_RFQ_TYPEHASH\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"LIMIT_ORDER_TYPEHASH\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"MARKET_ORDER_TYPEHASH\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"amount\",\"type\":\"uint8\"}],\"name\":\"advanceNonce\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"targets\",\"type\":\"address[]\"},{\"internalType\":\"bytes[]\",\"name\":\"data\",\"type\":\"bytes[]\"}],\"name\":\"and\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"target\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"arbitraryStaticCall\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"permit\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"interaction\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrderTypes.LimitOrder[]\",\"name\":\"orders\",\"type\":\"tuple[]\"},{\"internalType\":\"bytes[]\",\"name\":\"signatures\",\"type\":\"bytes[]\"},{\"internalType\":\"uint256[]\",\"name\":\"makingAmounts\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256[]\",\"name\":\"takingAmounts\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256[]\",\"name\":\"thresholdAmounts\",\"type\":\"uint256[]\"}],\"name\":\"batchFillOrders\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"permit\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"interaction\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrderTypes.LimitOrder\",\"name\":\"order\",\"type\":\"tuple\"}],\"name\":\"cancelOrder\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"permit\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"interaction\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrderTypes.LimitOrder\",\"name\":\"order\",\"type\":\"tuple\"}],\"name\":\"checkPredicate\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contractAggregatorV3Interface\",\"name\":\"oracle1\",\"type\":\"address\"},{\"internalType\":\"contractAggregatorV3Interface\",\"name\":\"oracle2\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"spread\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"doublePrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"target\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"eq\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"permit\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"interaction\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrderTypes.LimitOrder\",\"name\":\"order\",\"type\":\"tuple\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"makingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"takingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"thresholdAmount\",\"type\":\"uint256\"}],\"name\":\"fillOrder\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"permit\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"interaction\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrderTypes.LimitOrder\",\"name\":\"order\",\"type\":\"tuple\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"makingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"takingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"thresholdAmount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"target\",\"type\":\"address\"}],\"name\":\"fillOrderTo\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"permit\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"interaction\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrderTypes.LimitOrder\",\"name\":\"order\",\"type\":\"tuple\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"makingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"takingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"thresholdAmount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"target\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"permit\",\"type\":\"bytes\"}],\"name\":\"fillOrderToWithPermit\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"contractIERC721\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"func_20xtkDI\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"contractIERC721\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"func_40aVqeY\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"contractIERC20\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"func_50BkM4K\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"contractIERC1155\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"func_733NCGU\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"orderMakerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"orderTakerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"swapTakerAmount\",\"type\":\"uint256\"}],\"name\":\"getMakerAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"orderMakerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"orderTakerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"swapMakerAmount\",\"type\":\"uint256\"}],\"name\":\"getTakerAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"target\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"gt\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"permit\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"interaction\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrderTypes.LimitOrder\",\"name\":\"order\",\"type\":\"tuple\"}],\"name\":\"hash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"maker\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"makerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"makerAssetID\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"takerAssetID\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrderTypes.MarketOrder\",\"name\":\"order\",\"type\":\"tuple\"}],\"name\":\"hash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"immutableOwner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"increaseNonce\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"target\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"lt\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"nonce\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"makerAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"makerNonce\",\"type\":\"uint256\"}],\"name\":\"nonceEquals\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"targets\",\"type\":\"address[]\"},{\"internalType\":\"bytes[]\",\"name\":\"data\",\"type\":\"bytes[]\"}],\"name\":\"or\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"proxyFactory\",\"outputs\":[{\"internalType\":\"contractIProxyWalletFactory\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"orderHash\",\"type\":\"bytes32\"}],\"name\":\"remaining\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"orderHash\",\"type\":\"bytes32\"}],\"name\":\"remainingRaw\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"orderHashes\",\"type\":\"bytes32[]\"}],\"name\":\"remainingsRaw\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"results\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"factoryAddress\",\"type\":\"address\"}],\"name\":\"setProxyWalletFactory\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"targets\",\"type\":\"address[]\"},{\"internalType\":\"bytes[]\",\"name\":\"data\",\"type\":\"bytes[]\"}],\"name\":\"simulateCalls\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contractAggregatorV3Interface\",\"name\":\"oracle\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"inverseAndSpread\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"singlePrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"time\",\"type\":\"uint256\"}],\"name\":\"timestampBelow\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"permit\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"interaction\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrderTypes.LimitOrder\",\"name\":\"order\",\"type\":\"tuple\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"}],\"name\":\"validateLimitOrder\",\"outputs\":[],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"maker\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"makerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"makerAssetID\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"takerAssetID\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrderTypes.MarketOrder\",\"name\":\"order\",\"type\":\"tuple\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"}],\"name\":\"validateMarketOrder\",\"outputs\":[],\"stateMutability\":\"view\",\"type\":\"function\"}]",
+	ABI: "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"maker\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newNonce\",\"type\":\"uint256\"}],\"name\":\"NonceIncreased\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"orderHash\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"canceller\",\"type\":\"address\"}],\"name\":\"OrderCancelled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"orderHash\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"maker\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"taker\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"makerAssetID\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"takerAssetID\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"makerAmountFilled\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"takerAmountFilled\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"remainingAmount\",\"type\":\"uint256\"}],\"name\":\"OrderFilled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"oldFactory\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"newFactory\",\"type\":\"address\"}],\"name\":\"ProxyFactoryChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"oldFactory\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"newFactory\",\"type\":\"address\"}],\"name\":\"SafeFactoryChanged\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"amount\",\"type\":\"uint8\"}],\"name\":\"advanceNonce\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"targets\",\"type\":\"address[]\"},{\"internalType\":\"bytes[]\",\"name\":\"data\",\"type\":\"bytes[]\"}],\"name\":\"and\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrders.LimitOrder[]\",\"name\":\"orders\",\"type\":\"tuple[]\"},{\"internalType\":\"bytes[]\",\"name\":\"signatures\",\"type\":\"bytes[]\"},{\"internalType\":\"uint256[]\",\"name\":\"makingAmounts\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256[]\",\"name\":\"takingAmounts\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256[]\",\"name\":\"thresholdAmounts\",\"type\":\"uint256[]\"}],\"internalType\":\"structOrders.LimitOrderFillData\",\"name\":\"fillData\",\"type\":\"tuple\"}],\"name\":\"batchFillOrders\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrders.LimitOrder\",\"name\":\"order\",\"type\":\"tuple\"}],\"name\":\"cancelOrder\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrders.LimitOrder\",\"name\":\"order\",\"type\":\"tuple\"}],\"name\":\"checkPredicate\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"domainSeparator\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"target\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"eq\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrders.LimitOrder\",\"name\":\"order\",\"type\":\"tuple\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"makingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"takingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"thresholdAmount\",\"type\":\"uint256\"}],\"name\":\"fillOrder\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrders.LimitOrder\",\"name\":\"order\",\"type\":\"tuple\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"makingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"takingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"thresholdAmount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"}],\"name\":\"fillOrderTo\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"contractIERC721\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"func_20xtkDI\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"contractIERC721\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"func_40aVqeY\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"contractIERC20\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"func_50BkM4K\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"contractIERC1155\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"func_733NCGU\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"orderMakerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"orderTakerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"swapTakerAmount\",\"type\":\"uint256\"}],\"name\":\"getMakerAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"orderMakerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"orderTakerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"swapMakerAmount\",\"type\":\"uint256\"}],\"name\":\"getTakerAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"target\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"gt\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"maker\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"makerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"makerAssetID\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"takerAssetID\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrders.MarketOrder\",\"name\":\"order\",\"type\":\"tuple\"}],\"name\":\"hash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrders.LimitOrder\",\"name\":\"order\",\"type\":\"tuple\"}],\"name\":\"hash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"immutableOwner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"increaseNonce\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"target\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"lt\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"nonce\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"makerAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"makerNonce\",\"type\":\"uint256\"}],\"name\":\"nonceEquals\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"targets\",\"type\":\"address[]\"},{\"internalType\":\"bytes[]\",\"name\":\"data\",\"type\":\"bytes[]\"}],\"name\":\"or\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"proxyFactory\",\"outputs\":[{\"internalType\":\"contractIProxyWalletFactory\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"orderHash\",\"type\":\"bytes32\"}],\"name\":\"remaining\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"orderHash\",\"type\":\"bytes32\"}],\"name\":\"remainingRaw\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"orderHashes\",\"type\":\"bytes32[]\"}],\"name\":\"remainingsRaw\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"results\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"safeFactory\",\"outputs\":[{\"internalType\":\"contractISafeFactory\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"factoryAddress\",\"type\":\"address\"}],\"name\":\"setProxyWalletFactory\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"factoryAddress\",\"type\":\"address\"}],\"name\":\"setSafeFactory\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"time\",\"type\":\"uint256\"}],\"name\":\"timestampBelow\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"takerAssetData\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getMakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"getTakerAmount\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"predicate\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrders.LimitOrder\",\"name\":\"order\",\"type\":\"tuple\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"}],\"name\":\"validateLimitOrder\",\"outputs\":[],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"maker\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"makerAsset\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"makerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"makerAssetID\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"takerAsset\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"takerAssetID\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"sigType\",\"type\":\"uint256\"}],\"internalType\":\"structOrders.MarketOrder\",\"name\":\"order\",\"type\":\"tuple\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"}],\"name\":\"validateMarketOrder\",\"outputs\":[],\"stateMutability\":\"view\",\"type\":\"function\"}]",
 }
 
 // LimitOrderABI is the input ABI used to generate the binding from.
@@ -208,130 +215,6 @@ func (_LimitOrder *LimitOrderTransactorRaw) Transact(opts *bind.TransactOpts, me
 	return _LimitOrder.Contract.contract.Transact(opts, method, params...)
 }
 
-// DOMAINSEPARATOR is a free data retrieval call binding the contract method 0x3644e515.
-//
-// Solidity: function DOMAIN_SEPARATOR() view returns(bytes32)
-func (_LimitOrder *LimitOrderCaller) DOMAINSEPARATOR(opts *bind.CallOpts) ([32]byte, error) {
-	var out []interface{}
-	err := _LimitOrder.contract.Call(opts, &out, "DOMAIN_SEPARATOR")
-
-	if err != nil {
-		return *new([32]byte), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new([32]byte)).(*[32]byte)
-
-	return out0, err
-
-}
-
-// DOMAINSEPARATOR is a free data retrieval call binding the contract method 0x3644e515.
-//
-// Solidity: function DOMAIN_SEPARATOR() view returns(bytes32)
-func (_LimitOrder *LimitOrderSession) DOMAINSEPARATOR() ([32]byte, error) {
-	return _LimitOrder.Contract.DOMAINSEPARATOR(&_LimitOrder.CallOpts)
-}
-
-// DOMAINSEPARATOR is a free data retrieval call binding the contract method 0x3644e515.
-//
-// Solidity: function DOMAIN_SEPARATOR() view returns(bytes32)
-func (_LimitOrder *LimitOrderCallerSession) DOMAINSEPARATOR() ([32]byte, error) {
-	return _LimitOrder.Contract.DOMAINSEPARATOR(&_LimitOrder.CallOpts)
-}
-
-// LIMITORDERRFQTYPEHASH is a free data retrieval call binding the contract method 0x06bf53d0.
-//
-// Solidity: function LIMIT_ORDER_RFQ_TYPEHASH() view returns(bytes32)
-func (_LimitOrder *LimitOrderCaller) LIMITORDERRFQTYPEHASH(opts *bind.CallOpts) ([32]byte, error) {
-	var out []interface{}
-	err := _LimitOrder.contract.Call(opts, &out, "LIMIT_ORDER_RFQ_TYPEHASH")
-
-	if err != nil {
-		return *new([32]byte), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new([32]byte)).(*[32]byte)
-
-	return out0, err
-
-}
-
-// LIMITORDERRFQTYPEHASH is a free data retrieval call binding the contract method 0x06bf53d0.
-//
-// Solidity: function LIMIT_ORDER_RFQ_TYPEHASH() view returns(bytes32)
-func (_LimitOrder *LimitOrderSession) LIMITORDERRFQTYPEHASH() ([32]byte, error) {
-	return _LimitOrder.Contract.LIMITORDERRFQTYPEHASH(&_LimitOrder.CallOpts)
-}
-
-// LIMITORDERRFQTYPEHASH is a free data retrieval call binding the contract method 0x06bf53d0.
-//
-// Solidity: function LIMIT_ORDER_RFQ_TYPEHASH() view returns(bytes32)
-func (_LimitOrder *LimitOrderCallerSession) LIMITORDERRFQTYPEHASH() ([32]byte, error) {
-	return _LimitOrder.Contract.LIMITORDERRFQTYPEHASH(&_LimitOrder.CallOpts)
-}
-
-// LIMITORDERTYPEHASH is a free data retrieval call binding the contract method 0x54dd5f74.
-//
-// Solidity: function LIMIT_ORDER_TYPEHASH() view returns(bytes32)
-func (_LimitOrder *LimitOrderCaller) LIMITORDERTYPEHASH(opts *bind.CallOpts) ([32]byte, error) {
-	var out []interface{}
-	err := _LimitOrder.contract.Call(opts, &out, "LIMIT_ORDER_TYPEHASH")
-
-	if err != nil {
-		return *new([32]byte), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new([32]byte)).(*[32]byte)
-
-	return out0, err
-
-}
-
-// LIMITORDERTYPEHASH is a free data retrieval call binding the contract method 0x54dd5f74.
-//
-// Solidity: function LIMIT_ORDER_TYPEHASH() view returns(bytes32)
-func (_LimitOrder *LimitOrderSession) LIMITORDERTYPEHASH() ([32]byte, error) {
-	return _LimitOrder.Contract.LIMITORDERTYPEHASH(&_LimitOrder.CallOpts)
-}
-
-// LIMITORDERTYPEHASH is a free data retrieval call binding the contract method 0x54dd5f74.
-//
-// Solidity: function LIMIT_ORDER_TYPEHASH() view returns(bytes32)
-func (_LimitOrder *LimitOrderCallerSession) LIMITORDERTYPEHASH() ([32]byte, error) {
-	return _LimitOrder.Contract.LIMITORDERTYPEHASH(&_LimitOrder.CallOpts)
-}
-
-// MARKETORDERTYPEHASH is a free data retrieval call binding the contract method 0x1c1cad66.
-//
-// Solidity: function MARKET_ORDER_TYPEHASH() view returns(bytes32)
-func (_LimitOrder *LimitOrderCaller) MARKETORDERTYPEHASH(opts *bind.CallOpts) ([32]byte, error) {
-	var out []interface{}
-	err := _LimitOrder.contract.Call(opts, &out, "MARKET_ORDER_TYPEHASH")
-
-	if err != nil {
-		return *new([32]byte), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new([32]byte)).(*[32]byte)
-
-	return out0, err
-
-}
-
-// MARKETORDERTYPEHASH is a free data retrieval call binding the contract method 0x1c1cad66.
-//
-// Solidity: function MARKET_ORDER_TYPEHASH() view returns(bytes32)
-func (_LimitOrder *LimitOrderSession) MARKETORDERTYPEHASH() ([32]byte, error) {
-	return _LimitOrder.Contract.MARKETORDERTYPEHASH(&_LimitOrder.CallOpts)
-}
-
-// MARKETORDERTYPEHASH is a free data retrieval call binding the contract method 0x1c1cad66.
-//
-// Solidity: function MARKET_ORDER_TYPEHASH() view returns(bytes32)
-func (_LimitOrder *LimitOrderCallerSession) MARKETORDERTYPEHASH() ([32]byte, error) {
-	return _LimitOrder.Contract.MARKETORDERTYPEHASH(&_LimitOrder.CallOpts)
-}
-
 // And is a free data retrieval call binding the contract method 0x961d5b1e.
 //
 // Solidity: function and(address[] targets, bytes[] data) view returns(bool)
@@ -363,41 +246,10 @@ func (_LimitOrder *LimitOrderCallerSession) And(targets []common.Address, data [
 	return _LimitOrder.Contract.And(&_LimitOrder.CallOpts, targets, data)
 }
 
-// ArbitraryStaticCall is a free data retrieval call binding the contract method 0xbf15fcd8.
+// CheckPredicate is a free data retrieval call binding the contract method 0x36117638.
 //
-// Solidity: function arbitraryStaticCall(address target, bytes data) view returns(uint256)
-func (_LimitOrder *LimitOrderCaller) ArbitraryStaticCall(opts *bind.CallOpts, target common.Address, data []byte) (*big.Int, error) {
-	var out []interface{}
-	err := _LimitOrder.contract.Call(opts, &out, "arbitraryStaticCall", target, data)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
-}
-
-// ArbitraryStaticCall is a free data retrieval call binding the contract method 0xbf15fcd8.
-//
-// Solidity: function arbitraryStaticCall(address target, bytes data) view returns(uint256)
-func (_LimitOrder *LimitOrderSession) ArbitraryStaticCall(target common.Address, data []byte) (*big.Int, error) {
-	return _LimitOrder.Contract.ArbitraryStaticCall(&_LimitOrder.CallOpts, target, data)
-}
-
-// ArbitraryStaticCall is a free data retrieval call binding the contract method 0xbf15fcd8.
-//
-// Solidity: function arbitraryStaticCall(address target, bytes data) view returns(uint256)
-func (_LimitOrder *LimitOrderCallerSession) ArbitraryStaticCall(target common.Address, data []byte) (*big.Int, error) {
-	return _LimitOrder.Contract.ArbitraryStaticCall(&_LimitOrder.CallOpts, target, data)
-}
-
-// CheckPredicate is a free data retrieval call binding the contract method 0xc2cc178f.
-//
-// Solidity: function checkPredicate((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order) view returns(bool)
-func (_LimitOrder *LimitOrderCaller) CheckPredicate(opts *bind.CallOpts, order OrderTypesLimitOrder) (bool, error) {
+// Solidity: function checkPredicate((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order) view returns(bool)
+func (_LimitOrder *LimitOrderCaller) CheckPredicate(opts *bind.CallOpts, order OrdersLimitOrder) (bool, error) {
 	var out []interface{}
 	err := _LimitOrder.contract.Call(opts, &out, "checkPredicate", order)
 
@@ -411,49 +263,49 @@ func (_LimitOrder *LimitOrderCaller) CheckPredicate(opts *bind.CallOpts, order O
 
 }
 
-// CheckPredicate is a free data retrieval call binding the contract method 0xc2cc178f.
+// CheckPredicate is a free data retrieval call binding the contract method 0x36117638.
 //
-// Solidity: function checkPredicate((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order) view returns(bool)
-func (_LimitOrder *LimitOrderSession) CheckPredicate(order OrderTypesLimitOrder) (bool, error) {
+// Solidity: function checkPredicate((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order) view returns(bool)
+func (_LimitOrder *LimitOrderSession) CheckPredicate(order OrdersLimitOrder) (bool, error) {
 	return _LimitOrder.Contract.CheckPredicate(&_LimitOrder.CallOpts, order)
 }
 
-// CheckPredicate is a free data retrieval call binding the contract method 0xc2cc178f.
+// CheckPredicate is a free data retrieval call binding the contract method 0x36117638.
 //
-// Solidity: function checkPredicate((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order) view returns(bool)
-func (_LimitOrder *LimitOrderCallerSession) CheckPredicate(order OrderTypesLimitOrder) (bool, error) {
+// Solidity: function checkPredicate((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order) view returns(bool)
+func (_LimitOrder *LimitOrderCallerSession) CheckPredicate(order OrdersLimitOrder) (bool, error) {
 	return _LimitOrder.Contract.CheckPredicate(&_LimitOrder.CallOpts, order)
 }
 
-// DoublePrice is a free data retrieval call binding the contract method 0x36006bf3.
+// DomainSeparator is a free data retrieval call binding the contract method 0xf698da25.
 //
-// Solidity: function doublePrice(address oracle1, address oracle2, uint256 spread, uint256 amount) view returns(uint256)
-func (_LimitOrder *LimitOrderCaller) DoublePrice(opts *bind.CallOpts, oracle1 common.Address, oracle2 common.Address, spread *big.Int, amount *big.Int) (*big.Int, error) {
+// Solidity: function domainSeparator() view returns(bytes32)
+func (_LimitOrder *LimitOrderCaller) DomainSeparator(opts *bind.CallOpts) ([32]byte, error) {
 	var out []interface{}
-	err := _LimitOrder.contract.Call(opts, &out, "doublePrice", oracle1, oracle2, spread, amount)
+	err := _LimitOrder.contract.Call(opts, &out, "domainSeparator")
 
 	if err != nil {
-		return *new(*big.Int), err
+		return *new([32]byte), err
 	}
 
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
+	out0 := *abi.ConvertType(out[0], new([32]byte)).(*[32]byte)
 
 	return out0, err
 
 }
 
-// DoublePrice is a free data retrieval call binding the contract method 0x36006bf3.
+// DomainSeparator is a free data retrieval call binding the contract method 0xf698da25.
 //
-// Solidity: function doublePrice(address oracle1, address oracle2, uint256 spread, uint256 amount) view returns(uint256)
-func (_LimitOrder *LimitOrderSession) DoublePrice(oracle1 common.Address, oracle2 common.Address, spread *big.Int, amount *big.Int) (*big.Int, error) {
-	return _LimitOrder.Contract.DoublePrice(&_LimitOrder.CallOpts, oracle1, oracle2, spread, amount)
+// Solidity: function domainSeparator() view returns(bytes32)
+func (_LimitOrder *LimitOrderSession) DomainSeparator() ([32]byte, error) {
+	return _LimitOrder.Contract.DomainSeparator(&_LimitOrder.CallOpts)
 }
 
-// DoublePrice is a free data retrieval call binding the contract method 0x36006bf3.
+// DomainSeparator is a free data retrieval call binding the contract method 0xf698da25.
 //
-// Solidity: function doublePrice(address oracle1, address oracle2, uint256 spread, uint256 amount) view returns(uint256)
-func (_LimitOrder *LimitOrderCallerSession) DoublePrice(oracle1 common.Address, oracle2 common.Address, spread *big.Int, amount *big.Int) (*big.Int, error) {
-	return _LimitOrder.Contract.DoublePrice(&_LimitOrder.CallOpts, oracle1, oracle2, spread, amount)
+// Solidity: function domainSeparator() view returns(bytes32)
+func (_LimitOrder *LimitOrderCallerSession) DomainSeparator() ([32]byte, error) {
+	return _LimitOrder.Contract.DomainSeparator(&_LimitOrder.CallOpts)
 }
 
 // Eq is a free data retrieval call binding the contract method 0x32565d61.
@@ -580,10 +432,10 @@ func (_LimitOrder *LimitOrderCallerSession) Gt(value *big.Int, target common.Add
 	return _LimitOrder.Contract.Gt(&_LimitOrder.CallOpts, value, target, data)
 }
 
-// Hash is a free data retrieval call binding the contract method 0x532cd199.
+// Hash is a free data retrieval call binding the contract method 0xc25fd216.
 //
-// Solidity: function hash((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order) view returns(bytes32)
-func (_LimitOrder *LimitOrderCaller) Hash(opts *bind.CallOpts, order OrderTypesLimitOrder) ([32]byte, error) {
+// Solidity: function hash((uint256,address,address,address,uint256,uint256,address,uint256,uint256) order) view returns(bytes32)
+func (_LimitOrder *LimitOrderCaller) Hash(opts *bind.CallOpts, order OrdersMarketOrder) ([32]byte, error) {
 	var out []interface{}
 	err := _LimitOrder.contract.Call(opts, &out, "hash", order)
 
@@ -597,24 +449,24 @@ func (_LimitOrder *LimitOrderCaller) Hash(opts *bind.CallOpts, order OrderTypesL
 
 }
 
-// Hash is a free data retrieval call binding the contract method 0x532cd199.
-//
-// Solidity: function hash((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order) view returns(bytes32)
-func (_LimitOrder *LimitOrderSession) Hash(order OrderTypesLimitOrder) ([32]byte, error) {
-	return _LimitOrder.Contract.Hash(&_LimitOrder.CallOpts, order)
-}
-
-// Hash is a free data retrieval call binding the contract method 0x532cd199.
-//
-// Solidity: function hash((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order) view returns(bytes32)
-func (_LimitOrder *LimitOrderCallerSession) Hash(order OrderTypesLimitOrder) ([32]byte, error) {
-	return _LimitOrder.Contract.Hash(&_LimitOrder.CallOpts, order)
-}
-
-// Hash0 is a free data retrieval call binding the contract method 0xc25fd216.
+// Hash is a free data retrieval call binding the contract method 0xc25fd216.
 //
 // Solidity: function hash((uint256,address,address,address,uint256,uint256,address,uint256,uint256) order) view returns(bytes32)
-func (_LimitOrder *LimitOrderCaller) Hash0(opts *bind.CallOpts, order OrderTypesMarketOrder) ([32]byte, error) {
+func (_LimitOrder *LimitOrderSession) Hash(order OrdersMarketOrder) ([32]byte, error) {
+	return _LimitOrder.Contract.Hash(&_LimitOrder.CallOpts, order)
+}
+
+// Hash is a free data retrieval call binding the contract method 0xc25fd216.
+//
+// Solidity: function hash((uint256,address,address,address,uint256,uint256,address,uint256,uint256) order) view returns(bytes32)
+func (_LimitOrder *LimitOrderCallerSession) Hash(order OrdersMarketOrder) ([32]byte, error) {
+	return _LimitOrder.Contract.Hash(&_LimitOrder.CallOpts, order)
+}
+
+// Hash0 is a free data retrieval call binding the contract method 0xc67c21d3.
+//
+// Solidity: function hash((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order) view returns(bytes32)
+func (_LimitOrder *LimitOrderCaller) Hash0(opts *bind.CallOpts, order OrdersLimitOrder) ([32]byte, error) {
 	var out []interface{}
 	err := _LimitOrder.contract.Call(opts, &out, "hash0", order)
 
@@ -628,17 +480,17 @@ func (_LimitOrder *LimitOrderCaller) Hash0(opts *bind.CallOpts, order OrderTypes
 
 }
 
-// Hash0 is a free data retrieval call binding the contract method 0xc25fd216.
+// Hash0 is a free data retrieval call binding the contract method 0xc67c21d3.
 //
-// Solidity: function hash((uint256,address,address,address,uint256,uint256,address,uint256,uint256) order) view returns(bytes32)
-func (_LimitOrder *LimitOrderSession) Hash0(order OrderTypesMarketOrder) ([32]byte, error) {
+// Solidity: function hash((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order) view returns(bytes32)
+func (_LimitOrder *LimitOrderSession) Hash0(order OrdersLimitOrder) ([32]byte, error) {
 	return _LimitOrder.Contract.Hash0(&_LimitOrder.CallOpts, order)
 }
 
-// Hash0 is a free data retrieval call binding the contract method 0xc25fd216.
+// Hash0 is a free data retrieval call binding the contract method 0xc67c21d3.
 //
-// Solidity: function hash((uint256,address,address,address,uint256,uint256,address,uint256,uint256) order) view returns(bytes32)
-func (_LimitOrder *LimitOrderCallerSession) Hash0(order OrderTypesMarketOrder) ([32]byte, error) {
+// Solidity: function hash((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order) view returns(bytes32)
+func (_LimitOrder *LimitOrderCallerSession) Hash0(order OrdersLimitOrder) ([32]byte, error) {
 	return _LimitOrder.Contract.Hash0(&_LimitOrder.CallOpts, order)
 }
 
@@ -952,35 +804,35 @@ func (_LimitOrder *LimitOrderCallerSession) RemainingsRaw(orderHashes [][32]byte
 	return _LimitOrder.Contract.RemainingsRaw(&_LimitOrder.CallOpts, orderHashes)
 }
 
-// SinglePrice is a free data retrieval call binding the contract method 0xc05435f1.
+// SafeFactory is a free data retrieval call binding the contract method 0x131e7e1c.
 //
-// Solidity: function singlePrice(address oracle, uint256 inverseAndSpread, uint256 amount) view returns(uint256)
-func (_LimitOrder *LimitOrderCaller) SinglePrice(opts *bind.CallOpts, oracle common.Address, inverseAndSpread *big.Int, amount *big.Int) (*big.Int, error) {
+// Solidity: function safeFactory() view returns(address)
+func (_LimitOrder *LimitOrderCaller) SafeFactory(opts *bind.CallOpts) (common.Address, error) {
 	var out []interface{}
-	err := _LimitOrder.contract.Call(opts, &out, "singlePrice", oracle, inverseAndSpread, amount)
+	err := _LimitOrder.contract.Call(opts, &out, "safeFactory")
 
 	if err != nil {
-		return *new(*big.Int), err
+		return *new(common.Address), err
 	}
 
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
+	out0 := *abi.ConvertType(out[0], new(common.Address)).(*common.Address)
 
 	return out0, err
 
 }
 
-// SinglePrice is a free data retrieval call binding the contract method 0xc05435f1.
+// SafeFactory is a free data retrieval call binding the contract method 0x131e7e1c.
 //
-// Solidity: function singlePrice(address oracle, uint256 inverseAndSpread, uint256 amount) view returns(uint256)
-func (_LimitOrder *LimitOrderSession) SinglePrice(oracle common.Address, inverseAndSpread *big.Int, amount *big.Int) (*big.Int, error) {
-	return _LimitOrder.Contract.SinglePrice(&_LimitOrder.CallOpts, oracle, inverseAndSpread, amount)
+// Solidity: function safeFactory() view returns(address)
+func (_LimitOrder *LimitOrderSession) SafeFactory() (common.Address, error) {
+	return _LimitOrder.Contract.SafeFactory(&_LimitOrder.CallOpts)
 }
 
-// SinglePrice is a free data retrieval call binding the contract method 0xc05435f1.
+// SafeFactory is a free data retrieval call binding the contract method 0x131e7e1c.
 //
-// Solidity: function singlePrice(address oracle, uint256 inverseAndSpread, uint256 amount) view returns(uint256)
-func (_LimitOrder *LimitOrderCallerSession) SinglePrice(oracle common.Address, inverseAndSpread *big.Int, amount *big.Int) (*big.Int, error) {
-	return _LimitOrder.Contract.SinglePrice(&_LimitOrder.CallOpts, oracle, inverseAndSpread, amount)
+// Solidity: function safeFactory() view returns(address)
+func (_LimitOrder *LimitOrderCallerSession) SafeFactory() (common.Address, error) {
+	return _LimitOrder.Contract.SafeFactory(&_LimitOrder.CallOpts)
 }
 
 // TimestampBelow is a free data retrieval call binding the contract method 0x63592c2b.
@@ -1014,10 +866,10 @@ func (_LimitOrder *LimitOrderCallerSession) TimestampBelow(time *big.Int) (bool,
 	return _LimitOrder.Contract.TimestampBelow(&_LimitOrder.CallOpts, time)
 }
 
-// ValidateLimitOrder is a free data retrieval call binding the contract method 0x8c7a8aac.
+// ValidateLimitOrder is a free data retrieval call binding the contract method 0x24f98fa8.
 //
-// Solidity: function validateLimitOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature) view returns()
-func (_LimitOrder *LimitOrderCaller) ValidateLimitOrder(opts *bind.CallOpts, order OrderTypesLimitOrder, signature []byte) error {
+// Solidity: function validateLimitOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature) view returns()
+func (_LimitOrder *LimitOrderCaller) ValidateLimitOrder(opts *bind.CallOpts, order OrdersLimitOrder, signature []byte) error {
 	var out []interface{}
 	err := _LimitOrder.contract.Call(opts, &out, "validateLimitOrder", order, signature)
 
@@ -1029,24 +881,24 @@ func (_LimitOrder *LimitOrderCaller) ValidateLimitOrder(opts *bind.CallOpts, ord
 
 }
 
-// ValidateLimitOrder is a free data retrieval call binding the contract method 0x8c7a8aac.
+// ValidateLimitOrder is a free data retrieval call binding the contract method 0x24f98fa8.
 //
-// Solidity: function validateLimitOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature) view returns()
-func (_LimitOrder *LimitOrderSession) ValidateLimitOrder(order OrderTypesLimitOrder, signature []byte) error {
+// Solidity: function validateLimitOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature) view returns()
+func (_LimitOrder *LimitOrderSession) ValidateLimitOrder(order OrdersLimitOrder, signature []byte) error {
 	return _LimitOrder.Contract.ValidateLimitOrder(&_LimitOrder.CallOpts, order, signature)
 }
 
-// ValidateLimitOrder is a free data retrieval call binding the contract method 0x8c7a8aac.
+// ValidateLimitOrder is a free data retrieval call binding the contract method 0x24f98fa8.
 //
-// Solidity: function validateLimitOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature) view returns()
-func (_LimitOrder *LimitOrderCallerSession) ValidateLimitOrder(order OrderTypesLimitOrder, signature []byte) error {
+// Solidity: function validateLimitOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature) view returns()
+func (_LimitOrder *LimitOrderCallerSession) ValidateLimitOrder(order OrdersLimitOrder, signature []byte) error {
 	return _LimitOrder.Contract.ValidateLimitOrder(&_LimitOrder.CallOpts, order, signature)
 }
 
 // ValidateMarketOrder is a free data retrieval call binding the contract method 0xba329a25.
 //
 // Solidity: function validateMarketOrder((uint256,address,address,address,uint256,uint256,address,uint256,uint256) order, bytes signature) view returns()
-func (_LimitOrder *LimitOrderCaller) ValidateMarketOrder(opts *bind.CallOpts, order OrderTypesMarketOrder, signature []byte) error {
+func (_LimitOrder *LimitOrderCaller) ValidateMarketOrder(opts *bind.CallOpts, order OrdersMarketOrder, signature []byte) error {
 	var out []interface{}
 	err := _LimitOrder.contract.Call(opts, &out, "validateMarketOrder", order, signature)
 
@@ -1061,14 +913,14 @@ func (_LimitOrder *LimitOrderCaller) ValidateMarketOrder(opts *bind.CallOpts, or
 // ValidateMarketOrder is a free data retrieval call binding the contract method 0xba329a25.
 //
 // Solidity: function validateMarketOrder((uint256,address,address,address,uint256,uint256,address,uint256,uint256) order, bytes signature) view returns()
-func (_LimitOrder *LimitOrderSession) ValidateMarketOrder(order OrderTypesMarketOrder, signature []byte) error {
+func (_LimitOrder *LimitOrderSession) ValidateMarketOrder(order OrdersMarketOrder, signature []byte) error {
 	return _LimitOrder.Contract.ValidateMarketOrder(&_LimitOrder.CallOpts, order, signature)
 }
 
 // ValidateMarketOrder is a free data retrieval call binding the contract method 0xba329a25.
 //
 // Solidity: function validateMarketOrder((uint256,address,address,address,uint256,uint256,address,uint256,uint256) order, bytes signature) view returns()
-func (_LimitOrder *LimitOrderCallerSession) ValidateMarketOrder(order OrderTypesMarketOrder, signature []byte) error {
+func (_LimitOrder *LimitOrderCallerSession) ValidateMarketOrder(order OrdersMarketOrder, signature []byte) error {
 	return _LimitOrder.Contract.ValidateMarketOrder(&_LimitOrder.CallOpts, order, signature)
 }
 
@@ -1093,109 +945,88 @@ func (_LimitOrder *LimitOrderTransactorSession) AdvanceNonce(amount uint8) (*typ
 	return _LimitOrder.Contract.AdvanceNonce(&_LimitOrder.TransactOpts, amount)
 }
 
-// BatchFillOrders is a paid mutator transaction binding the contract method 0x8bbd66d4.
+// BatchFillOrders is a paid mutator transaction binding the contract method 0xf0cf5228.
 //
-// Solidity: function batchFillOrders((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256)[] orders, bytes[] signatures, uint256[] makingAmounts, uint256[] takingAmounts, uint256[] thresholdAmounts) returns(uint256[], uint256[])
-func (_LimitOrder *LimitOrderTransactor) BatchFillOrders(opts *bind.TransactOpts, orders []OrderTypesLimitOrder, signatures [][]byte, makingAmounts []*big.Int, takingAmounts []*big.Int, thresholdAmounts []*big.Int) (*types.Transaction, error) {
-	return _LimitOrder.contract.Transact(opts, "batchFillOrders", orders, signatures, makingAmounts, takingAmounts, thresholdAmounts)
+// Solidity: function batchFillOrders(((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256)[],bytes[],uint256[],uint256[],uint256[]) fillData) returns(uint256, uint256)
+func (_LimitOrder *LimitOrderTransactor) BatchFillOrders(opts *bind.TransactOpts, fillData OrdersLimitOrderFillData) (*types.Transaction, error) {
+	return _LimitOrder.contract.Transact(opts, "batchFillOrders", fillData)
 }
 
-// BatchFillOrders is a paid mutator transaction binding the contract method 0x8bbd66d4.
+// BatchFillOrders is a paid mutator transaction binding the contract method 0xf0cf5228.
 //
-// Solidity: function batchFillOrders((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256)[] orders, bytes[] signatures, uint256[] makingAmounts, uint256[] takingAmounts, uint256[] thresholdAmounts) returns(uint256[], uint256[])
-func (_LimitOrder *LimitOrderSession) BatchFillOrders(orders []OrderTypesLimitOrder, signatures [][]byte, makingAmounts []*big.Int, takingAmounts []*big.Int, thresholdAmounts []*big.Int) (*types.Transaction, error) {
-	return _LimitOrder.Contract.BatchFillOrders(&_LimitOrder.TransactOpts, orders, signatures, makingAmounts, takingAmounts, thresholdAmounts)
+// Solidity: function batchFillOrders(((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256)[],bytes[],uint256[],uint256[],uint256[]) fillData) returns(uint256, uint256)
+func (_LimitOrder *LimitOrderSession) BatchFillOrders(fillData OrdersLimitOrderFillData) (*types.Transaction, error) {
+	return _LimitOrder.Contract.BatchFillOrders(&_LimitOrder.TransactOpts, fillData)
 }
 
-// BatchFillOrders is a paid mutator transaction binding the contract method 0x8bbd66d4.
+// BatchFillOrders is a paid mutator transaction binding the contract method 0xf0cf5228.
 //
-// Solidity: function batchFillOrders((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256)[] orders, bytes[] signatures, uint256[] makingAmounts, uint256[] takingAmounts, uint256[] thresholdAmounts) returns(uint256[], uint256[])
-func (_LimitOrder *LimitOrderTransactorSession) BatchFillOrders(orders []OrderTypesLimitOrder, signatures [][]byte, makingAmounts []*big.Int, takingAmounts []*big.Int, thresholdAmounts []*big.Int) (*types.Transaction, error) {
-	return _LimitOrder.Contract.BatchFillOrders(&_LimitOrder.TransactOpts, orders, signatures, makingAmounts, takingAmounts, thresholdAmounts)
+// Solidity: function batchFillOrders(((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256)[],bytes[],uint256[],uint256[],uint256[]) fillData) returns(uint256, uint256)
+func (_LimitOrder *LimitOrderTransactorSession) BatchFillOrders(fillData OrdersLimitOrderFillData) (*types.Transaction, error) {
+	return _LimitOrder.Contract.BatchFillOrders(&_LimitOrder.TransactOpts, fillData)
 }
 
-// CancelOrder is a paid mutator transaction binding the contract method 0x05d0d562.
+// CancelOrder is a paid mutator transaction binding the contract method 0xf94234b1.
 //
-// Solidity: function cancelOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order) returns()
-func (_LimitOrder *LimitOrderTransactor) CancelOrder(opts *bind.TransactOpts, order OrderTypesLimitOrder) (*types.Transaction, error) {
+// Solidity: function cancelOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order) returns()
+func (_LimitOrder *LimitOrderTransactor) CancelOrder(opts *bind.TransactOpts, order OrdersLimitOrder) (*types.Transaction, error) {
 	return _LimitOrder.contract.Transact(opts, "cancelOrder", order)
 }
 
-// CancelOrder is a paid mutator transaction binding the contract method 0x05d0d562.
+// CancelOrder is a paid mutator transaction binding the contract method 0xf94234b1.
 //
-// Solidity: function cancelOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order) returns()
-func (_LimitOrder *LimitOrderSession) CancelOrder(order OrderTypesLimitOrder) (*types.Transaction, error) {
+// Solidity: function cancelOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order) returns()
+func (_LimitOrder *LimitOrderSession) CancelOrder(order OrdersLimitOrder) (*types.Transaction, error) {
 	return _LimitOrder.Contract.CancelOrder(&_LimitOrder.TransactOpts, order)
 }
 
-// CancelOrder is a paid mutator transaction binding the contract method 0x05d0d562.
+// CancelOrder is a paid mutator transaction binding the contract method 0xf94234b1.
 //
-// Solidity: function cancelOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order) returns()
-func (_LimitOrder *LimitOrderTransactorSession) CancelOrder(order OrderTypesLimitOrder) (*types.Transaction, error) {
+// Solidity: function cancelOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order) returns()
+func (_LimitOrder *LimitOrderTransactorSession) CancelOrder(order OrdersLimitOrder) (*types.Transaction, error) {
 	return _LimitOrder.Contract.CancelOrder(&_LimitOrder.TransactOpts, order)
 }
 
-// FillOrder is a paid mutator transaction binding the contract method 0x342b3879.
+// FillOrder is a paid mutator transaction binding the contract method 0x0ed088df.
 //
-// Solidity: function fillOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount) returns(uint256, uint256)
-func (_LimitOrder *LimitOrderTransactor) FillOrder(opts *bind.TransactOpts, order OrderTypesLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int) (*types.Transaction, error) {
+// Solidity: function fillOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount) returns(uint256, uint256)
+func (_LimitOrder *LimitOrderTransactor) FillOrder(opts *bind.TransactOpts, order OrdersLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int) (*types.Transaction, error) {
 	return _LimitOrder.contract.Transact(opts, "fillOrder", order, signature, makingAmount, takingAmount, thresholdAmount)
 }
 
-// FillOrder is a paid mutator transaction binding the contract method 0x342b3879.
+// FillOrder is a paid mutator transaction binding the contract method 0x0ed088df.
 //
-// Solidity: function fillOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount) returns(uint256, uint256)
-func (_LimitOrder *LimitOrderSession) FillOrder(order OrderTypesLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int) (*types.Transaction, error) {
+// Solidity: function fillOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount) returns(uint256, uint256)
+func (_LimitOrder *LimitOrderSession) FillOrder(order OrdersLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int) (*types.Transaction, error) {
 	return _LimitOrder.Contract.FillOrder(&_LimitOrder.TransactOpts, order, signature, makingAmount, takingAmount, thresholdAmount)
 }
 
-// FillOrder is a paid mutator transaction binding the contract method 0x342b3879.
+// FillOrder is a paid mutator transaction binding the contract method 0x0ed088df.
 //
-// Solidity: function fillOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount) returns(uint256, uint256)
-func (_LimitOrder *LimitOrderTransactorSession) FillOrder(order OrderTypesLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int) (*types.Transaction, error) {
+// Solidity: function fillOrder((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount) returns(uint256, uint256)
+func (_LimitOrder *LimitOrderTransactorSession) FillOrder(order OrdersLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int) (*types.Transaction, error) {
 	return _LimitOrder.Contract.FillOrder(&_LimitOrder.TransactOpts, order, signature, makingAmount, takingAmount, thresholdAmount)
 }
 
-// FillOrderTo is a paid mutator transaction binding the contract method 0x8aa76226.
+// FillOrderTo is a paid mutator transaction binding the contract method 0x3edfc0a7.
 //
-// Solidity: function fillOrderTo((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount, address target) returns(uint256, uint256)
-func (_LimitOrder *LimitOrderTransactor) FillOrderTo(opts *bind.TransactOpts, order OrderTypesLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int, target common.Address) (*types.Transaction, error) {
-	return _LimitOrder.contract.Transact(opts, "fillOrderTo", order, signature, makingAmount, takingAmount, thresholdAmount, target)
+// Solidity: function fillOrderTo((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount, address to) returns(uint256, uint256)
+func (_LimitOrder *LimitOrderTransactor) FillOrderTo(opts *bind.TransactOpts, order OrdersLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int, to common.Address) (*types.Transaction, error) {
+	return _LimitOrder.contract.Transact(opts, "fillOrderTo", order, signature, makingAmount, takingAmount, thresholdAmount, to)
 }
 
-// FillOrderTo is a paid mutator transaction binding the contract method 0x8aa76226.
+// FillOrderTo is a paid mutator transaction binding the contract method 0x3edfc0a7.
 //
-// Solidity: function fillOrderTo((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount, address target) returns(uint256, uint256)
-func (_LimitOrder *LimitOrderSession) FillOrderTo(order OrderTypesLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int, target common.Address) (*types.Transaction, error) {
-	return _LimitOrder.Contract.FillOrderTo(&_LimitOrder.TransactOpts, order, signature, makingAmount, takingAmount, thresholdAmount, target)
+// Solidity: function fillOrderTo((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount, address to) returns(uint256, uint256)
+func (_LimitOrder *LimitOrderSession) FillOrderTo(order OrdersLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int, to common.Address) (*types.Transaction, error) {
+	return _LimitOrder.Contract.FillOrderTo(&_LimitOrder.TransactOpts, order, signature, makingAmount, takingAmount, thresholdAmount, to)
 }
 
-// FillOrderTo is a paid mutator transaction binding the contract method 0x8aa76226.
+// FillOrderTo is a paid mutator transaction binding the contract method 0x3edfc0a7.
 //
-// Solidity: function fillOrderTo((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount, address target) returns(uint256, uint256)
-func (_LimitOrder *LimitOrderTransactorSession) FillOrderTo(order OrderTypesLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int, target common.Address) (*types.Transaction, error) {
-	return _LimitOrder.Contract.FillOrderTo(&_LimitOrder.TransactOpts, order, signature, makingAmount, takingAmount, thresholdAmount, target)
-}
-
-// FillOrderToWithPermit is a paid mutator transaction binding the contract method 0xfe05c0e8.
-//
-// Solidity: function fillOrderToWithPermit((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount, address target, bytes permit) returns(uint256, uint256)
-func (_LimitOrder *LimitOrderTransactor) FillOrderToWithPermit(opts *bind.TransactOpts, order OrderTypesLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int, target common.Address, permit []byte) (*types.Transaction, error) {
-	return _LimitOrder.contract.Transact(opts, "fillOrderToWithPermit", order, signature, makingAmount, takingAmount, thresholdAmount, target, permit)
-}
-
-// FillOrderToWithPermit is a paid mutator transaction binding the contract method 0xfe05c0e8.
-//
-// Solidity: function fillOrderToWithPermit((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount, address target, bytes permit) returns(uint256, uint256)
-func (_LimitOrder *LimitOrderSession) FillOrderToWithPermit(order OrderTypesLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int, target common.Address, permit []byte) (*types.Transaction, error) {
-	return _LimitOrder.Contract.FillOrderToWithPermit(&_LimitOrder.TransactOpts, order, signature, makingAmount, takingAmount, thresholdAmount, target, permit)
-}
-
-// FillOrderToWithPermit is a paid mutator transaction binding the contract method 0xfe05c0e8.
-//
-// Solidity: function fillOrderToWithPermit((uint256,address,address,bytes,bytes,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount, address target, bytes permit) returns(uint256, uint256)
-func (_LimitOrder *LimitOrderTransactorSession) FillOrderToWithPermit(order OrderTypesLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int, target common.Address, permit []byte) (*types.Transaction, error) {
-	return _LimitOrder.Contract.FillOrderToWithPermit(&_LimitOrder.TransactOpts, order, signature, makingAmount, takingAmount, thresholdAmount, target, permit)
+// Solidity: function fillOrderTo((uint256,address,address,bytes,bytes,bytes,bytes,bytes,address,uint256) order, bytes signature, uint256 makingAmount, uint256 takingAmount, uint256 thresholdAmount, address to) returns(uint256, uint256)
+func (_LimitOrder *LimitOrderTransactorSession) FillOrderTo(order OrdersLimitOrder, signature []byte, makingAmount *big.Int, takingAmount *big.Int, thresholdAmount *big.Int, to common.Address) (*types.Transaction, error) {
+	return _LimitOrder.Contract.FillOrderTo(&_LimitOrder.TransactOpts, order, signature, makingAmount, takingAmount, thresholdAmount, to)
 }
 
 // Func20xtkDI is a paid mutator transaction binding the contract method 0x23b872e0.
@@ -1345,25 +1176,25 @@ func (_LimitOrder *LimitOrderTransactorSession) SetProxyWalletFactory(factoryAdd
 	return _LimitOrder.Contract.SetProxyWalletFactory(&_LimitOrder.TransactOpts, factoryAddress)
 }
 
-// SimulateCalls is a paid mutator transaction binding the contract method 0x7f29a59d.
+// SetSafeFactory is a paid mutator transaction binding the contract method 0x4544f055.
 //
-// Solidity: function simulateCalls(address[] targets, bytes[] data) returns()
-func (_LimitOrder *LimitOrderTransactor) SimulateCalls(opts *bind.TransactOpts, targets []common.Address, data [][]byte) (*types.Transaction, error) {
-	return _LimitOrder.contract.Transact(opts, "simulateCalls", targets, data)
+// Solidity: function setSafeFactory(address factoryAddress) returns()
+func (_LimitOrder *LimitOrderTransactor) SetSafeFactory(opts *bind.TransactOpts, factoryAddress common.Address) (*types.Transaction, error) {
+	return _LimitOrder.contract.Transact(opts, "setSafeFactory", factoryAddress)
 }
 
-// SimulateCalls is a paid mutator transaction binding the contract method 0x7f29a59d.
+// SetSafeFactory is a paid mutator transaction binding the contract method 0x4544f055.
 //
-// Solidity: function simulateCalls(address[] targets, bytes[] data) returns()
-func (_LimitOrder *LimitOrderSession) SimulateCalls(targets []common.Address, data [][]byte) (*types.Transaction, error) {
-	return _LimitOrder.Contract.SimulateCalls(&_LimitOrder.TransactOpts, targets, data)
+// Solidity: function setSafeFactory(address factoryAddress) returns()
+func (_LimitOrder *LimitOrderSession) SetSafeFactory(factoryAddress common.Address) (*types.Transaction, error) {
+	return _LimitOrder.Contract.SetSafeFactory(&_LimitOrder.TransactOpts, factoryAddress)
 }
 
-// SimulateCalls is a paid mutator transaction binding the contract method 0x7f29a59d.
+// SetSafeFactory is a paid mutator transaction binding the contract method 0x4544f055.
 //
-// Solidity: function simulateCalls(address[] targets, bytes[] data) returns()
-func (_LimitOrder *LimitOrderTransactorSession) SimulateCalls(targets []common.Address, data [][]byte) (*types.Transaction, error) {
-	return _LimitOrder.Contract.SimulateCalls(&_LimitOrder.TransactOpts, targets, data)
+// Solidity: function setSafeFactory(address factoryAddress) returns()
+func (_LimitOrder *LimitOrderTransactorSession) SetSafeFactory(factoryAddress common.Address) (*types.Transaction, error) {
+	return _LimitOrder.Contract.SetSafeFactory(&_LimitOrder.TransactOpts, factoryAddress)
 }
 
 // TransferOwnership is a paid mutator transaction binding the contract method 0xf2fde38b.
@@ -1532,6 +1363,159 @@ func (_LimitOrder *LimitOrderFilterer) ParseNonceIncreased(log types.Log) (*Limi
 	return event, nil
 }
 
+// LimitOrderOrderCancelledIterator is returned from FilterOrderCancelled and is used to iterate over the raw logs and unpacked data for OrderCancelled events raised by the LimitOrder contract.
+type LimitOrderOrderCancelledIterator struct {
+	Event *LimitOrderOrderCancelled // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *LimitOrderOrderCancelledIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(LimitOrderOrderCancelled)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(LimitOrderOrderCancelled)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *LimitOrderOrderCancelledIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *LimitOrderOrderCancelledIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// LimitOrderOrderCancelled represents a OrderCancelled event raised by the LimitOrder contract.
+type LimitOrderOrderCancelled struct {
+	OrderHash [32]byte
+	Canceller common.Address
+	Raw       types.Log // Blockchain specific contextual infos
+}
+
+// FilterOrderCancelled is a free log retrieval operation binding the contract event 0xa6eb7cdc219e1518ced964e9a34e61d68a94e4f1569db3e84256ba981ba52753.
+//
+// Solidity: event OrderCancelled(bytes32 indexed orderHash, address indexed canceller)
+func (_LimitOrder *LimitOrderFilterer) FilterOrderCancelled(opts *bind.FilterOpts, orderHash [][32]byte, canceller []common.Address) (*LimitOrderOrderCancelledIterator, error) {
+
+	var orderHashRule []interface{}
+	for _, orderHashItem := range orderHash {
+		orderHashRule = append(orderHashRule, orderHashItem)
+	}
+	var cancellerRule []interface{}
+	for _, cancellerItem := range canceller {
+		cancellerRule = append(cancellerRule, cancellerItem)
+	}
+
+	logs, sub, err := _LimitOrder.contract.FilterLogs(opts, "OrderCancelled", orderHashRule, cancellerRule)
+	if err != nil {
+		return nil, err
+	}
+	return &LimitOrderOrderCancelledIterator{contract: _LimitOrder.contract, event: "OrderCancelled", logs: logs, sub: sub}, nil
+}
+
+// WatchOrderCancelled is a free log subscription operation binding the contract event 0xa6eb7cdc219e1518ced964e9a34e61d68a94e4f1569db3e84256ba981ba52753.
+//
+// Solidity: event OrderCancelled(bytes32 indexed orderHash, address indexed canceller)
+func (_LimitOrder *LimitOrderFilterer) WatchOrderCancelled(opts *bind.WatchOpts, sink chan<- *LimitOrderOrderCancelled, orderHash [][32]byte, canceller []common.Address) (event.Subscription, error) {
+
+	var orderHashRule []interface{}
+	for _, orderHashItem := range orderHash {
+		orderHashRule = append(orderHashRule, orderHashItem)
+	}
+	var cancellerRule []interface{}
+	for _, cancellerItem := range canceller {
+		cancellerRule = append(cancellerRule, cancellerItem)
+	}
+
+	logs, sub, err := _LimitOrder.contract.WatchLogs(opts, "OrderCancelled", orderHashRule, cancellerRule)
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(LimitOrderOrderCancelled)
+				if err := _LimitOrder.contract.UnpackLog(event, "OrderCancelled", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// ParseOrderCancelled is a log parse operation binding the contract event 0xa6eb7cdc219e1518ced964e9a34e61d68a94e4f1569db3e84256ba981ba52753.
+//
+// Solidity: event OrderCancelled(bytes32 indexed orderHash, address indexed canceller)
+func (_LimitOrder *LimitOrderFilterer) ParseOrderCancelled(log types.Log) (*LimitOrderOrderCancelled, error) {
+	event := new(LimitOrderOrderCancelled)
+	if err := _LimitOrder.contract.UnpackLog(event, "OrderCancelled", log); err != nil {
+		return nil, err
+	}
+	event.Raw = log
+	return event, nil
+}
+
 // LimitOrderOrderFilledIterator is returned from FilterOrderFilled and is used to iterate over the raw logs and unpacked data for OrderFilled events raised by the LimitOrder contract.
 type LimitOrderOrderFilledIterator struct {
 	Event *LimitOrderOrderFilled // Event containing the contract specifics and raw log
@@ -1601,40 +1585,63 @@ func (it *LimitOrderOrderFilledIterator) Close() error {
 
 // LimitOrderOrderFilled represents a OrderFilled event raised by the LimitOrder contract.
 type LimitOrderOrderFilled struct {
-	Maker     common.Address
-	OrderHash [32]byte
-	Remaining *big.Int
-	Raw       types.Log // Blockchain specific contextual infos
+	OrderHash         [32]byte
+	Maker             common.Address
+	Taker             common.Address
+	MakerAsset        common.Address
+	MakerAssetID      *big.Int
+	TakerAsset        common.Address
+	TakerAssetID      *big.Int
+	MakerAmountFilled *big.Int
+	TakerAmountFilled *big.Int
+	RemainingAmount   *big.Int
+	Raw               types.Log // Blockchain specific contextual infos
 }
 
-// FilterOrderFilled is a free log retrieval operation binding the contract event 0xb9ed0243fdf00f0545c63a0af8850c090d86bb46682baec4bf3c496814fe4f02.
+// FilterOrderFilled is a free log retrieval operation binding the contract event 0x791a075e5fc3f255060bd3f46c0dd3d9fc987e67744227c4b2b5f310487b2825.
 //
-// Solidity: event OrderFilled(address indexed maker, bytes32 orderHash, uint256 remaining)
-func (_LimitOrder *LimitOrderFilterer) FilterOrderFilled(opts *bind.FilterOpts, maker []common.Address) (*LimitOrderOrderFilledIterator, error) {
+// Solidity: event OrderFilled(bytes32 indexed orderHash, address indexed maker, address indexed taker, address makerAsset, uint256 makerAssetID, address takerAsset, uint256 takerAssetID, uint256 makerAmountFilled, uint256 takerAmountFilled, uint256 remainingAmount)
+func (_LimitOrder *LimitOrderFilterer) FilterOrderFilled(opts *bind.FilterOpts, orderHash [][32]byte, maker []common.Address, taker []common.Address) (*LimitOrderOrderFilledIterator, error) {
 
+	var orderHashRule []interface{}
+	for _, orderHashItem := range orderHash {
+		orderHashRule = append(orderHashRule, orderHashItem)
+	}
 	var makerRule []interface{}
 	for _, makerItem := range maker {
 		makerRule = append(makerRule, makerItem)
 	}
+	var takerRule []interface{}
+	for _, takerItem := range taker {
+		takerRule = append(takerRule, takerItem)
+	}
 
-	logs, sub, err := _LimitOrder.contract.FilterLogs(opts, "OrderFilled", makerRule)
+	logs, sub, err := _LimitOrder.contract.FilterLogs(opts, "OrderFilled", orderHashRule, makerRule, takerRule)
 	if err != nil {
 		return nil, err
 	}
 	return &LimitOrderOrderFilledIterator{contract: _LimitOrder.contract, event: "OrderFilled", logs: logs, sub: sub}, nil
 }
 
-// WatchOrderFilled is a free log subscription operation binding the contract event 0xb9ed0243fdf00f0545c63a0af8850c090d86bb46682baec4bf3c496814fe4f02.
+// WatchOrderFilled is a free log subscription operation binding the contract event 0x791a075e5fc3f255060bd3f46c0dd3d9fc987e67744227c4b2b5f310487b2825.
 //
-// Solidity: event OrderFilled(address indexed maker, bytes32 orderHash, uint256 remaining)
-func (_LimitOrder *LimitOrderFilterer) WatchOrderFilled(opts *bind.WatchOpts, sink chan<- *LimitOrderOrderFilled, maker []common.Address) (event.Subscription, error) {
+// Solidity: event OrderFilled(bytes32 indexed orderHash, address indexed maker, address indexed taker, address makerAsset, uint256 makerAssetID, address takerAsset, uint256 takerAssetID, uint256 makerAmountFilled, uint256 takerAmountFilled, uint256 remainingAmount)
+func (_LimitOrder *LimitOrderFilterer) WatchOrderFilled(opts *bind.WatchOpts, sink chan<- *LimitOrderOrderFilled, orderHash [][32]byte, maker []common.Address, taker []common.Address) (event.Subscription, error) {
 
+	var orderHashRule []interface{}
+	for _, orderHashItem := range orderHash {
+		orderHashRule = append(orderHashRule, orderHashItem)
+	}
 	var makerRule []interface{}
 	for _, makerItem := range maker {
 		makerRule = append(makerRule, makerItem)
 	}
+	var takerRule []interface{}
+	for _, takerItem := range taker {
+		takerRule = append(takerRule, takerItem)
+	}
 
-	logs, sub, err := _LimitOrder.contract.WatchLogs(opts, "OrderFilled", makerRule)
+	logs, sub, err := _LimitOrder.contract.WatchLogs(opts, "OrderFilled", orderHashRule, makerRule, takerRule)
 	if err != nil {
 		return nil, err
 	}
@@ -1666,9 +1673,9 @@ func (_LimitOrder *LimitOrderFilterer) WatchOrderFilled(opts *bind.WatchOpts, si
 	}), nil
 }
 
-// ParseOrderFilled is a log parse operation binding the contract event 0xb9ed0243fdf00f0545c63a0af8850c090d86bb46682baec4bf3c496814fe4f02.
+// ParseOrderFilled is a log parse operation binding the contract event 0x791a075e5fc3f255060bd3f46c0dd3d9fc987e67744227c4b2b5f310487b2825.
 //
-// Solidity: event OrderFilled(address indexed maker, bytes32 orderHash, uint256 remaining)
+// Solidity: event OrderFilled(bytes32 indexed orderHash, address indexed maker, address indexed taker, address makerAsset, uint256 makerAssetID, address takerAsset, uint256 takerAssetID, uint256 makerAmountFilled, uint256 takerAmountFilled, uint256 remainingAmount)
 func (_LimitOrder *LimitOrderFilterer) ParseOrderFilled(log types.Log) (*LimitOrderOrderFilled, error) {
 	event := new(LimitOrderOrderFilled)
 	if err := _LimitOrder.contract.UnpackLog(event, "OrderFilled", log); err != nil {
@@ -1960,6 +1967,141 @@ func (_LimitOrder *LimitOrderFilterer) WatchProxyFactoryChanged(opts *bind.Watch
 func (_LimitOrder *LimitOrderFilterer) ParseProxyFactoryChanged(log types.Log) (*LimitOrderProxyFactoryChanged, error) {
 	event := new(LimitOrderProxyFactoryChanged)
 	if err := _LimitOrder.contract.UnpackLog(event, "ProxyFactoryChanged", log); err != nil {
+		return nil, err
+	}
+	event.Raw = log
+	return event, nil
+}
+
+// LimitOrderSafeFactoryChangedIterator is returned from FilterSafeFactoryChanged and is used to iterate over the raw logs and unpacked data for SafeFactoryChanged events raised by the LimitOrder contract.
+type LimitOrderSafeFactoryChangedIterator struct {
+	Event *LimitOrderSafeFactoryChanged // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *LimitOrderSafeFactoryChangedIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(LimitOrderSafeFactoryChanged)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(LimitOrderSafeFactoryChanged)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *LimitOrderSafeFactoryChangedIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *LimitOrderSafeFactoryChangedIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// LimitOrderSafeFactoryChanged represents a SafeFactoryChanged event raised by the LimitOrder contract.
+type LimitOrderSafeFactoryChanged struct {
+	OldFactory common.Address
+	NewFactory common.Address
+	Raw        types.Log // Blockchain specific contextual infos
+}
+
+// FilterSafeFactoryChanged is a free log retrieval operation binding the contract event 0x991fda46c4786372cdf7699008fc3ad6eedb5b185f95bd8f89ddaab502419746.
+//
+// Solidity: event SafeFactoryChanged(address oldFactory, address newFactory)
+func (_LimitOrder *LimitOrderFilterer) FilterSafeFactoryChanged(opts *bind.FilterOpts) (*LimitOrderSafeFactoryChangedIterator, error) {
+
+	logs, sub, err := _LimitOrder.contract.FilterLogs(opts, "SafeFactoryChanged")
+	if err != nil {
+		return nil, err
+	}
+	return &LimitOrderSafeFactoryChangedIterator{contract: _LimitOrder.contract, event: "SafeFactoryChanged", logs: logs, sub: sub}, nil
+}
+
+// WatchSafeFactoryChanged is a free log subscription operation binding the contract event 0x991fda46c4786372cdf7699008fc3ad6eedb5b185f95bd8f89ddaab502419746.
+//
+// Solidity: event SafeFactoryChanged(address oldFactory, address newFactory)
+func (_LimitOrder *LimitOrderFilterer) WatchSafeFactoryChanged(opts *bind.WatchOpts, sink chan<- *LimitOrderSafeFactoryChanged) (event.Subscription, error) {
+
+	logs, sub, err := _LimitOrder.contract.WatchLogs(opts, "SafeFactoryChanged")
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(LimitOrderSafeFactoryChanged)
+				if err := _LimitOrder.contract.UnpackLog(event, "SafeFactoryChanged", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// ParseSafeFactoryChanged is a log parse operation binding the contract event 0x991fda46c4786372cdf7699008fc3ad6eedb5b185f95bd8f89ddaab502419746.
+//
+// Solidity: event SafeFactoryChanged(address oldFactory, address newFactory)
+func (_LimitOrder *LimitOrderFilterer) ParseSafeFactoryChanged(log types.Log) (*LimitOrderSafeFactoryChanged, error) {
+	event := new(LimitOrderSafeFactoryChanged)
+	if err := _LimitOrder.contract.UnpackLog(event, "SafeFactoryChanged", log); err != nil {
 		return nil, err
 	}
 	event.Raw = log

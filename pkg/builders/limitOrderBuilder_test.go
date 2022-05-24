@@ -59,8 +59,6 @@ func TestBuildLimitOrder(t *testing.T) {
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7655"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7656"),
 		[]byte("1"),
-		[]byte("1"),
-		[]byte("3"),
 		big.NewInt(int64(1)),
 		big.NewInt(int64(2)),
 		big.NewInt(int64(3)),
@@ -80,8 +78,6 @@ func TestBuildLimitOrder(t *testing.T) {
 	assert.NotNil(t, limitOrder.GetMakerAmount)
 	assert.NotNil(t, limitOrder.GetTakerAmount)
 	assert.NotNil(t, limitOrder.Predicate)
-	assert.NotNil(t, limitOrder.Permit)
-	assert.NotNil(t, limitOrder.Interaction)
 	assert.Equal(t, limitOrder.Signer.String(), common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7656").String())
 	assert.Equal(t, limitOrder.SigType.Int64(), int64(model.POLY_PROXY))
 
@@ -93,8 +89,6 @@ func TestBuildLimitOrder(t *testing.T) {
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7655"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7656"),
 		[]byte("1"),
-		[]byte("1"),
-		[]byte("3"),
 		big.NewInt(int64(1)),
 		big.NewInt(int64(2)),
 		big.NewInt(int64(-1)),
@@ -114,8 +108,6 @@ func TestBuildLimitOrder(t *testing.T) {
 	assert.NotNil(t, limitOrder.GetMakerAmount)
 	assert.NotNil(t, limitOrder.GetTakerAmount)
 	assert.NotNil(t, limitOrder.Predicate)
-	assert.NotNil(t, limitOrder.Permit)
-	assert.NotNil(t, limitOrder.Interaction)
 	assert.Equal(t, limitOrder.Signer.String(), common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7656").String())
 	assert.Equal(t, limitOrder.SigType.Int64(), int64(model.POLY_PROXY))
 }
@@ -131,8 +123,6 @@ func TestBuildLimitOrderHash(t *testing.T) {
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7655"),
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7656"),
 		[]byte("1"),
-		[]byte("1"),
-		[]byte("3"),
 		big.NewInt(int64(1)),
 		big.NewInt(int64(2)),
 		big.NewInt(int64(3)),
@@ -168,8 +158,6 @@ func TestBuildLimitOrderAndSignature(t *testing.T) {
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7655"),
 		signer,
 		[]byte("1"),
-		[]byte("1"),
-		[]byte("3"),
 		big.NewInt(int64(1)),
 		big.NewInt(int64(2)),
 		big.NewInt(int64(3)),
@@ -229,14 +217,6 @@ func TestBuildLimitOrderAndSignature(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, recoveredPredicate, limitOrder.Predicate)
 
-	recoveredPermit, err := hex.DecodeString(limitOrderAndSignature.Order.Permit[2:])
-	assert.Nil(t, err)
-	assert.Equal(t, recoveredPermit, limitOrder.Permit)
-
-	recoveredInteraction, err := hex.DecodeString(limitOrderAndSignature.Order.Interaction[2:])
-	assert.Nil(t, err)
-	assert.Equal(t, recoveredInteraction, limitOrder.Interaction)
-
 	recoveredSigner, err := hex.DecodeString(limitOrderAndSignature.Order.Signer[2:])
 	assert.Nil(t, err)
 	assert.Equal(t, recoveredSigner, limitOrder.Signer.Bytes())
@@ -263,8 +243,6 @@ func TestLimitOrderBuilderAndSign(t *testing.T) {
 		common.HexToAddress("0xE7819d9745e64c14541732ca07CC3898670b7655"),
 		signer,
 		[]byte("1"),
-		[]byte("1"),
-		[]byte("3"),
 		big.NewInt(int64(1)),
 		big.NewInt(int64(2)),
 		big.NewInt(int64(3)),
