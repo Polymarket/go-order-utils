@@ -26,8 +26,6 @@ type LimitOrderBuilder interface {
 		takerAssetAddress,
 		takerAddress,
 		signer common.Address,
-		permit,
-		interaction,
 		predicate []byte,
 		makerAmount,
 		takerAmount,
@@ -95,8 +93,6 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrder(
 	takerAssetAddress,
 	takerAddress,
 	signer common.Address,
-	permit,
-	interaction,
 	predicate []byte,
 	makerAmount,
 	takerAmount,
@@ -194,8 +190,6 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrder(
 		GetMakerAmount: getMakerAmount[0:68],
 		GetTakerAmount: getTakerAmount[0:68],
 		Predicate:      predicate,
-		Permit:         permit,
-		Interaction:    interaction,
 		Signer:         signer,
 		SigType:        big.NewInt(int64(sigType)),
 	}, nil
@@ -227,8 +221,6 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrderHash(order *model.LimitOrder) (co
 		eip712.Bytes32, // getMakerAmount hash
 		eip712.Bytes32, // getTakerAmount hash
 		eip712.Bytes32, // predicate hash
-		eip712.Bytes32, // permit hash
-		eip712.Bytes32, // interaction hash
 		eip712.Address, // signer
 		eip712.Uint256, // sig type
 	}
@@ -243,8 +235,6 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrderHash(order *model.LimitOrder) (co
 		crypto.Keccak256Hash(order.GetMakerAmount),
 		crypto.Keccak256Hash(order.GetTakerAmount),
 		crypto.Keccak256Hash(order.Predicate),
-		crypto.Keccak256Hash(order.Permit),
-		crypto.Keccak256Hash(order.Interaction),
 		order.Signer,
 		order.SigType,
 	}
@@ -291,8 +281,6 @@ func (l *LimitOrderBuilderImpl) BuildLimitOrderAndSignature(order *model.LimitOr
 			GetMakerAmount: "0x" + hex.EncodeToString(order.GetMakerAmount),
 			GetTakerAmount: "0x" + hex.EncodeToString(order.GetTakerAmount),
 			Predicate:      "0x" + hex.EncodeToString(order.Predicate),
-			Permit:         "0x" + hex.EncodeToString(order.Permit),
-			Interaction:    "0x" + hex.EncodeToString(order.Interaction),
 			Signer:         "0x" + hex.EncodeToString(order.Signer.Bytes()),
 			SigType:        int(order.SigType.Int64()),
 		},

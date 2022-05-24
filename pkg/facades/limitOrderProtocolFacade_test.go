@@ -35,8 +35,6 @@ func getLimitOrder() model.LimitOrder {
 		GetMakerAmount: []byte{},
 		GetTakerAmount: []byte{},
 		Predicate:      []byte{},
-		Permit:         []byte{},
-		Interaction:    []byte{},
 		Signer:         common.Address{},
 		SigType:        &big.Int{},
 	}

@@ -15,8 +15,6 @@ type LimitOrder struct {
 	GetMakerAmount []byte         `json:"getMakerAmount"`
 	GetTakerAmount []byte         `json:"getTakerAmount"`
 	Predicate      []byte         `json:"predicate"`
-	Permit         []byte         `json:"permit"`
-	Interaction    []byte         `json:"interaction"`
 	Signer         common.Address `json:"signer"`
 	SigType        *big.Int       `json:"sigType"`
 }
@@ -29,8 +27,6 @@ type CannonicalLimitOrder struct {
 	GetMakerAmount string `json:"getMakerAmount"`
 	GetTakerAmount string `json:"getTakerAmount"`
 	Predicate      string `json:"predicate"`
-	Permit         string `json:"permit"`
-	Interaction    string `json:"interaction"`
 	Signer         string `json:"signer"`
 	SigType        int    `json:"sigType"`
 }

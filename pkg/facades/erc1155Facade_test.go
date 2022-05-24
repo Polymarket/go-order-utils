@@ -9,6 +9,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/polymarket/go-order-utils/pkg/contracts/erc1155"
 	"github.com/polymarket/go-order-utils/pkg/contracts/limitOrder"
+
 	"github.com/stretchr/testify/assert"
 )
 

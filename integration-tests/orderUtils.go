@@ -116,8 +116,6 @@ func buildLimitOrderAndSignature(privateKey *ecdsa.PrivateKey) (*model.LimitOrde
 		common.HexToAddress("0x3E89215CC47670F084cB9f31BBAA6B5E99e45d0d"), // takerAssetAddress common.Address
 		common.HexToAddress("0x0000000000000000000000000000000000000000"), // takerAddress common.Address
 		signer,                      // signer common.Address
-		[]byte(""),                  // permit []byte
-		[]byte(""),                  // interaction []byte,
 		[]byte(""),                  //	predicate []byte,
 		big.NewInt(int64(10000000)), // makerAmount *big.Int,
 		takerAmount,                 // takerAmount *big.Int,
