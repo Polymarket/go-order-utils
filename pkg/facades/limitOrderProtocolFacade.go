@@ -28,8 +28,7 @@ const (
 	LIMIT_ORDER_PROTOCOL_REMAINING         = "remaining"
 	LIMIT_ORDER_PROTOCOL_CHECK_PREDICATE   = "checkPredicate"
 	LIMIT_ORDER_PROTOCOL_REMAINING_RAW     = "remainingsRaw"
-	LIMIT_ORDER_PROTOCOL_SIMULATE_CALLS    = "simulateCalls"
-	LIMIT_ORDER_PROTOCOL_DOMAIN_SEPARATOR  = "DOMAIN_SEPARATOR"
+	LIMIT_ORDER_PROTOCOL_DOMAIN_SEPARATOR  = "domainSeparator"
 	LIMIT_ORDER_PROTOCOL_BATCH_FILL_ORDERS = "batchFillOrders"
 )
 
@@ -51,9 +50,8 @@ type LimitOrderProtocolFacade interface {
 	Remaining(orderHash [32]byte) ([]byte, error)
 	CheckPredicate(order model.LimitOrder) ([]byte, error)
 	RemainingsRaw(orderHashes [][32]byte) ([]byte, error)
-	SimulateCalls(targets []common.Address, data [][]byte) ([]byte, error)
 	DomainSeparator() ([]byte, error)
-	BatchFillOrders(orders []model.LimitOrder, signatures [][]byte, makingAmounts, takingAmounts, thresholdAmounts []*big.Int) ([]byte, error)
+	BatchFillOrders(fillData *limitOrder.OrdersLimitOrderFillData) ([]byte, error)
 }
 
 type LimitOrderProtocolFacadeImpl struct {
@@ -223,15 +221,6 @@ func (l *LimitOrderProtocolFacadeImpl) RemainingsRaw(orderHashes [][32]byte) ([]
 	return append(method.ID[:], inputs[:]...), nil
 }
 
-func (l *LimitOrderProtocolFacadeImpl) SimulateCalls(targets []common.Address, data [][]byte) ([]byte, error) {
-	method := l.methods[LIMIT_ORDER_PROTOCOL_SIMULATE_CALLS]
-	inputs, err := method.Inputs.Pack(targets, data)
-	if err != nil {
-		return nil, err
-	}
-	return append(method.ID[:], inputs[:]...), nil
-}
-
 func (l *LimitOrderProtocolFacadeImpl) DomainSeparator() ([]byte, error) {
 	method := l.methods[LIMIT_ORDER_PROTOCOL_DOMAIN_SEPARATOR]
 	inputs, err := method.Inputs.Pack()
@@ -241,9 +230,9 @@ func (l *LimitOrderProtocolFacadeImpl) DomainSeparator() ([]byte, error) {
 	return append(method.ID[:], inputs[:]...), nil
 }
 
-func (l *LimitOrderProtocolFacadeImpl) BatchFillOrders(orders []model.LimitOrder, signatures [][]byte, makingAmounts, takingAmounts, thresholdAmounts []*big.Int) ([]byte, error) {
+func (l *LimitOrderProtocolFacadeImpl) BatchFillOrders(fillData *limitOrder.OrdersLimitOrderFillData) ([]byte, error) {
 	method := l.methods[LIMIT_ORDER_PROTOCOL_BATCH_FILL_ORDERS]
-	inputs, err := method.Inputs.Pack(orders, signatures, makingAmounts, takingAmounts, thresholdAmounts)
+	inputs, err := method.Inputs.Pack(fillData)
 	if err != nil {
 		return nil, err
 	}

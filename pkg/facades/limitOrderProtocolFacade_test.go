@@ -216,17 +216,6 @@ func TestRemainingsRaw(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestSimulateCalls(t *testing.T) {
-	limitOrderProtocolFacade := getNewLimitOrderProtocolFacadeImpl(t)
-	assert.NotNil(t, limitOrderProtocolFacade)
-
-	r, err := limitOrderProtocolFacade.SimulateCalls(
-		[]common.Address{{}},
-		[][]byte{})
-	assert.NotNil(t, r)
-	assert.Nil(t, err)
-}
-
 func TestDomainSeparator(t *testing.T) {
 	limitOrderProtocolFacade := getNewLimitOrderProtocolFacadeImpl(t)
 	assert.NotNil(t, limitOrderProtocolFacade)
@@ -239,12 +228,15 @@ func TestDomainSeparator(t *testing.T) {
 func TestBatchFillOrders(t *testing.T) {
 	limitOrderProtocolFacade := getNewLimitOrderProtocolFacadeImpl(t)
 	assert.NotNil(t, limitOrderProtocolFacade)
-
+	orders := make([]limitOrder.OrdersLimitOrder, 0)
 	r, err := limitOrderProtocolFacade.BatchFillOrders(
-		[]model.LimitOrder{getLimitOrder()}, [][]byte{},
-		[]*big.Int{{}},
-		[]*big.Int{{}},
-		[]*big.Int{{}},
+		&limitOrder.OrdersLimitOrderFillData{
+			Orders:           orders,
+			Signatures:       [][]byte{},
+			MakingAmounts:    []*big.Int{{}},
+			TakingAmounts:    []*big.Int{{}},
+			ThresholdAmounts: []*big.Int{{}},
+		},
 	)
 	assert.NotNil(t, r)
 	assert.Nil(t, err)
