@@ -7,11 +7,6 @@ import (
 )
 
 func TestGetContracts(t *testing.T) {
-	c1, err := GetContracts(42)
-	assert.NotNil(t, c1)
-	assert.Nil(t, err)
-	assert.Equal(t, c1, KOVAN_CONTRACTS)
-
 	c2, err := GetContracts(80001)
 	assert.NotNil(t, c2)
 	assert.Nil(t, err)
