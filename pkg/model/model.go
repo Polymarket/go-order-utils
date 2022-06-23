@@ -62,9 +62,11 @@ type CannonicalMarketOrder struct {
 }
 
 type MarketOrderAndSignature struct {
-	Order     *CannonicalMarketOrder `json:"order"`
-	Signature string                 `json:"signature"`
-	OrderType string                 `json:"orderType"`
+	Order             *CannonicalMarketOrder `json:"order"`
+	Signature         string                 `json:"signature"`
+	OrderType         string                 `json:"orderType"`
+	MinAmountReceived string                 `json:"minAmountReceived"` // Slippage protection
+	TimeInForce       string                 `json:"timeInForce"`       // FOK (fill or kill) / IOC (immediate or cancel)
 }
 
 type SignatureType = int
