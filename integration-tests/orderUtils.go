@@ -63,7 +63,7 @@ func buildMarketOrderAndSignature(privateKey *ecdsa.PrivateKey) (*model.MarketOr
 		return nil, err
 	}
 
-	return marketOrderBuilder.BuildMarketOrderAndSignature(marketOrder, orderHash, signature)
+	return marketOrderBuilder.BuildMarketOrderAndSignature(marketOrder, orderHash, signature, "0", "FOK")
 }
 
 func buildLimitOrderAndSignature(privateKey *ecdsa.PrivateKey) (*model.LimitOrderAndSignature, error) {

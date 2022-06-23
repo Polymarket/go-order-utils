@@ -169,7 +169,7 @@ func (m *MarketOrderBuilderImpl) BuildMarketOrderHash(order *model.MarketOrder) 
 }
 
 func (m *MarketOrderBuilderImpl) BuildMarketOrderAndSignature(order *model.MarketOrder, orderHash common.Hash,
-	signature []byte) (*model.MarketOrderAndSignature, error) {
+	signature []byte, minAmountReceived, timeInForce string) (*model.MarketOrderAndSignature, error) {
 	sigCopy := make([]byte, len(signature))
 	copy(sigCopy, signature)
 	sigCopy[64] -= 27 // Transform V from 27/28 to 0/1 according to the yellow paper
@@ -193,7 +193,9 @@ func (m *MarketOrderBuilderImpl) BuildMarketOrderAndSignature(order *model.Marke
 			TakerAssetID: order.TakerAssetID.String(),
 			SigType:      int(order.SigType.Int64()),
 		},
-		Signature: "0x" + hex.EncodeToString(signature),
-		OrderType: "market",
+		Signature:         "0x" + hex.EncodeToString(signature),
+		OrderType:         "market",
+		MinAmountReceived: minAmountReceived,
+		TimeInForce:       timeInForce,
 	}, nil
 }
