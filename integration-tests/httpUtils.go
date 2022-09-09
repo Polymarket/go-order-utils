@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -36,7 +35,7 @@ func parseHttpResponseWithError(msg string, resp *http.Response) string {
 	if resp.Body != nil {
 		defer resp.Body.Close()
 
-		bytes, err := ioutil.ReadAll(resp.Body)
+		bytes, err := io.ReadAll(resp.Body)
 		if err == nil {
 			data["body"] = string(bytes)
 		}
@@ -52,7 +51,7 @@ func parseHttpResponseWithError(msg string, resp *http.Response) string {
 func readBody(httpResp *http.Response) (map[string]interface{}, error) {
 	defer httpResp.Body.Close()
 
-	body, err := ioutil.ReadAll(httpResp.Body)
+	body, err := io.ReadAll(httpResp.Body)
 	if err != nil {
 		return nil, err
 	}
