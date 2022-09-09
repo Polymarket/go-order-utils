@@ -25,3 +25,4 @@ jobs:
           working-directory: ./
           skip-pkg-cache: true
           skip-build-cache: true
+          args: -E gofmt --timeout=5m

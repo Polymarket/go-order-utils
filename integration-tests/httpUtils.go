@@ -52,7 +52,7 @@ func parseHttpResponseWithError(msg string, resp *http.Response) string {
 func readBody(httpResp *http.Response) (map[string]interface{}, error) {
 	defer httpResp.Body.Close()
 
-	body, err := ioutil.ReadAll(httpResp.Body)
+	body, err := io.ReadAll(httpResp.Body)
 	if err != nil {
 		return nil, err
 	}
