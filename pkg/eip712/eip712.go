@@ -9,34 +9,29 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 )
 
-func toTypedDataHash(domainSeparator [32]byte, structHash [32]byte) []byte {
-	rawData := []byte(fmt.Sprintf("\x19\x01%s%s", string(domainSeparator[:]), string(structHash[:])))
-	return crypto.Keccak256(rawData)
-}
-
-func BuildEIP712DomainSeparator(nameHash [32]byte, versionHash [32]byte, chainID *big.Int, address common.Address) ([]byte, error) {
-	types := []abi.Type{
-		Bytes32,
-		Bytes32,
-		Bytes32,
-		Uint256,
-		Address,
-	}
-
+func BuildEIP712DomainSeparator(name, version common.Hash, chainId *big.Int, address common.Address) (common.Hash, error) {
 	values := []interface{}{
-		EIP_712_TYPEHASH,
-		nameHash,
-		versionHash,
-		chainID,
+		_EIP712_DOMAIN_HASH,
+		name,
+		version,
+		chainId,
 		address,
 	}
-	encodedDomainSeparator, err := Encode(types, values)
+
+	encodedDomainSeparator, err := Encode(_EIP712_DOMAIN, values)
 	if err != nil {
-		return nil, err
+		return common.Hash{}, err
 	}
-	return crypto.Keccak256(encodedDomainSeparator), nil
+
+	return crypto.Keccak256Hash(encodedDomainSeparator), nil
 }
 
-func HashTypedDataV4(domainSeparator [32]byte, structHash [32]byte) []byte {
-	return toTypedDataHash(domainSeparator, structHash)
+func HashTypedDataV4(domainSeparator common.Hash, args []abi.Type, values []interface{}) (common.Hash, error) {
+	encoded, err := Encode(args, values)
+	if err != nil {
+		return common.Hash{}, err
+	}
+
+	rawData := []byte(fmt.Sprintf("\x19\x01%s%s", string(domainSeparator[:]), string(encoded[:])))
+	return crypto.Keccak256Hash(rawData), nil
 }

@@ -1,6 +1,8 @@
-package sign
+package signer
 
 import (
+	"crypto/ecdsa"
+	"fmt"
 	"testing"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -8,10 +10,17 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSigner(t *testing.T) {
-	signerImpl := NewSignerImpl()
-	assert.NotNil(t, signerImpl)
+func getPublicAddress(privateKey *ecdsa.PrivateKey) (common.Address, error) {
+	publicKey := privateKey.Public()
+	publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
+	if !ok {
+		return common.Address{}, fmt.Errorf("error parsing public key")
+	}
 
+	return crypto.PubkeyToAddress(*publicKeyECDSA), nil
+}
+
+func TestSigner(t *testing.T) {
 	hash := common.BytesToHash(crypto.Keccak256([]byte("hashed string")))
 	assert.NotNil(t, hash)
 
@@ -19,16 +28,16 @@ func TestSigner(t *testing.T) {
 	assert.NotNil(t, privateKey)
 	assert.Nil(t, err)
 
-	signature, err := signerImpl.BuildSignature(privateKey, hash)
+	signature, err := Sign(privateKey, hash)
 	assert.NotNil(t, signature)
 	assert.Nil(t, err)
 
-	signer, err := GetPublicAddress(privateKey)
+	signer, err := getPublicAddress(privateKey)
 	assert.NotNil(t, signer)
 	assert.Nil(t, err)
 
 	signature[64] -= 27 // Transform V from 27/28 to 0/1 according to the yellow paper
-	match, err := signerImpl.ValidateSignature(signer, hash, signature)
+	match, err := ValidateSignature(signer, hash, signature)
 	assert.NotNil(t, match)
 	assert.True(t, match)
 	assert.Nil(t, err)
