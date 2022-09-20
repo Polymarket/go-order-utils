@@ -36,7 +36,6 @@ func TestSigner(t *testing.T) {
 	assert.NotNil(t, signer)
 	assert.Nil(t, err)
 
-	signature[64] -= 27 // Transform V from 27/28 to 0/1 according to the yellow paper
 	match, err := ValidateSignature(signer, hash, signature)
 	assert.NotNil(t, match)
 	assert.True(t, match)

@@ -18,7 +18,11 @@ func Sign(privateKey *ecdsa.PrivateKey, typedData common.Hash) ([]byte, error) {
 }
 
 func ValidateSignature(signer common.Address, typedData common.Hash, signature []byte) (bool, error) {
-	sigPublicKey, err := crypto.Ecrecover(typedData.Bytes(), signature)
+	sigCopy := make([]byte, len(signature))
+	copy(sigCopy, signature)
+	sigCopy[64] -= 27 // Transform V from 27/28 to 0/1 according to the yellow paper
+
+	sigPublicKey, err := crypto.Ecrecover(typedData.Bytes(), sigCopy)
 	if err != nil {
 		return false, err
 	}

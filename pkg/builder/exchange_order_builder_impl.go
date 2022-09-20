@@ -14,14 +14,19 @@ import (
 )
 
 type ExchangeOrderBuilderImpl struct {
-	chainId *big.Int
+	chainId       *big.Int
+	saltGenerator func() int64
 }
 
 var _ ExchangeOrderBuilder = (*ExchangeOrderBuilderImpl)(nil)
 
-func NewExchangeOrderBuilderImpl(chainId *big.Int) *ExchangeOrderBuilderImpl {
+func NewExchangeOrderBuilderImpl(chainId *big.Int, saltGenerator func() int64) *ExchangeOrderBuilderImpl {
+	if saltGenerator == nil {
+		saltGenerator = utils.GenerateRandomSalt
+	}
 	return &ExchangeOrderBuilderImpl{
-		chainId: chainId,
+		chainId:       chainId,
+		saltGenerator: saltGenerator,
 	}
 }
 
@@ -110,7 +115,7 @@ func (e *ExchangeOrderBuilderImpl) BuildOrder(orderData *model.OrderData) (*mode
 	}
 
 	return &model.Order{
-		Salt:          new(big.Int).SetInt64(utils.GenerateRandomSalt()),
+		Salt:          new(big.Int).SetInt64(e.saltGenerator()),
 		Maker:         common.HexToAddress(orderData.Maker),
 		Signer:        signer,
 		TokenId:       tokenId,

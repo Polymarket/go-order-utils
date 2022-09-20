@@ -32,6 +32,6 @@ func HashTypedDataV4(domainSeparator common.Hash, args []abi.Type, values []inte
 		return common.Hash{}, err
 	}
 
-	rawData := []byte(fmt.Sprintf("\x19\x01%s%s", string(domainSeparator[:]), string(encoded[:])))
+	rawData := []byte(fmt.Sprintf("\x19\x01%s%s", string(domainSeparator[:]), string(crypto.Keccak256Hash(encoded).Bytes())))
 	return crypto.Keccak256Hash(rawData), nil
 }
