@@ -27,6 +27,7 @@ func TestBuildOrder(t *testing.T) {
 
 	order, err := builder.BuildOrder(&model.OrderData{
 		Maker:       signerAddress.Hex(),
+		Taker:       "0x0",
 		TokenId:     "1234",
 		MakerAmount: "100000000",
 		TakerAmount: "50000000",
@@ -40,6 +41,7 @@ func TestBuildOrder(t *testing.T) {
 	assert.True(t, order.Salt.Int64() > 0)
 	assert.Equal(t, order.Maker, signerAddress)
 	assert.Equal(t, order.Signer, signerAddress)
+	assert.Equal(t, order.Taker, common.HexToAddress("0x0"))
 	assert.Equal(t, order.TokenId.String(), "1234")
 	assert.Equal(t, order.MakerAmount.String(), "100000000")
 	assert.Equal(t, order.TakerAmount.String(), "50000000")
@@ -54,6 +56,7 @@ func TestBuildOrder(t *testing.T) {
 
 	order, err = builder.BuildOrder(&model.OrderData{
 		Maker:       signerAddress.Hex(),
+		Taker:       "0x1",
 		TokenId:     "1234",
 		MakerAmount: "100000000",
 		TakerAmount: "50000000",
@@ -67,6 +70,7 @@ func TestBuildOrder(t *testing.T) {
 	assert.Equal(t, order.Salt.Int64(), int64(salt))
 	assert.Equal(t, order.Maker, signerAddress)
 	assert.Equal(t, order.Signer, signerAddress)
+	assert.Equal(t, order.Taker, common.HexToAddress("0x1"))
 	assert.Equal(t, order.TokenId.String(), "1234")
 	assert.Equal(t, order.MakerAmount.String(), "100000000")
 	assert.Equal(t, order.TakerAmount.String(), "50000000")
@@ -83,6 +87,7 @@ func TestBuildOrderTypedData(t *testing.T) {
 
 	order, err := builder.BuildOrder(&model.OrderData{
 		Maker:       signerAddress.Hex(),
+		Taker:       common.HexToAddress("0x0").Hex(),
 		TokenId:     "1234",
 		MakerAmount: "100000000",
 		TakerAmount: "50000000",
@@ -102,6 +107,7 @@ func TestBuildOrderTypedData(t *testing.T) {
 
 	order, err = builder.BuildOrder(&model.OrderData{
 		Maker:       signerAddress.Hex(),
+		Taker:       common.HexToAddress("0x0").Hex(),
 		TokenId:     "1234",
 		MakerAmount: "100000000",
 		TakerAmount: "50000000",
@@ -116,7 +122,7 @@ func TestBuildOrderTypedData(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, orderTypedData)
 
-	expectedTypedData := common.Hex2Bytes("c13f7f9d048468a07de3f203b5079d21cd46127b1a0e35750e250889e61ddc05")
+	expectedTypedData := common.Hex2Bytes("cb61637e35c2870e125d337ec8d555d5b45d6691eee473e974aab9c5f875927b")
 	assert.Equal(t, expectedTypedData, orderTypedData[:])
 }
 
@@ -126,6 +132,7 @@ func TestBuildOrderSignature(t *testing.T) {
 
 	order, err := builder.BuildOrder(&model.OrderData{
 		Maker:       signerAddress.Hex(),
+		Taker:       common.HexToAddress("0x0").Hex(),
 		TokenId:     "1234",
 		MakerAmount: "100000000",
 		TakerAmount: "50000000",
@@ -149,6 +156,7 @@ func TestBuildOrderSignature(t *testing.T) {
 
 	order, err = builder.BuildOrder(&model.OrderData{
 		Maker:       signerAddress.Hex(),
+		Taker:       common.HexToAddress("0x0").Hex(),
 		TokenId:     "1234",
 		MakerAmount: "100000000",
 		TakerAmount: "50000000",
@@ -167,7 +175,7 @@ func TestBuildOrderSignature(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, orderSignature)
 
-	expectedSignature := common.Hex2Bytes("369a9e418825caf981c5640f29452a9af0f3063cc345e9163f7395e617bb995965b97ce89a8b1ad229276dc67d0c26caaa76732fbd9ec03d018d8b4bbc81aaaf1b")
+	expectedSignature := common.Hex2Bytes("b233b07b1730105d9569f4358aeddc61039b2b91da8bf96fb4c6d1efdf701fb679262b801d28b3262b24630931edc434b3bdae918d98b7dab2be5a3c904f63b41c")
 	assert.Equal(t, expectedSignature, orderSignature)
 }
 
@@ -177,6 +185,7 @@ func TestBuildSignedOrder(t *testing.T) {
 
 	signedOrder, err := builder.BuildSignedOrder(privateKey, &model.OrderData{
 		Maker:       signerAddress.Hex(),
+		Taker:       common.HexToAddress("0x0").Hex(),
 		TokenId:     "1234",
 		MakerAmount: "100000000",
 		TakerAmount: "50000000",
@@ -206,6 +215,7 @@ func TestBuildSignedOrder(t *testing.T) {
 
 	signedOrder, err = builder.BuildSignedOrder(privateKey, &model.OrderData{
 		Maker:       signerAddress.Hex(),
+		Taker:       common.HexToAddress("0x0").Hex(),
 		TokenId:     "1234",
 		MakerAmount: "100000000",
 		TakerAmount: "50000000",
@@ -229,6 +239,6 @@ func TestBuildSignedOrder(t *testing.T) {
 	assert.Equal(t, signedOrder.SignatureType.String(), "0")
 	assert.NotEmpty(t, hex.EncodeToString(signedOrder.Signature))
 
-	expectedSignature := common.Hex2Bytes("369a9e418825caf981c5640f29452a9af0f3063cc345e9163f7395e617bb995965b97ce89a8b1ad229276dc67d0c26caaa76732fbd9ec03d018d8b4bbc81aaaf1b")
+	expectedSignature := common.Hex2Bytes("b233b07b1730105d9569f4358aeddc61039b2b91da8bf96fb4c6d1efdf701fb679262b801d28b3262b24630931edc434b3bdae918d98b7dab2be5a3c904f63b41c")
 	assert.Equal(t, expectedSignature, signedOrder.Signature)
 }

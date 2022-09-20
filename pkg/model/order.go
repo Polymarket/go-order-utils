@@ -14,6 +14,9 @@ type OrderData struct {
 	// Maker of the order, i.e the source of funds for the order
 	Maker string
 
+	// Address of the order taker. The zero address is used to indicate a public order
+	Taker string
+
 	// Token Id of the CTF ERC1155 asset to be bought or sold.
 	// If BUY, this is the tokenId of the asset to be bought, i.e the makerAssetId
 	// If SELL, this is the tokenId of the asset to be sold, i.e the  takerAssetId
@@ -51,6 +54,9 @@ type Order struct {
 
 	// Maker of the order, i.e the source of funds for the order
 	Maker common.Address
+
+	// Address of the order taker. The zero address is used to indicate a public order
+	Taker common.Address
 
 	// Signer of the order
 	Signer common.Address

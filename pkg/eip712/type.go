@@ -8,6 +8,7 @@ var (
 	Uint256, _    = abi.NewType("uint256", "", nil)
 	Uint32, _     = abi.NewType("uint32", "", nil)
 	Uint16, _     = abi.NewType("uint16", "", nil)
+	Uint8, _      = abi.NewType("uint8", "", nil)
 	String, _     = abi.NewType("string", "", nil)
 	Bool, _       = abi.NewType("bool", "", nil)
 	Bytes, _      = abi.NewType("bytes", "", nil)

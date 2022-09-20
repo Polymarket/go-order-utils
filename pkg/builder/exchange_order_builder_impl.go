@@ -117,6 +117,7 @@ func (e *ExchangeOrderBuilderImpl) BuildOrder(orderData *model.OrderData) (*mode
 	return &model.Order{
 		Salt:          new(big.Int).SetInt64(e.saltGenerator()),
 		Maker:         common.HexToAddress(orderData.Maker),
+		Taker:         common.HexToAddress(orderData.Taker),
 		Signer:        signer,
 		TokenId:       tokenId,
 		MakerAmount:   makerAmount,
@@ -150,14 +151,15 @@ func (e *ExchangeOrderBuilderImpl) BuildOrderTypedData(order *model.Order) (mode
 		order.Salt,
 		order.Maker,
 		order.Signer,
+		order.Taker,
 		order.TokenId,
 		order.MakerAmount,
 		order.TakerAmount,
-		order.Side,
 		order.Expiration,
 		order.Nonce,
 		order.FeeRateBps,
-		order.SignatureType,
+		uint8(order.Side.Uint64()),
+		uint8(order.SignatureType.Uint64()),
 	}
 	orderTypedData, err := eip712.HashTypedDataV4(domainSeparator, _ORDER_STRUCTURE, values)
 	if err != nil {
