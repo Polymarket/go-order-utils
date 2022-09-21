@@ -11,7 +11,7 @@ import (
 func TestGetContracts(t *testing.T) {
 	var (
 		mumbai = &Contracts{
-			Exchange:    common.HexToAddress("0x0000000000000000000000000000000000000000"), // TODO: Complete me
+			Exchange:    common.HexToAddress("0xdFE02Eb6733538f8Ea35D585af8DE5958AD99E40"),
 			Collateral:  common.HexToAddress("0x2E8DCfE708D44ae2e406a1c02DFE2Fa13012f961"),
 			Conditional: common.HexToAddress("0x7D8610E9567d2a6C9FBf66a5A13E9Ba8bb120d43"),
 		}
