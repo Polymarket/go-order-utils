@@ -81,7 +81,7 @@ func TestBuildOrder(t *testing.T) {
 	assert.Equal(t, order.SignatureType.String(), "0")
 }
 
-func TestBuildOrderTypedData(t *testing.T) {
+func TestBuildOrderHash(t *testing.T) {
 	// random salt
 	builder := NewExchangeOrderBuilderImpl(chainId, nil)
 
@@ -98,9 +98,9 @@ func TestBuildOrderTypedData(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderTypedData, err := builder.BuildOrderTypedData(order)
+	orderHash, err := builder.BuildOrderHash(order)
 	assert.NoError(t, err)
-	assert.NotNil(t, orderTypedData)
+	assert.NotNil(t, orderHash)
 
 	// specific salt
 	builder = NewExchangeOrderBuilderImpl(chainId, func() int64 { return salt })
@@ -118,12 +118,12 @@ func TestBuildOrderTypedData(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderTypedData, err = builder.BuildOrderTypedData(order)
+	orderHash, err = builder.BuildOrderHash(order)
 	assert.NoError(t, err)
-	assert.NotNil(t, orderTypedData)
+	assert.NotNil(t, orderHash)
 
-	expectedTypedData := common.Hex2Bytes("cb61637e35c2870e125d337ec8d555d5b45d6691eee473e974aab9c5f875927b")
-	assert.Equal(t, expectedTypedData, orderTypedData[:])
+	expectedOrderHash := common.Hex2Bytes("cb61637e35c2870e125d337ec8d555d5b45d6691eee473e974aab9c5f875927b")
+	assert.Equal(t, expectedOrderHash, orderHash[:])
 }
 
 func TestBuildOrderSignature(t *testing.T) {
@@ -143,11 +143,11 @@ func TestBuildOrderSignature(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderTypedData, err := builder.BuildOrderTypedData(order)
+	orderHash, err := builder.BuildOrderHash(order)
 	assert.NoError(t, err)
-	assert.NotNil(t, orderTypedData)
+	assert.NotNil(t, orderHash)
 
-	orderSignature, err := builder.BuildOrderSignature(privateKey, orderTypedData)
+	orderSignature, err := builder.BuildOrderSignature(privateKey, orderHash)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderSignature)
 
@@ -167,11 +167,11 @@ func TestBuildOrderSignature(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderTypedData, err = builder.BuildOrderTypedData(order)
+	orderHash, err = builder.BuildOrderHash(order)
 	assert.NoError(t, err)
-	assert.NotNil(t, orderTypedData)
+	assert.NotNil(t, orderHash)
 
-	orderSignature, err = builder.BuildOrderSignature(privateKey, orderTypedData)
+	orderSignature, err = builder.BuildOrderSignature(privateKey, orderHash)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderSignature)
 

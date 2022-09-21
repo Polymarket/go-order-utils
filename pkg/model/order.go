@@ -8,7 +8,7 @@ import (
 
 type OrderSignature = []byte
 
-type OrderTypedData = common.Hash
+type OrderHash = common.Hash
 
 type OrderData struct {
 	// Maker of the order, i.e the source of funds for the order

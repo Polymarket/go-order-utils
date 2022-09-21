@@ -43,17 +43,17 @@ func (e *ExchangeOrderBuilderImpl) BuildSignedOrder(privateKey *ecdsa.PrivateKey
 		return nil, err
 	}
 
-	typedData, err := e.BuildOrderTypedData(order)
+	orderHash, err := e.BuildOrderHash(order)
 	if err != nil {
 		return nil, err
 	}
 
-	signature, err := e.BuildOrderSignature(privateKey, typedData)
+	signature, err := e.BuildOrderSignature(privateKey, orderHash)
 	if err != nil {
 		return nil, err
 	}
 
-	ok, err := signer.ValidateSignature(order.Signer, typedData, signature)
+	ok, err := signer.ValidateSignature(order.Signer, orderHash, signature)
 	if err != nil {
 		return nil, err
 	}
@@ -130,20 +130,20 @@ func (e *ExchangeOrderBuilderImpl) BuildOrder(orderData *model.OrderData) (*mode
 	}, nil
 }
 
-// Generates the order typed data from an order.
+// Generates the hash of the order from a EIP712TypedData object.
 //
 // @param Order
 //
-// @returns a OrderTypedData that is a 'common.Hash'
-func (e *ExchangeOrderBuilderImpl) BuildOrderTypedData(order *model.Order) (model.OrderTypedData, error) {
+// @returns a OrderHash that is a 'common.Hash'
+func (e *ExchangeOrderBuilderImpl) BuildOrderHash(order *model.Order) (model.OrderHash, error) {
 	contracts, err := config.GetContracts(e.chainId.Int64())
 	if err != nil {
-		return model.OrderTypedData{}, err
+		return model.OrderHash{}, err
 	}
 
 	domainSeparator, err := eip712.BuildEIP712DomainSeparator(_PROTOCOL_NAME, _PROTOCOL_VERSION, e.chainId, contracts.Exchange)
 	if err != nil {
-		return model.OrderTypedData{}, err
+		return model.OrderHash{}, err
 	}
 
 	values := []interface{}{
@@ -161,21 +161,21 @@ func (e *ExchangeOrderBuilderImpl) BuildOrderTypedData(order *model.Order) (mode
 		uint8(order.Side.Uint64()),
 		uint8(order.SignatureType.Uint64()),
 	}
-	orderTypedData, err := eip712.HashTypedDataV4(domainSeparator, _ORDER_STRUCTURE, values)
+	orderHash, err := eip712.HashTypedDataV4(domainSeparator, _ORDER_STRUCTURE, values)
 	if err != nil {
-		return model.OrderTypedData{}, err
+		return model.OrderHash{}, err
 	}
 
-	return orderTypedData, nil
+	return orderHash, nil
 }
 
 // signs an order
 //
 // @param private key
 //
-// @param orderData
+// @param order hash
 //
-// @returns a OrderSignature that is a 'common.Hash'
-func (e *ExchangeOrderBuilderImpl) BuildOrderSignature(privateKey *ecdsa.PrivateKey, orderTypedData model.OrderTypedData) (model.OrderSignature, error) {
-	return signer.Sign(privateKey, orderTypedData)
+// @returns a OrderSignature that is []byte
+func (e *ExchangeOrderBuilderImpl) BuildOrderSignature(privateKey *ecdsa.PrivateKey, orderHash model.OrderHash) (model.OrderSignature, error) {
+	return signer.Sign(privateKey, orderHash)
 }

@@ -27,15 +27,15 @@ type ExchangeOrderBuilder interface {
 	//
 	// @param Order
 	//
-	// @returns a OrderTypedData that is a 'common.Hash'
-	BuildOrderTypedData(order *model.Order) (model.OrderTypedData, error)
+	// @returns a OrderHash that is a 'common.Hash'
+	BuildOrderHash(order *model.Order) (model.OrderHash, error)
 
 	// signs an order
 	//
 	// @param private key
 	//
-	// @param orderData
+	// @param order hash
 	//
-	// @returns a OrderSignature that is a 'common.Hash'
-	BuildOrderSignature(privateKey *ecdsa.PrivateKey, orderTypedData model.OrderTypedData) (model.OrderSignature, error)
+	// @returns a OrderSignature that is []byte
+	BuildOrderSignature(privateKey *ecdsa.PrivateKey, orderHash model.OrderHash) (model.OrderSignature, error)
 }
