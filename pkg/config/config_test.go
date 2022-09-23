@@ -1,23 +1,43 @@
 package config
 
 import (
+	"bytes"
 	"testing"
 
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetContracts(t *testing.T) {
-	c2, err := GetContracts(80001)
-	assert.NotNil(t, c2)
-	assert.Nil(t, err)
-	assert.Equal(t, c2, MUMBAI_CONTRACTS)
+	var (
+		mumbai = &Contracts{
+			Exchange:    common.HexToAddress("0xfffd6f0dB1ec30A58884B23546B4F1bB333f818f"),
+			Collateral:  common.HexToAddress("0x2E8DCfE708D44ae2e406a1c02DFE2Fa13012f961"),
+			Conditional: common.HexToAddress("0x7D8610E9567d2a6C9FBf66a5A13E9Ba8bb120d43"),
+		}
 
-	c3, err := GetContracts(137)
-	assert.NotNil(t, c3)
-	assert.Nil(t, err)
-	assert.Equal(t, c3, MATIC_CONTRACTS)
+		matic = &Contracts{
+			Exchange:    common.HexToAddress("0xfffd6f0dB1ec30A58884B23546B4F1bB333f818f"),
+			Collateral:  common.HexToAddress("0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"),
+			Conditional: common.HexToAddress("0x4D97DCd97eC945f40cF65F87097ACe5EA0476045"),
+		}
+	)
 
-	cn, err := GetContracts(100000)
-	assert.Nil(t, cn)
+	c, err := GetContracts(80001)
+	assert.NotNil(t, c)
+	assert.Nil(t, err)
+	assert.True(t, bytes.Equal(c.Exchange[:], mumbai.Exchange[:]))
+	assert.True(t, bytes.Equal(c.Collateral[:], mumbai.Collateral[:]))
+	assert.True(t, bytes.Equal(c.Conditional[:], mumbai.Conditional[:]))
+
+	c, err = GetContracts(137)
+	assert.NotNil(t, c)
+	assert.Nil(t, err)
+	assert.True(t, bytes.Equal(c.Exchange[:], matic.Exchange[:]))
+	assert.True(t, bytes.Equal(c.Collateral[:], matic.Collateral[:]))
+	assert.True(t, bytes.Equal(c.Conditional[:], matic.Conditional[:]))
+
+	c, err = GetContracts(100000)
+	assert.Nil(t, c)
 	assert.NotNil(t, err)
 }

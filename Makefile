@@ -1,13 +1,5 @@
 PRIVATE_REPOS=github.com/polymarket/*
 
-.PHONY : clean
-clean:
-	@echo "Cleaning env..."
-	go clean -cache
-	go clean -testcache
-	rm -rf ./build/bin/*
-	@echo "Cleaned env!"
-
 .PHONY: lint
 lint:
 	@echo "Linting code..."
@@ -18,26 +10,7 @@ lint:
 	@echo "Linting complete!"
 
 .PHONY: test
-test: clean
+test:
 	@echo "Running tests..."
 	GOPRIVATE=${PRIVATE_REPOS} go test ./... -v
 	@echo "Tests complete!"
-
-.PHONY: test-coverage
-test-coverage:
-	@echo "Running tests with coverage..."
-	GOPRIVATE=${PRIVATE_REPOS} go test ./... -v -cover
-	@echo "Tests complete!"
-
-.PHONY: test-racing
-test-racing:
-	@echo "Running race condition tests..."
-	GOPRIVATE=${PRIVATE_REPOS} go test ./... -v -race
-	@echo "Tests complete!"
-
-.PHONY: test-integration
-test-integration: clean
-	GOPRIVATE=${PRIVATE_REPOS} go build -o ./build/bin/integration-tests ./integration-tests/*
-	@echo "Running integration tests..."
-	./build/bin/integration-tests
-	@echo "Integration tests complete!"

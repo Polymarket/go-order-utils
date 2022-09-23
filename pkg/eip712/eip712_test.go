@@ -3,52 +3,66 @@ package eip712
 import (
 	"encoding/hex"
 	"math/big"
-	"strings"
-
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
+	"testing"
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/stretchr/testify/assert"
 )
 
-var _ = Describe("EIP712 Tests", func() {
-	It("should build the domain separator correctly", func() {
-		//Domain separator of Limit Order protocol deployed to kovan here: 0xC563F26Bdf0cFC8bEa1aa41A000E7F54B8569c8d
-		expected := common.Hex2Bytes("9063f5eedf29e049017dad8bf71ee9328905cb3cf6f0439ffe6a53bf5e8fcfcf")
+func TestBuildEIP712DomainSeparator(t *testing.T) {
+	expectedMumbai := common.Hex2Bytes("66b157d2cc69ba84f05ab5f6ae3a7438d209df5c167c89848968e301da841e1c")
+	name := crypto.Keccak256Hash([]byte("Polymarket CTF Exchange"))
+	version := crypto.Keccak256Hash([]byte("1"))
+	chainId := big.NewInt(80001)
+	address := common.HexToAddress("0x0000000000000000000000000000000000000000")
 
-		nameHash := crypto.Keccak256Hash([]byte("1inch Limit Order Protocol"))
-		versionHash := crypto.Keccak256Hash([]byte("1"))
-		chainID := big.NewInt(42)
-		address := common.HexToAddress("0xC563F26Bdf0cFC8bEa1aa41A000E7F54B8569c8d")
-		actual, _ := BuildEIP712DomainSeparator(nameHash, versionHash, chainID, address)
-		Expect(actual).Should(Equal(expected))
-	})
+	actual, err := BuildEIP712DomainSeparator(name, version, chainId, address)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, actual)
+	assert.Equal(t, expectedMumbai, actual[:])
 
-	It("should correctly hash typed data", func() {
-		mockObjTypeHash := crypto.Keccak256Hash([]byte("MockObj(string name, uint256 id)"))
-		mockDomainSeparator := []byte("abcdef123")
-		var mockDomainSep32Bytes [32]byte
-		copy(mockDomainSeparator, mockDomainSep32Bytes[:])
+	expectedPolygon := common.Hex2Bytes("0ba60c2a4504ef46ef2d139f27cd131dbc8b9643d0565a54bb14de0e31cd5600")
+	chainId = big.NewInt(137)
 
-		types := []abi.Type{
-			Bytes32,
-			String,
-			Uint256,
-		}
-		values := []interface{}{
-			mockObjTypeHash,
-			"test",
-			big.NewInt(1),
-		}
-		encoded, err := Encode(types, values)
-		Expect(err).To(BeNil())
+	actual, err = BuildEIP712DomainSeparator(name, version, chainId, address)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, actual)
+	assert.NotEqual(t, expectedMumbai, actual[:])
+	assert.Equal(t, expectedPolygon, actual[:])
+}
 
-		expectedTypedDataHash := "0xc782787af573f8144babf20881d4f0188d1a22bbeccd2f42365f42a141d0a7f9"
-		dataHashBytes := HashTypedDataV4(mockDomainSep32Bytes, crypto.Keccak256Hash(encoded))
-		typedDataHash := "0x" + strings.ToLower(hex.EncodeToString(dataHashBytes[:]))
+func TestHashTypedDataV4(t *testing.T) {
+	name := crypto.Keccak256Hash([]byte("Polymarket CTF Exchange"))
+	version := crypto.Keccak256Hash([]byte("1"))
+	chainId := big.NewInt(80001)
+	address := common.HexToAddress("0x0000000000000000000000000000000000000000")
 
-		Expect(typedDataHash).Should(Equal(expectedTypedDataHash))
-	})
-})
+	domainSeparator, err := BuildEIP712DomainSeparator(name, version, chainId, address)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, domainSeparator)
+
+	types := []abi.Type{
+		Bytes32,
+		String,
+		Uint256,
+	}
+	values := []interface{}{
+		crypto.Keccak256Hash([]byte("MockObj(string name, uint256 id)")),
+		"test",
+		big.NewInt(1),
+	}
+
+	dataHashBytes, err := HashTypedDataV4(domainSeparator, types, values)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, dataHashBytes)
+
+	expectedTypedDataHash := "caaea30a004febfda6fd75f0ccf024a806839d6a6f9e1fd79424787ab078a7e3"
+	expectedTypedDataHashBytes := common.Hex2Bytes(expectedTypedDataHash)
+
+	assert.Equal(t, expectedTypedDataHashBytes, dataHashBytes[:])
+
+	typedDataHash := hex.EncodeToString(dataHashBytes[:])
+	assert.Equal(t, expectedTypedDataHash, typedDataHash)
+}

@@ -11,7 +11,5 @@ func Encode(args []abi.Type, values []interface{}) ([]byte, error) {
 		arguments = append(arguments, argument)
 	}
 
-	var arg abi.Arguments = abi.Arguments(arguments)
-
-	return arg.Pack(values...)
+	return abi.Arguments(arguments).Pack(values...)
 }
