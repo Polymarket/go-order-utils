@@ -11,13 +11,13 @@ import (
 func TestGetContracts(t *testing.T) {
 	var (
 		mumbai = &Contracts{
-			Exchange:    common.HexToAddress("0xdFE02Eb6733538f8Ea35D585af8DE5958AD99E40"),
+			Exchange:    common.HexToAddress("0xfffd6f0dB1ec30A58884B23546B4F1bB333f818f"),
 			Collateral:  common.HexToAddress("0x2E8DCfE708D44ae2e406a1c02DFE2Fa13012f961"),
 			Conditional: common.HexToAddress("0x7D8610E9567d2a6C9FBf66a5A13E9Ba8bb120d43"),
 		}
 
 		matic = &Contracts{
-			Exchange:    common.HexToAddress("0x0000000000000000000000000000000000000000"), // TODO: Complete me
+			Exchange:    common.HexToAddress("0xfffd6f0dB1ec30A58884B23546B4F1bB333f818f"),
 			Collateral:  common.HexToAddress("0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"),
 			Conditional: common.HexToAddress("0x4D97DCd97eC945f40cF65F87097ACe5EA0476045"),
 		}
