@@ -20,7 +20,10 @@ func Sign(privateKey *ecdsa.PrivateKey, hashedData common.Hash) ([]byte, error) 
 func ValidateSignature(signer common.Address, hashedData common.Hash, signature []byte) (bool, error) {
 	sigCopy := make([]byte, len(signature))
 	copy(sigCopy, signature)
-	sigCopy[64] -= 27 // Transform V from 27/28 to 0/1 according to the yellow paper
+
+	if sigCopy[64] != 0 && sigCopy[64] != 1 { // in case of ledger signing v might already be 0 or 1
+		sigCopy[64] -= 27 // Transform V from 27/28 to 0/1 according to the yellow paper
+	}
 
 	sigPublicKey, err := crypto.Ecrecover(hashedData.Bytes(), sigCopy)
 	if err != nil {
