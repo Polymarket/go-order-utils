@@ -12,12 +12,14 @@ func TestGetContracts(t *testing.T) {
 	var (
 		mumbai = &Contracts{
 			Exchange:    common.HexToAddress("0x4bFb41d5B3570DeFd03C39a9A4D8dE6Bd8B8982E"),
+			FeeModule:   common.HexToAddress("0x56C79347e95530c01A2FC76E732f9566dA16E113"),
 			Collateral:  common.HexToAddress("0x2E8DCfE708D44ae2e406a1c02DFE2Fa13012f961"),
 			Conditional: common.HexToAddress("0x7D8610E9567d2a6C9FBf66a5A13E9Ba8bb120d43"),
 		}
 
 		matic = &Contracts{
 			Exchange:    common.HexToAddress("0x4bFb41d5B3570DeFd03C39a9A4D8dE6Bd8B8982E"),
+			FeeModule:   common.HexToAddress("0x56C79347e95530c01A2FC76E732f9566dA16E113"),
 			Collateral:  common.HexToAddress("0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"),
 			Conditional: common.HexToAddress("0x4D97DCd97eC945f40cF65F87097ACe5EA0476045"),
 		}
@@ -27,6 +29,7 @@ func TestGetContracts(t *testing.T) {
 	assert.NotNil(t, c)
 	assert.Nil(t, err)
 	assert.True(t, bytes.Equal(c.Exchange[:], mumbai.Exchange[:]))
+	assert.True(t, bytes.Equal(c.FeeModule[:], mumbai.FeeModule[:]))
 	assert.True(t, bytes.Equal(c.Collateral[:], mumbai.Collateral[:]))
 	assert.True(t, bytes.Equal(c.Conditional[:], mumbai.Conditional[:]))
 
@@ -34,6 +37,7 @@ func TestGetContracts(t *testing.T) {
 	assert.NotNil(t, c)
 	assert.Nil(t, err)
 	assert.True(t, bytes.Equal(c.Exchange[:], matic.Exchange[:]))
+	assert.True(t, bytes.Equal(c.FeeModule[:], matic.FeeModule[:]))
 	assert.True(t, bytes.Equal(c.Collateral[:], matic.Collateral[:]))
 	assert.True(t, bytes.Equal(c.Conditional[:], matic.Conditional[:]))
 
