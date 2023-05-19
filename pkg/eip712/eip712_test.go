@@ -33,6 +33,30 @@ func TestBuildEIP712DomainSeparator(t *testing.T) {
 	assert.Equal(t, expectedPolygon, actual[:])
 }
 
+func TestBuildEIP712DomainSeparatorNoContract(t *testing.T) {
+	// Calculated in foundry
+	expectedMumbai := common.Hex2Bytes("4a3577f6d2decf700867987650d4fe51bd2b991c2e7603094244852187451f06")
+	chainId := big.NewInt(80001)
+
+	name := crypto.Keccak256Hash([]byte("Polymarket CTF Exchange"))
+	version := crypto.Keccak256Hash([]byte("1"))
+
+	actual, err := BuildEIP712DomainSeparatorNoContract(name, version, chainId)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, actual)
+	assert.Equal(t, expectedMumbai, actual[:])
+
+	// Calculated in foundry
+	expectedPolygon := common.Hex2Bytes("aee1d7dd93bb10f6c6a59417017905bc5dbec7ddbd71475cd19d8a95845e632d")
+	chainId = big.NewInt(137)
+
+	actual, err = BuildEIP712DomainSeparatorNoContract(name, version, chainId)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, actual)
+	assert.NotEqual(t, expectedMumbai, actual[:])
+	assert.Equal(t, expectedPolygon, actual[:])
+}
+
 func TestHashTypedDataV4(t *testing.T) {
 	name := crypto.Keccak256Hash([]byte("Polymarket CTF Exchange"))
 	version := crypto.Keccak256Hash([]byte("1"))
