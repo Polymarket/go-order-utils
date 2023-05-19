@@ -26,6 +26,22 @@ func BuildEIP712DomainSeparator(name, version common.Hash, chainId *big.Int, add
 	return crypto.Keccak256Hash(encodedDomainSeparator), nil
 }
 
+func BuildEIP712DomainSeparatorNoContract(name, version common.Hash, chainId *big.Int) (common.Hash, error) {
+	values := []interface{}{
+		_EIP712_DOMAIN_HASH_NO_VERIFYING_CONTRACT,
+		name,
+		version,
+		chainId,
+	}
+
+	encodedDomainSeparator, err := Encode(_EIP712_DOMAIN_NO_VERIFYING_CONTRACT, values)
+	if err != nil {
+		return common.Hash{}, err
+	}
+
+	return crypto.Keccak256Hash(encodedDomainSeparator), nil
+}
+
 func HashTypedDataV4(domainSeparator common.Hash, args []abi.Type, values []interface{}) (common.Hash, error) {
 	encoded, err := Encode(args, values)
 	if err != nil {
