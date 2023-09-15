@@ -2,8 +2,8 @@ package eip712
 
 import "github.com/ethereum/go-ethereum/accounts/abi"
 
-//Types solidity=>go types
-//Src: https://github.com/ethereum/go-ethereum/blob/master/accounts/abi/abi_test.go
+// Types solidity=>go types
+// Src: https://github.com/ethereum/go-ethereum/blob/master/accounts/abi/abi_test.go
 var (
 	Uint256, _    = abi.NewType("uint256", "", nil)
 	Uint32, _     = abi.NewType("uint32", "", nil)
