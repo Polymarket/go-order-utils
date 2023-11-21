@@ -9,18 +9,18 @@ import (
 	"github.com/polymarket/go-order-utils/pkg/model"
 )
 
-func GetVerifyingContractAddress(chainId *big.Int, module model.CTFModule) (common.Address, error) {
+func GetVerifyingContractAddress(chainId *big.Int, contract model.VerifyingContract) (common.Address, error) {
 	contracts, err := config.GetContracts(chainId.Int64())
 	if err != nil {
 		return common.Address{}, err
 	}
 
-	switch module {
-	case model.FeeModule:
+	switch contract {
+	case model.Exchange:
 		return contracts.Exchange, nil
-	case model.NegRiskModule:
+	case model.NegRiskExchange:
 		return contracts.NegRiskExchange, nil
 	}
 
-	return common.Address{}, fmt.Errorf("invalid module")
+	return common.Address{}, fmt.Errorf("invalid contract")
 }

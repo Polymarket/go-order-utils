@@ -99,7 +99,7 @@ func TestBuildOrderHash(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderHash, err := builder.BuildOrderHash(order, model.FeeModule)
+	orderHash, err := builder.BuildOrderHash(order, model.Exchange)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderHash)
 
@@ -119,7 +119,7 @@ func TestBuildOrderHash(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderHash, err = builder.BuildOrderHash(order, model.FeeModule)
+	orderHash, err = builder.BuildOrderHash(order, model.Exchange)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderHash)
 
@@ -143,7 +143,7 @@ func TestBuildOrderHash(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderHash, err = builder.BuildOrderHash(order, model.NegRiskModule)
+	orderHash, err = builder.BuildOrderHash(order, model.NegRiskExchange)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderHash)
 
@@ -163,7 +163,7 @@ func TestBuildOrderHash(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderHash, err = builder.BuildOrderHash(order, model.NegRiskModule)
+	orderHash, err = builder.BuildOrderHash(order, model.NegRiskExchange)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderHash)
 
@@ -189,7 +189,7 @@ func TestBuildOrderSignature(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderHash, err := builder.BuildOrderHash(order, model.FeeModule)
+	orderHash, err := builder.BuildOrderHash(order, model.Exchange)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderHash)
 
@@ -213,7 +213,7 @@ func TestBuildOrderSignature(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderHash, err = builder.BuildOrderHash(order, model.FeeModule)
+	orderHash, err = builder.BuildOrderHash(order, model.Exchange)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderHash)
 
@@ -241,7 +241,7 @@ func TestBuildOrderSignature(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderHash, err = builder.BuildOrderHash(order, model.NegRiskModule)
+	orderHash, err = builder.BuildOrderHash(order, model.NegRiskExchange)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderHash)
 
@@ -265,7 +265,7 @@ func TestBuildOrderSignature(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderHash, err = builder.BuildOrderHash(order, model.NegRiskModule)
+	orderHash, err = builder.BuildOrderHash(order, model.NegRiskExchange)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderHash)
 
@@ -291,7 +291,7 @@ func TestBuildSignedOrder(t *testing.T) {
 		Side:        model.BUY,
 		FeeRateBps:  "100",
 		Nonce:       "0",
-	}, model.FeeModule)
+	}, model.Exchange)
 	assert.NoError(t, err)
 	assert.NotNil(t, signedOrder)
 
@@ -321,7 +321,7 @@ func TestBuildSignedOrder(t *testing.T) {
 		Side:        model.BUY,
 		FeeRateBps:  "100",
 		Nonce:       "0",
-	}, model.FeeModule)
+	}, model.Exchange)
 	assert.NoError(t, err)
 	assert.NotNil(t, signedOrder)
 
@@ -354,7 +354,7 @@ func TestBuildSignedOrder(t *testing.T) {
 		Side:        model.BUY,
 		FeeRateBps:  "100",
 		Nonce:       "0",
-	}, model.NegRiskModule)
+	}, model.NegRiskExchange)
 	assert.NoError(t, err)
 	assert.NotNil(t, signedOrder)
 
@@ -384,7 +384,7 @@ func TestBuildSignedOrder(t *testing.T) {
 		Side:        model.BUY,
 		FeeRateBps:  "100",
 		Nonce:       "0",
-	}, model.NegRiskModule)
+	}, model.NegRiskExchange)
 	assert.NoError(t, err)
 	assert.NotNil(t, signedOrder)
 

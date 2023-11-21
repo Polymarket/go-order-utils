@@ -36,13 +36,13 @@ func NewExchangeOrderBuilderImpl(chainId *big.Int, saltGenerator func() int64) *
 // @param orderData
 //
 // @returns a SignedOrder object (order + signature)
-func (e *ExchangeOrderBuilderImpl) BuildSignedOrder(privateKey *ecdsa.PrivateKey, orderData *model.OrderData, module model.CTFModule) (*model.SignedOrder, error) {
+func (e *ExchangeOrderBuilderImpl) BuildSignedOrder(privateKey *ecdsa.PrivateKey, orderData *model.OrderData, contract model.VerifyingContract) (*model.SignedOrder, error) {
 	order, err := e.BuildOrder(orderData)
 	if err != nil {
 		return nil, err
 	}
 
-	orderHash, err := e.BuildOrderHash(order, module)
+	orderHash, err := e.BuildOrderHash(order, contract)
 	if err != nil {
 		return nil, err
 	}
@@ -134,8 +134,8 @@ func (e *ExchangeOrderBuilderImpl) BuildOrder(orderData *model.OrderData) (*mode
 // @param Order
 //
 // @returns a OrderHash that is a 'common.Hash'
-func (e *ExchangeOrderBuilderImpl) BuildOrderHash(order *model.Order, module model.CTFModule) (model.OrderHash, error) {
-	verifyingContract, err := utils.GetVerifyingContractAddress(e.chainId, module)
+func (e *ExchangeOrderBuilderImpl) BuildOrderHash(order *model.Order, contract model.VerifyingContract) (model.OrderHash, error) {
+	verifyingContract, err := utils.GetVerifyingContractAddress(e.chainId, contract)
 	if err != nil {
 		return model.OrderHash{}, err
 	}

@@ -43,17 +43,17 @@ func (_m *ExchangeOrderBuilder) BuildOrder(orderData *model.OrderData) (*model.O
 	return r0, r1
 }
 
-// BuildOrderHash provides a mock function with given fields: order, module
-func (_m *ExchangeOrderBuilder) BuildOrderHash(order *model.Order, module int) (common.Hash, error) {
-	ret := _m.Called(order, module)
+// BuildOrderHash provides a mock function with given fields: order, contract
+func (_m *ExchangeOrderBuilder) BuildOrderHash(order *model.Order, contract int) (common.Hash, error) {
+	ret := _m.Called(order, contract)
 
 	var r0 common.Hash
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*model.Order, int) (common.Hash, error)); ok {
-		return rf(order, module)
+		return rf(order, contract)
 	}
 	if rf, ok := ret.Get(0).(func(*model.Order, int) common.Hash); ok {
-		r0 = rf(order, module)
+		r0 = rf(order, contract)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(common.Hash)
@@ -61,7 +61,7 @@ func (_m *ExchangeOrderBuilder) BuildOrderHash(order *model.Order, module int) (
 	}
 
 	if rf, ok := ret.Get(1).(func(*model.Order, int) error); ok {
-		r1 = rf(order, module)
+		r1 = rf(order, contract)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -95,17 +95,17 @@ func (_m *ExchangeOrderBuilder) BuildOrderSignature(privateKey *ecdsa.PrivateKey
 	return r0, r1
 }
 
-// BuildSignedOrder provides a mock function with given fields: privateKey, orderData, module
-func (_m *ExchangeOrderBuilder) BuildSignedOrder(privateKey *ecdsa.PrivateKey, orderData *model.OrderData, module int) (*model.SignedOrder, error) {
-	ret := _m.Called(privateKey, orderData, module)
+// BuildSignedOrder provides a mock function with given fields: privateKey, orderData, contract
+func (_m *ExchangeOrderBuilder) BuildSignedOrder(privateKey *ecdsa.PrivateKey, orderData *model.OrderData, contract int) (*model.SignedOrder, error) {
+	ret := _m.Called(privateKey, orderData, contract)
 
 	var r0 *model.SignedOrder
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*ecdsa.PrivateKey, *model.OrderData, int) (*model.SignedOrder, error)); ok {
-		return rf(privateKey, orderData, module)
+		return rf(privateKey, orderData, contract)
 	}
 	if rf, ok := ret.Get(0).(func(*ecdsa.PrivateKey, *model.OrderData, int) *model.SignedOrder); ok {
-		r0 = rf(privateKey, orderData, module)
+		r0 = rf(privateKey, orderData, contract)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*model.SignedOrder)
@@ -113,7 +113,7 @@ func (_m *ExchangeOrderBuilder) BuildSignedOrder(privateKey *ecdsa.PrivateKey, o
 	}
 
 	if rf, ok := ret.Get(1).(func(*ecdsa.PrivateKey, *model.OrderData, int) error); ok {
-		r1 = rf(privateKey, orderData, module)
+		r1 = rf(privateKey, orderData, contract)
 	} else {
 		r1 = ret.Error(1)
 	}

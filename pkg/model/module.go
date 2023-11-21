@@ -1,8 +1,8 @@
 package model
 
-type CTFModule = int
+type VerifyingContract = int
 
 const (
-	FeeModule CTFModule = iota
-	NegRiskModule
+	Exchange VerifyingContract = iota
+	NegRiskExchange
 )
