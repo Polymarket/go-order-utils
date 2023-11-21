@@ -82,6 +82,7 @@ func TestBuildOrder(t *testing.T) {
 }
 
 func TestBuildOrderHash(t *testing.T) {
+	// FEE
 	// random salt
 	builder := NewExchangeOrderBuilderImpl(chainId, nil)
 
@@ -98,7 +99,7 @@ func TestBuildOrderHash(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderHash, err := builder.BuildOrderHash(order)
+	orderHash, err := builder.BuildOrderHash(order, model.FeeModule)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderHash)
 
@@ -118,15 +119,60 @@ func TestBuildOrderHash(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderHash, err = builder.BuildOrderHash(order)
+	orderHash, err = builder.BuildOrderHash(order, model.FeeModule)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderHash)
 
 	expectedOrderHash := common.Hex2Bytes("bf58957703791db2ab057528d03d1cff5375d9a475b14a9073bb7d892398dc96")
 	assert.Equal(t, expectedOrderHash, orderHash[:])
+
+	// NegRisk
+	// random salt
+	builder = NewExchangeOrderBuilderImpl(chainId, nil)
+
+	order, err = builder.BuildOrder(&model.OrderData{
+		Maker:       signerAddress.Hex(),
+		Taker:       common.HexToAddress("0x0").Hex(),
+		TokenId:     "1234",
+		MakerAmount: "100000000",
+		TakerAmount: "50000000",
+		Side:        model.BUY,
+		FeeRateBps:  "100",
+		Nonce:       "0",
+	})
+	assert.NoError(t, err)
+	assert.NotNil(t, order)
+
+	orderHash, err = builder.BuildOrderHash(order, model.NegRiskModule)
+	assert.NoError(t, err)
+	assert.NotNil(t, orderHash)
+
+	// specific salt
+	builder = NewExchangeOrderBuilderImpl(chainId, func() int64 { return salt })
+
+	order, err = builder.BuildOrder(&model.OrderData{
+		Maker:       signerAddress.Hex(),
+		Taker:       common.HexToAddress("0x0").Hex(),
+		TokenId:     "1234",
+		MakerAmount: "100000000",
+		TakerAmount: "50000000",
+		Side:        model.BUY,
+		FeeRateBps:  "100",
+		Nonce:       "0",
+	})
+	assert.NoError(t, err)
+	assert.NotNil(t, order)
+
+	orderHash, err = builder.BuildOrderHash(order, model.NegRiskModule)
+	assert.NoError(t, err)
+	assert.NotNil(t, orderHash)
+
+	expectedOrderHash = common.Hex2Bytes("4be51cd5ae65786b99e4773f75bc2fba4f87845257cfd3509af18f4ec3be953a")
+	assert.Equal(t, expectedOrderHash, orderHash[:])
 }
 
 func TestBuildOrderSignature(t *testing.T) {
+	// FEE
 	// random salt
 	builder := NewExchangeOrderBuilderImpl(chainId, nil)
 
@@ -143,7 +189,7 @@ func TestBuildOrderSignature(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderHash, err := builder.BuildOrderHash(order)
+	orderHash, err := builder.BuildOrderHash(order, model.FeeModule)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderHash)
 
@@ -167,7 +213,7 @@ func TestBuildOrderSignature(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, order)
 
-	orderHash, err = builder.BuildOrderHash(order)
+	orderHash, err = builder.BuildOrderHash(order, model.FeeModule)
 	assert.NoError(t, err)
 	assert.NotNil(t, orderHash)
 
@@ -177,9 +223,62 @@ func TestBuildOrderSignature(t *testing.T) {
 
 	expectedSignature := common.Hex2Bytes("3874d2cfe79c0e82577f4f76ec58d950522ee5923a6f08441927d382c8178a5a2190fd4d5c49705e94d75999a58ec843f94a432e87ebc15cdb2186d315b3cc201b")
 	assert.Equal(t, expectedSignature, orderSignature)
+
+	// NegRisk
+	// random salt
+	builder = NewExchangeOrderBuilderImpl(chainId, nil)
+
+	order, err = builder.BuildOrder(&model.OrderData{
+		Maker:       signerAddress.Hex(),
+		Taker:       common.HexToAddress("0x0").Hex(),
+		TokenId:     "1234",
+		MakerAmount: "100000000",
+		TakerAmount: "50000000",
+		Side:        model.BUY,
+		FeeRateBps:  "100",
+		Nonce:       "0",
+	})
+	assert.NoError(t, err)
+	assert.NotNil(t, order)
+
+	orderHash, err = builder.BuildOrderHash(order, model.NegRiskModule)
+	assert.NoError(t, err)
+	assert.NotNil(t, orderHash)
+
+	orderSignature, err = builder.BuildOrderSignature(privateKey, orderHash)
+	assert.NoError(t, err)
+	assert.NotNil(t, orderSignature)
+
+	// specific salt
+	builder = NewExchangeOrderBuilderImpl(chainId, func() int64 { return salt })
+
+	order, err = builder.BuildOrder(&model.OrderData{
+		Maker:       signerAddress.Hex(),
+		Taker:       common.HexToAddress("0x0").Hex(),
+		TokenId:     "1234",
+		MakerAmount: "100000000",
+		TakerAmount: "50000000",
+		Side:        model.BUY,
+		FeeRateBps:  "100",
+		Nonce:       "0",
+	})
+	assert.NoError(t, err)
+	assert.NotNil(t, order)
+
+	orderHash, err = builder.BuildOrderHash(order, model.NegRiskModule)
+	assert.NoError(t, err)
+	assert.NotNil(t, orderHash)
+
+	orderSignature, err = builder.BuildOrderSignature(privateKey, orderHash)
+	assert.NoError(t, err)
+	assert.NotNil(t, orderSignature)
+
+	expectedSignature = common.Hex2Bytes("f61d261966e03d9ad6f95a95ec24350e47b2e91cd17746c924567cc8394dd7c723a8fb630c79b2f38716c0841ab39f9dde8233187e008eb4818440419c0021e31c")
+	assert.Equal(t, expectedSignature, orderSignature)
 }
 
 func TestBuildSignedOrder(t *testing.T) {
+	// FEE
 	// random salt
 	builder := NewExchangeOrderBuilderImpl(chainId, nil)
 
@@ -192,7 +291,7 @@ func TestBuildSignedOrder(t *testing.T) {
 		Side:        model.BUY,
 		FeeRateBps:  "100",
 		Nonce:       "0",
-	})
+	}, model.FeeModule)
 	assert.NoError(t, err)
 	assert.NotNil(t, signedOrder)
 
@@ -222,7 +321,7 @@ func TestBuildSignedOrder(t *testing.T) {
 		Side:        model.BUY,
 		FeeRateBps:  "100",
 		Nonce:       "0",
-	})
+	}, model.FeeModule)
 	assert.NoError(t, err)
 	assert.NotNil(t, signedOrder)
 
@@ -240,5 +339,68 @@ func TestBuildSignedOrder(t *testing.T) {
 	assert.NotEmpty(t, hex.EncodeToString(signedOrder.Signature))
 
 	expectedSignature := common.Hex2Bytes("3874d2cfe79c0e82577f4f76ec58d950522ee5923a6f08441927d382c8178a5a2190fd4d5c49705e94d75999a58ec843f94a432e87ebc15cdb2186d315b3cc201b")
+	assert.Equal(t, expectedSignature, signedOrder.Signature)
+
+	// NegRisk
+	// random salt
+	builder = NewExchangeOrderBuilderImpl(chainId, nil)
+
+	signedOrder, err = builder.BuildSignedOrder(privateKey, &model.OrderData{
+		Maker:       signerAddress.Hex(),
+		Taker:       common.HexToAddress("0x0").Hex(),
+		TokenId:     "1234",
+		MakerAmount: "100000000",
+		TakerAmount: "50000000",
+		Side:        model.BUY,
+		FeeRateBps:  "100",
+		Nonce:       "0",
+	}, model.NegRiskModule)
+	assert.NoError(t, err)
+	assert.NotNil(t, signedOrder)
+
+	assert.True(t, signedOrder.Salt.Int64() > 0)
+	assert.Equal(t, signedOrder.Maker, signerAddress)
+	assert.Equal(t, signedOrder.Signer, signerAddress)
+	assert.Equal(t, signedOrder.TokenId.String(), "1234")
+	assert.Equal(t, signedOrder.MakerAmount.String(), "100000000")
+	assert.Equal(t, signedOrder.TakerAmount.String(), "50000000")
+	assert.Equal(t, signedOrder.Side.String(), "0")
+	assert.Equal(t, signedOrder.Expiration.String(), "0")
+	assert.Equal(t, signedOrder.Nonce.String(), "0")
+	assert.Equal(t, signedOrder.FeeRateBps.String(), "100")
+	assert.Equal(t, signedOrder.SignatureType.String(), "0")
+	assert.NotEmpty(t, signedOrder.Signature)
+	assert.NotEmpty(t, hex.EncodeToString(signedOrder.Signature))
+
+	// specific salt
+	builder = NewExchangeOrderBuilderImpl(chainId, func() int64 { return salt })
+
+	signedOrder, err = builder.BuildSignedOrder(privateKey, &model.OrderData{
+		Maker:       signerAddress.Hex(),
+		Taker:       common.HexToAddress("0x0").Hex(),
+		TokenId:     "1234",
+		MakerAmount: "100000000",
+		TakerAmount: "50000000",
+		Side:        model.BUY,
+		FeeRateBps:  "100",
+		Nonce:       "0",
+	}, model.NegRiskModule)
+	assert.NoError(t, err)
+	assert.NotNil(t, signedOrder)
+
+	assert.Equal(t, signedOrder.Salt.Int64(), salt)
+	assert.Equal(t, signedOrder.Maker, signerAddress)
+	assert.Equal(t, signedOrder.Signer, signerAddress)
+	assert.Equal(t, signedOrder.TokenId.String(), "1234")
+	assert.Equal(t, signedOrder.MakerAmount.String(), "100000000")
+	assert.Equal(t, signedOrder.TakerAmount.String(), "50000000")
+	assert.Equal(t, signedOrder.Side.String(), "0")
+	assert.Equal(t, signedOrder.Expiration.String(), "0")
+	assert.Equal(t, signedOrder.Nonce.String(), "0")
+	assert.Equal(t, signedOrder.FeeRateBps.String(), "100")
+	assert.Equal(t, signedOrder.SignatureType.String(), "0")
+	assert.NotEmpty(t, hex.EncodeToString(signedOrder.Signature))
+
+	expectedSignature = common.Hex2Bytes("f61d261966e03d9ad6f95a95ec24350e47b2e91cd17746c924567cc8394dd7c723a8fb630c79b2f38716c0841ab39f9dde8233187e008eb4818440419c0021e31c")
 	assert.Equal(t, expectedSignature, signedOrder.Signature)
 }
