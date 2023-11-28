@@ -17,7 +17,7 @@ func TestGetVerifyingContractAddress(t *testing.T) {
 
 	contract, err = GetVerifyingContractAddress(big.NewInt(80001), model.NegRiskExchange)
 	assert.NoError(t, err)
-	assert.Equal(t, common.HexToAddress("0x8599536bECcD7e24b13060d78A54e2237Ed57eF3").Hex(), contract.Hex())
+	assert.Equal(t, common.HexToAddress("0xC5d563A36AE78145C45a50134d48A1215220f80a").Hex(), contract.Hex())
 
 	// polygon mainnet
 	contract, err = GetVerifyingContractAddress(big.NewInt(137), model.Exchange)
@@ -26,7 +26,7 @@ func TestGetVerifyingContractAddress(t *testing.T) {
 
 	contract, err = GetVerifyingContractAddress(big.NewInt(137), model.NegRiskExchange)
 	assert.NoError(t, err)
-	assert.Equal(t, common.HexToAddress("0x8599536bECcD7e24b13060d78A54e2237Ed57eF3").Hex(), contract.Hex())
+	assert.Equal(t, common.HexToAddress("0xC5d563A36AE78145C45a50134d48A1215220f80a").Hex(), contract.Hex())
 
 	// wrong network
 	_, err = GetVerifyingContractAddress(big.NewInt(1), model.Exchange)
