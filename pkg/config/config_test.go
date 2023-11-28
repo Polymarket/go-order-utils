@@ -11,21 +11,21 @@ import (
 func TestGetContracts(t *testing.T) {
 	var (
 		mumbai = &Contracts{
-			Exchange:        common.HexToAddress("0x4bFb41d5B3570DeFd03C39a9A4D8dE6Bd8B8982E"),
-			FeeModule:       common.HexToAddress("0x56C79347e95530c01A2FC76E732f9566dA16E113"),
-			Collateral:      common.HexToAddress("0x2E8DCfE708D44ae2e406a1c02DFE2Fa13012f961"),
-			Conditional:     common.HexToAddress("0x7D8610E9567d2a6C9FBf66a5A13E9Ba8bb120d43"),
-			NegRiskAdapter:  common.HexToAddress("0xd91E80cF2E7be2e162c6513ceD06f1dD0dA35296"),
-			NegRiskExchange: common.HexToAddress("0xC5d563A36AE78145C45a50134d48A1215220f80a"),
+			Exchange:         common.HexToAddress("0x4bFb41d5B3570DeFd03C39a9A4D8dE6Bd8B8982E"),
+			FeeModule:        common.HexToAddress("0x56C79347e95530c01A2FC76E732f9566dA16E113"),
+			Collateral:       common.HexToAddress("0x2E8DCfE708D44ae2e406a1c02DFE2Fa13012f961"),
+			Conditional:      common.HexToAddress("0x7D8610E9567d2a6C9FBf66a5A13E9Ba8bb120d43"),
+			NegRiskFeeModule: common.HexToAddress("0x78769D50Be1763ed1CA0D5E878D93f05aabff29e"),
+			NegRiskExchange:  common.HexToAddress("0xC5d563A36AE78145C45a50134d48A1215220f80a"),
 		}
 
 		matic = &Contracts{
-			Exchange:        common.HexToAddress("0x4bFb41d5B3570DeFd03C39a9A4D8dE6Bd8B8982E"),
-			FeeModule:       common.HexToAddress("0x56C79347e95530c01A2FC76E732f9566dA16E113"),
-			Collateral:      common.HexToAddress("0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"),
-			Conditional:     common.HexToAddress("0x4D97DCd97eC945f40cF65F87097ACe5EA0476045"),
-			NegRiskAdapter:  common.HexToAddress("0xd91E80cF2E7be2e162c6513ceD06f1dD0dA35296"),
-			NegRiskExchange: common.HexToAddress("0xC5d563A36AE78145C45a50134d48A1215220f80a"),
+			Exchange:         common.HexToAddress("0x4bFb41d5B3570DeFd03C39a9A4D8dE6Bd8B8982E"),
+			FeeModule:        common.HexToAddress("0x56C79347e95530c01A2FC76E732f9566dA16E113"),
+			Collateral:       common.HexToAddress("0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"),
+			Conditional:      common.HexToAddress("0x4D97DCd97eC945f40cF65F87097ACe5EA0476045"),
+			NegRiskFeeModule: common.HexToAddress("0x78769D50Be1763ed1CA0D5E878D93f05aabff29e"),
+			NegRiskExchange:  common.HexToAddress("0xC5d563A36AE78145C45a50134d48A1215220f80a"),
 		}
 	)
 
@@ -36,7 +36,7 @@ func TestGetContracts(t *testing.T) {
 	assert.True(t, bytes.Equal(c.FeeModule[:], mumbai.FeeModule[:]))
 	assert.True(t, bytes.Equal(c.Collateral[:], mumbai.Collateral[:]))
 	assert.True(t, bytes.Equal(c.Conditional[:], mumbai.Conditional[:]))
-	assert.True(t, bytes.Equal(c.NegRiskAdapter[:], mumbai.NegRiskAdapter[:]))
+	assert.True(t, bytes.Equal(c.NegRiskFeeModule[:], mumbai.NegRiskFeeModule[:]))
 	assert.True(t, bytes.Equal(c.NegRiskExchange[:], mumbai.NegRiskExchange[:]))
 
 	c, err = GetContracts(137)
@@ -46,7 +46,7 @@ func TestGetContracts(t *testing.T) {
 	assert.True(t, bytes.Equal(c.FeeModule[:], matic.FeeModule[:]))
 	assert.True(t, bytes.Equal(c.Collateral[:], matic.Collateral[:]))
 	assert.True(t, bytes.Equal(c.Conditional[:], matic.Conditional[:]))
-	assert.True(t, bytes.Equal(c.NegRiskAdapter[:], mumbai.NegRiskAdapter[:]))
+	assert.True(t, bytes.Equal(c.NegRiskFeeModule[:], mumbai.NegRiskFeeModule[:]))
 	assert.True(t, bytes.Equal(c.NegRiskExchange[:], mumbai.NegRiskExchange[:]))
 
 	c, err = GetContracts(100000)
