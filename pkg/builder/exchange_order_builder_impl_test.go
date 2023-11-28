@@ -167,7 +167,7 @@ func TestBuildOrderHash(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, orderHash)
 
-	expectedOrderHash = common.Hex2Bytes("4be51cd5ae65786b99e4773f75bc2fba4f87845257cfd3509af18f4ec3be953a")
+	expectedOrderHash = common.Hex2Bytes("dcf7c472379a0d50cff6cb72ac72bb4d42b20b9fa4ed56dd01b9f0398d17e773")
 	assert.Equal(t, expectedOrderHash, orderHash[:])
 }
 
@@ -273,7 +273,7 @@ func TestBuildOrderSignature(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, orderSignature)
 
-	expectedSignature = common.Hex2Bytes("f61d261966e03d9ad6f95a95ec24350e47b2e91cd17746c924567cc8394dd7c723a8fb630c79b2f38716c0841ab39f9dde8233187e008eb4818440419c0021e31c")
+	expectedSignature = common.Hex2Bytes("92bb74d70a3c82cff3a9ccf10c9c547bb4ec71cff8cbb6cb308ca975162df7ba65837d5b57f50568fbd6bba9f2b919089268ace609cc33935b0bb5483e1092c31c")
 	assert.Equal(t, expectedSignature, orderSignature)
 }
 
@@ -401,6 +401,6 @@ func TestBuildSignedOrder(t *testing.T) {
 	assert.Equal(t, signedOrder.SignatureType.String(), "0")
 	assert.NotEmpty(t, hex.EncodeToString(signedOrder.Signature))
 
-	expectedSignature = common.Hex2Bytes("f61d261966e03d9ad6f95a95ec24350e47b2e91cd17746c924567cc8394dd7c723a8fb630c79b2f38716c0841ab39f9dde8233187e008eb4818440419c0021e31c")
+	expectedSignature = common.Hex2Bytes("92bb74d70a3c82cff3a9ccf10c9c547bb4ec71cff8cbb6cb308ca975162df7ba65837d5b57f50568fbd6bba9f2b919089268ace609cc33935b0bb5483e1092c31c")
 	assert.Equal(t, expectedSignature, signedOrder.Signature)
 }
