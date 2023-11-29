@@ -3,6 +3,6 @@ package model
 type VerifyingContract = int
 
 const (
-	Exchange VerifyingContract = iota
-	NegRiskExchange
+	CTFExchange VerifyingContract = iota
+	NegRiskCTFExchange
 )

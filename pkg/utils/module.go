@@ -16,9 +16,9 @@ func GetVerifyingContractAddress(chainId *big.Int, contract model.VerifyingContr
 	}
 
 	switch contract {
-	case model.Exchange:
+	case model.CTFExchange:
 		return contracts.Exchange, nil
-	case model.NegRiskExchange:
+	case model.NegRiskCTFExchange:
 		return contracts.NegRiskExchange, nil
 	}
 
