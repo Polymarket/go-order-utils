@@ -17,7 +17,7 @@ func TestGetVerifyingContractAddress(t *testing.T) {
 
 	contract, err = GetVerifyingContractAddress(big.NewInt(80001), model.NegRiskCTFExchange)
 	assert.NoError(t, err)
-	assert.Equal(t, common.HexToAddress("0xC5d563A36AE78145C45a50134d48A1215220f80a").Hex(), contract.Hex())
+	assert.Equal(t, common.HexToAddress("0x87d1A0DdB4C63a6301916F02090A51a7241571e4").Hex(), contract.Hex())
 
 	// polygon mainnet
 	contract, err = GetVerifyingContractAddress(big.NewInt(137), model.CTFExchange)
