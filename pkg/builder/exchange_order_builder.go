@@ -6,6 +6,7 @@ import (
 	"github.com/polymarket/go-order-utils/pkg/model"
 )
 
+//go:generate mockery --name ExchangeOrderBuilder
 type ExchangeOrderBuilder interface {
 	// build an order object including the signature.
 	//
@@ -14,7 +15,7 @@ type ExchangeOrderBuilder interface {
 	// @param orderData
 	//
 	// @returns a SignedOrder object (order + signature)
-	BuildSignedOrder(privateKey *ecdsa.PrivateKey, orderData *model.OrderData) (*model.SignedOrder, error)
+	BuildSignedOrder(privateKey *ecdsa.PrivateKey, orderData *model.OrderData, contract model.VerifyingContract) (*model.SignedOrder, error)
 
 	// Creates an Order object from order data.
 	//
@@ -28,7 +29,7 @@ type ExchangeOrderBuilder interface {
 	// @param Order
 	//
 	// @returns a OrderHash that is a 'common.Hash'
-	BuildOrderHash(order *model.Order) (model.OrderHash, error)
+	BuildOrderHash(order *model.Order, contract model.VerifyingContract) (model.OrderHash, error)
 
 	// signs an order
 	//

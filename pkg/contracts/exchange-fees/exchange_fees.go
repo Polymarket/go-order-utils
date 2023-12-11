@@ -26,6 +26,7 @@ var (
 	_ = common.Big1
 	_ = types.BloomLookup
 	_ = event.NewSubscription
+	_ = abi.ConvertType
 )
 
 // Order is an auto generated low-level Go binding around an user-defined struct.
@@ -45,163 +46,163 @@ type Order struct {
 	Signature     []byte
 }
 
-// ExchangefeesMetaData contains all meta data concerning the Exchangefees contract.
-var ExchangefeesMetaData = &bind.MetaData{
+// ExchangeFeesMetaData contains all meta data concerning the ExchangeFees contract.
+var ExchangeFeesMetaData = &bind.MetaData{
 	ABI: "[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_exchange\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"NotAdmin\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FeeRefunded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FeeWithdrawn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newAdminAddress\",\"type\":\"address\"}],\"name\":\"NewAdmin\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"removedAdmin\",\"type\":\"address\"}],\"name\":\"RemovedAdmin\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"addAdmin\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"admins\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"collateral\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"ctf\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"exchange\",\"outputs\":[{\"internalType\":\"contractIExchange\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"isAdmin\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"maker\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"taker\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"makerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"takerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"expiration\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"nonce\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"feeRateBps\",\"type\":\"uint256\"},{\"internalType\":\"enumSide\",\"name\":\"side\",\"type\":\"uint8\"},{\"internalType\":\"enumSignatureType\",\"name\":\"signatureType\",\"type\":\"uint8\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"}],\"internalType\":\"structOrder\",\"name\":\"takerOrder\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"salt\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"maker\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"signer\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"taker\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"makerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"takerAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"expiration\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"nonce\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"feeRateBps\",\"type\":\"uint256\"},{\"internalType\":\"enumSide\",\"name\":\"side\",\"type\":\"uint8\"},{\"internalType\":\"enumSignatureType\",\"name\":\"signatureType\",\"type\":\"uint8\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"}],\"internalType\":\"structOrder[]\",\"name\":\"makerOrders\",\"type\":\"tuple[]\"},{\"internalType\":\"uint256\",\"name\":\"takerFillAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256[]\",\"name\":\"makerFillAmounts\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256\",\"name\":\"makerFeeRate\",\"type\":\"uint256\"}],\"name\":\"matchOrders\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"},{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"name\":\"onERC1155BatchReceived\",\"outputs\":[{\"internalType\":\"bytes4\",\"name\":\"\",\"type\":\"bytes4\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"name\":\"onERC1155Received\",\"outputs\":[{\"internalType\":\"bytes4\",\"name\":\"\",\"type\":\"bytes4\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"removeAdmin\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceAdmin\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdrawFees\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]",
 }
 
-// ExchangefeesABI is the input ABI used to generate the binding from.
-// Deprecated: Use ExchangefeesMetaData.ABI instead.
-var ExchangefeesABI = ExchangefeesMetaData.ABI
+// ExchangeFeesABI is the input ABI used to generate the binding from.
+// Deprecated: Use ExchangeFeesMetaData.ABI instead.
+var ExchangeFeesABI = ExchangeFeesMetaData.ABI
 
-// Exchangefees is an auto generated Go binding around an Ethereum contract.
-type Exchangefees struct {
-	ExchangefeesCaller     // Read-only binding to the contract
-	ExchangefeesTransactor // Write-only binding to the contract
-	ExchangefeesFilterer   // Log filterer for contract events
+// ExchangeFees is an auto generated Go binding around an Ethereum contract.
+type ExchangeFees struct {
+	ExchangeFeesCaller     // Read-only binding to the contract
+	ExchangeFeesTransactor // Write-only binding to the contract
+	ExchangeFeesFilterer   // Log filterer for contract events
 }
 
-// ExchangefeesCaller is an auto generated read-only Go binding around an Ethereum contract.
-type ExchangefeesCaller struct {
+// ExchangeFeesCaller is an auto generated read-only Go binding around an Ethereum contract.
+type ExchangeFeesCaller struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
 
-// ExchangefeesTransactor is an auto generated write-only Go binding around an Ethereum contract.
-type ExchangefeesTransactor struct {
+// ExchangeFeesTransactor is an auto generated write-only Go binding around an Ethereum contract.
+type ExchangeFeesTransactor struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
 
-// ExchangefeesFilterer is an auto generated log filtering Go binding around an Ethereum contract events.
-type ExchangefeesFilterer struct {
+// ExchangeFeesFilterer is an auto generated log filtering Go binding around an Ethereum contract events.
+type ExchangeFeesFilterer struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
 
-// ExchangefeesSession is an auto generated Go binding around an Ethereum contract,
+// ExchangeFeesSession is an auto generated Go binding around an Ethereum contract,
 // with pre-set call and transact options.
-type ExchangefeesSession struct {
-	Contract     *Exchangefees     // Generic contract binding to set the session for
+type ExchangeFeesSession struct {
+	Contract     *ExchangeFees     // Generic contract binding to set the session for
 	CallOpts     bind.CallOpts     // Call options to use throughout this session
 	TransactOpts bind.TransactOpts // Transaction auth options to use throughout this session
 }
 
-// ExchangefeesCallerSession is an auto generated read-only Go binding around an Ethereum contract,
+// ExchangeFeesCallerSession is an auto generated read-only Go binding around an Ethereum contract,
 // with pre-set call options.
-type ExchangefeesCallerSession struct {
-	Contract *ExchangefeesCaller // Generic contract caller binding to set the session for
+type ExchangeFeesCallerSession struct {
+	Contract *ExchangeFeesCaller // Generic contract caller binding to set the session for
 	CallOpts bind.CallOpts       // Call options to use throughout this session
 }
 
-// ExchangefeesTransactorSession is an auto generated write-only Go binding around an Ethereum contract,
+// ExchangeFeesTransactorSession is an auto generated write-only Go binding around an Ethereum contract,
 // with pre-set transact options.
-type ExchangefeesTransactorSession struct {
-	Contract     *ExchangefeesTransactor // Generic contract transactor binding to set the session for
+type ExchangeFeesTransactorSession struct {
+	Contract     *ExchangeFeesTransactor // Generic contract transactor binding to set the session for
 	TransactOpts bind.TransactOpts       // Transaction auth options to use throughout this session
 }
 
-// ExchangefeesRaw is an auto generated low-level Go binding around an Ethereum contract.
-type ExchangefeesRaw struct {
-	Contract *Exchangefees // Generic contract binding to access the raw methods on
+// ExchangeFeesRaw is an auto generated low-level Go binding around an Ethereum contract.
+type ExchangeFeesRaw struct {
+	Contract *ExchangeFees // Generic contract binding to access the raw methods on
 }
 
-// ExchangefeesCallerRaw is an auto generated low-level read-only Go binding around an Ethereum contract.
-type ExchangefeesCallerRaw struct {
-	Contract *ExchangefeesCaller // Generic read-only contract binding to access the raw methods on
+// ExchangeFeesCallerRaw is an auto generated low-level read-only Go binding around an Ethereum contract.
+type ExchangeFeesCallerRaw struct {
+	Contract *ExchangeFeesCaller // Generic read-only contract binding to access the raw methods on
 }
 
-// ExchangefeesTransactorRaw is an auto generated low-level write-only Go binding around an Ethereum contract.
-type ExchangefeesTransactorRaw struct {
-	Contract *ExchangefeesTransactor // Generic write-only contract binding to access the raw methods on
+// ExchangeFeesTransactorRaw is an auto generated low-level write-only Go binding around an Ethereum contract.
+type ExchangeFeesTransactorRaw struct {
+	Contract *ExchangeFeesTransactor // Generic write-only contract binding to access the raw methods on
 }
 
-// NewExchangefees creates a new instance of Exchangefees, bound to a specific deployed contract.
-func NewExchangefees(address common.Address, backend bind.ContractBackend) (*Exchangefees, error) {
-	contract, err := bindExchangefees(address, backend, backend, backend)
+// NewExchangeFees creates a new instance of ExchangeFees, bound to a specific deployed contract.
+func NewExchangeFees(address common.Address, backend bind.ContractBackend) (*ExchangeFees, error) {
+	contract, err := bindExchangeFees(address, backend, backend, backend)
 	if err != nil {
 		return nil, err
 	}
-	return &Exchangefees{ExchangefeesCaller: ExchangefeesCaller{contract: contract}, ExchangefeesTransactor: ExchangefeesTransactor{contract: contract}, ExchangefeesFilterer: ExchangefeesFilterer{contract: contract}}, nil
+	return &ExchangeFees{ExchangeFeesCaller: ExchangeFeesCaller{contract: contract}, ExchangeFeesTransactor: ExchangeFeesTransactor{contract: contract}, ExchangeFeesFilterer: ExchangeFeesFilterer{contract: contract}}, nil
 }
 
-// NewExchangefeesCaller creates a new read-only instance of Exchangefees, bound to a specific deployed contract.
-func NewExchangefeesCaller(address common.Address, caller bind.ContractCaller) (*ExchangefeesCaller, error) {
-	contract, err := bindExchangefees(address, caller, nil, nil)
+// NewExchangeFeesCaller creates a new read-only instance of ExchangeFees, bound to a specific deployed contract.
+func NewExchangeFeesCaller(address common.Address, caller bind.ContractCaller) (*ExchangeFeesCaller, error) {
+	contract, err := bindExchangeFees(address, caller, nil, nil)
 	if err != nil {
 		return nil, err
 	}
-	return &ExchangefeesCaller{contract: contract}, nil
+	return &ExchangeFeesCaller{contract: contract}, nil
 }
 
-// NewExchangefeesTransactor creates a new write-only instance of Exchangefees, bound to a specific deployed contract.
-func NewExchangefeesTransactor(address common.Address, transactor bind.ContractTransactor) (*ExchangefeesTransactor, error) {
-	contract, err := bindExchangefees(address, nil, transactor, nil)
+// NewExchangeFeesTransactor creates a new write-only instance of ExchangeFees, bound to a specific deployed contract.
+func NewExchangeFeesTransactor(address common.Address, transactor bind.ContractTransactor) (*ExchangeFeesTransactor, error) {
+	contract, err := bindExchangeFees(address, nil, transactor, nil)
 	if err != nil {
 		return nil, err
 	}
-	return &ExchangefeesTransactor{contract: contract}, nil
+	return &ExchangeFeesTransactor{contract: contract}, nil
 }
 
-// NewExchangefeesFilterer creates a new log filterer instance of Exchangefees, bound to a specific deployed contract.
-func NewExchangefeesFilterer(address common.Address, filterer bind.ContractFilterer) (*ExchangefeesFilterer, error) {
-	contract, err := bindExchangefees(address, nil, nil, filterer)
+// NewExchangeFeesFilterer creates a new log filterer instance of ExchangeFees, bound to a specific deployed contract.
+func NewExchangeFeesFilterer(address common.Address, filterer bind.ContractFilterer) (*ExchangeFeesFilterer, error) {
+	contract, err := bindExchangeFees(address, nil, nil, filterer)
 	if err != nil {
 		return nil, err
 	}
-	return &ExchangefeesFilterer{contract: contract}, nil
+	return &ExchangeFeesFilterer{contract: contract}, nil
 }
 
-// bindExchangefees binds a generic wrapper to an already deployed contract.
-func bindExchangefees(address common.Address, caller bind.ContractCaller, transactor bind.ContractTransactor, filterer bind.ContractFilterer) (*bind.BoundContract, error) {
-	parsed, err := abi.JSON(strings.NewReader(ExchangefeesABI))
+// bindExchangeFees binds a generic wrapper to an already deployed contract.
+func bindExchangeFees(address common.Address, caller bind.ContractCaller, transactor bind.ContractTransactor, filterer bind.ContractFilterer) (*bind.BoundContract, error) {
+	parsed, err := ExchangeFeesMetaData.GetAbi()
 	if err != nil {
 		return nil, err
 	}
-	return bind.NewBoundContract(address, parsed, caller, transactor, filterer), nil
+	return bind.NewBoundContract(address, *parsed, caller, transactor, filterer), nil
 }
 
 // Call invokes the (constant) contract method with params as input values and
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_Exchangefees *ExchangefeesRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
-	return _Exchangefees.Contract.ExchangefeesCaller.contract.Call(opts, result, method, params...)
+func (_ExchangeFees *ExchangeFeesRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+	return _ExchangeFees.Contract.ExchangeFeesCaller.contract.Call(opts, result, method, params...)
 }
 
 // Transfer initiates a plain transaction to move funds to the contract, calling
 // its default method if one is available.
-func (_Exchangefees *ExchangefeesRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Exchangefees.Contract.ExchangefeesTransactor.contract.Transfer(opts)
+func (_ExchangeFees *ExchangeFeesRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.ExchangeFeesTransactor.contract.Transfer(opts)
 }
 
 // Transact invokes the (paid) contract method with params as input values.
-func (_Exchangefees *ExchangefeesRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
-	return _Exchangefees.Contract.ExchangefeesTransactor.contract.Transact(opts, method, params...)
+func (_ExchangeFees *ExchangeFeesRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.ExchangeFeesTransactor.contract.Transact(opts, method, params...)
 }
 
 // Call invokes the (constant) contract method with params as input values and
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_Exchangefees *ExchangefeesCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
-	return _Exchangefees.Contract.contract.Call(opts, result, method, params...)
+func (_ExchangeFees *ExchangeFeesCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+	return _ExchangeFees.Contract.contract.Call(opts, result, method, params...)
 }
 
 // Transfer initiates a plain transaction to move funds to the contract, calling
 // its default method if one is available.
-func (_Exchangefees *ExchangefeesTransactorRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Exchangefees.Contract.contract.Transfer(opts)
+func (_ExchangeFees *ExchangeFeesTransactorRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.contract.Transfer(opts)
 }
 
 // Transact invokes the (paid) contract method with params as input values.
-func (_Exchangefees *ExchangefeesTransactorRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
-	return _Exchangefees.Contract.contract.Transact(opts, method, params...)
+func (_ExchangeFees *ExchangeFeesTransactorRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.contract.Transact(opts, method, params...)
 }
 
 // Admins is a free data retrieval call binding the contract method 0x429b62e5.
 //
 // Solidity: function admins(address ) view returns(uint256)
-func (_Exchangefees *ExchangefeesCaller) Admins(opts *bind.CallOpts, arg0 common.Address) (*big.Int, error) {
+func (_ExchangeFees *ExchangeFeesCaller) Admins(opts *bind.CallOpts, arg0 common.Address) (*big.Int, error) {
 	var out []interface{}
-	err := _Exchangefees.contract.Call(opts, &out, "admins", arg0)
+	err := _ExchangeFees.contract.Call(opts, &out, "admins", arg0)
 
 	if err != nil {
 		return *new(*big.Int), err
@@ -216,23 +217,23 @@ func (_Exchangefees *ExchangefeesCaller) Admins(opts *bind.CallOpts, arg0 common
 // Admins is a free data retrieval call binding the contract method 0x429b62e5.
 //
 // Solidity: function admins(address ) view returns(uint256)
-func (_Exchangefees *ExchangefeesSession) Admins(arg0 common.Address) (*big.Int, error) {
-	return _Exchangefees.Contract.Admins(&_Exchangefees.CallOpts, arg0)
+func (_ExchangeFees *ExchangeFeesSession) Admins(arg0 common.Address) (*big.Int, error) {
+	return _ExchangeFees.Contract.Admins(&_ExchangeFees.CallOpts, arg0)
 }
 
 // Admins is a free data retrieval call binding the contract method 0x429b62e5.
 //
 // Solidity: function admins(address ) view returns(uint256)
-func (_Exchangefees *ExchangefeesCallerSession) Admins(arg0 common.Address) (*big.Int, error) {
-	return _Exchangefees.Contract.Admins(&_Exchangefees.CallOpts, arg0)
+func (_ExchangeFees *ExchangeFeesCallerSession) Admins(arg0 common.Address) (*big.Int, error) {
+	return _ExchangeFees.Contract.Admins(&_ExchangeFees.CallOpts, arg0)
 }
 
 // Collateral is a free data retrieval call binding the contract method 0xd8dfeb45.
 //
 // Solidity: function collateral() view returns(address)
-func (_Exchangefees *ExchangefeesCaller) Collateral(opts *bind.CallOpts) (common.Address, error) {
+func (_ExchangeFees *ExchangeFeesCaller) Collateral(opts *bind.CallOpts) (common.Address, error) {
 	var out []interface{}
-	err := _Exchangefees.contract.Call(opts, &out, "collateral")
+	err := _ExchangeFees.contract.Call(opts, &out, "collateral")
 
 	if err != nil {
 		return *new(common.Address), err
@@ -247,23 +248,23 @@ func (_Exchangefees *ExchangefeesCaller) Collateral(opts *bind.CallOpts) (common
 // Collateral is a free data retrieval call binding the contract method 0xd8dfeb45.
 //
 // Solidity: function collateral() view returns(address)
-func (_Exchangefees *ExchangefeesSession) Collateral() (common.Address, error) {
-	return _Exchangefees.Contract.Collateral(&_Exchangefees.CallOpts)
+func (_ExchangeFees *ExchangeFeesSession) Collateral() (common.Address, error) {
+	return _ExchangeFees.Contract.Collateral(&_ExchangeFees.CallOpts)
 }
 
 // Collateral is a free data retrieval call binding the contract method 0xd8dfeb45.
 //
 // Solidity: function collateral() view returns(address)
-func (_Exchangefees *ExchangefeesCallerSession) Collateral() (common.Address, error) {
-	return _Exchangefees.Contract.Collateral(&_Exchangefees.CallOpts)
+func (_ExchangeFees *ExchangeFeesCallerSession) Collateral() (common.Address, error) {
+	return _ExchangeFees.Contract.Collateral(&_ExchangeFees.CallOpts)
 }
 
 // Ctf is a free data retrieval call binding the contract method 0x22a9339f.
 //
 // Solidity: function ctf() view returns(address)
-func (_Exchangefees *ExchangefeesCaller) Ctf(opts *bind.CallOpts) (common.Address, error) {
+func (_ExchangeFees *ExchangeFeesCaller) Ctf(opts *bind.CallOpts) (common.Address, error) {
 	var out []interface{}
-	err := _Exchangefees.contract.Call(opts, &out, "ctf")
+	err := _ExchangeFees.contract.Call(opts, &out, "ctf")
 
 	if err != nil {
 		return *new(common.Address), err
@@ -278,23 +279,23 @@ func (_Exchangefees *ExchangefeesCaller) Ctf(opts *bind.CallOpts) (common.Addres
 // Ctf is a free data retrieval call binding the contract method 0x22a9339f.
 //
 // Solidity: function ctf() view returns(address)
-func (_Exchangefees *ExchangefeesSession) Ctf() (common.Address, error) {
-	return _Exchangefees.Contract.Ctf(&_Exchangefees.CallOpts)
+func (_ExchangeFees *ExchangeFeesSession) Ctf() (common.Address, error) {
+	return _ExchangeFees.Contract.Ctf(&_ExchangeFees.CallOpts)
 }
 
 // Ctf is a free data retrieval call binding the contract method 0x22a9339f.
 //
 // Solidity: function ctf() view returns(address)
-func (_Exchangefees *ExchangefeesCallerSession) Ctf() (common.Address, error) {
-	return _Exchangefees.Contract.Ctf(&_Exchangefees.CallOpts)
+func (_ExchangeFees *ExchangeFeesCallerSession) Ctf() (common.Address, error) {
+	return _ExchangeFees.Contract.Ctf(&_ExchangeFees.CallOpts)
 }
 
 // Exchange is a free data retrieval call binding the contract method 0xd2f7265a.
 //
 // Solidity: function exchange() view returns(address)
-func (_Exchangefees *ExchangefeesCaller) Exchange(opts *bind.CallOpts) (common.Address, error) {
+func (_ExchangeFees *ExchangeFeesCaller) Exchange(opts *bind.CallOpts) (common.Address, error) {
 	var out []interface{}
-	err := _Exchangefees.contract.Call(opts, &out, "exchange")
+	err := _ExchangeFees.contract.Call(opts, &out, "exchange")
 
 	if err != nil {
 		return *new(common.Address), err
@@ -309,23 +310,23 @@ func (_Exchangefees *ExchangefeesCaller) Exchange(opts *bind.CallOpts) (common.A
 // Exchange is a free data retrieval call binding the contract method 0xd2f7265a.
 //
 // Solidity: function exchange() view returns(address)
-func (_Exchangefees *ExchangefeesSession) Exchange() (common.Address, error) {
-	return _Exchangefees.Contract.Exchange(&_Exchangefees.CallOpts)
+func (_ExchangeFees *ExchangeFeesSession) Exchange() (common.Address, error) {
+	return _ExchangeFees.Contract.Exchange(&_ExchangeFees.CallOpts)
 }
 
 // Exchange is a free data retrieval call binding the contract method 0xd2f7265a.
 //
 // Solidity: function exchange() view returns(address)
-func (_Exchangefees *ExchangefeesCallerSession) Exchange() (common.Address, error) {
-	return _Exchangefees.Contract.Exchange(&_Exchangefees.CallOpts)
+func (_ExchangeFees *ExchangeFeesCallerSession) Exchange() (common.Address, error) {
+	return _ExchangeFees.Contract.Exchange(&_ExchangeFees.CallOpts)
 }
 
 // IsAdmin is a free data retrieval call binding the contract method 0x24d7806c.
 //
 // Solidity: function isAdmin(address addr) view returns(bool)
-func (_Exchangefees *ExchangefeesCaller) IsAdmin(opts *bind.CallOpts, addr common.Address) (bool, error) {
+func (_ExchangeFees *ExchangeFeesCaller) IsAdmin(opts *bind.CallOpts, addr common.Address) (bool, error) {
 	var out []interface{}
-	err := _Exchangefees.contract.Call(opts, &out, "isAdmin", addr)
+	err := _ExchangeFees.contract.Call(opts, &out, "isAdmin", addr)
 
 	if err != nil {
 		return *new(bool), err
@@ -340,167 +341,167 @@ func (_Exchangefees *ExchangefeesCaller) IsAdmin(opts *bind.CallOpts, addr commo
 // IsAdmin is a free data retrieval call binding the contract method 0x24d7806c.
 //
 // Solidity: function isAdmin(address addr) view returns(bool)
-func (_Exchangefees *ExchangefeesSession) IsAdmin(addr common.Address) (bool, error) {
-	return _Exchangefees.Contract.IsAdmin(&_Exchangefees.CallOpts, addr)
+func (_ExchangeFees *ExchangeFeesSession) IsAdmin(addr common.Address) (bool, error) {
+	return _ExchangeFees.Contract.IsAdmin(&_ExchangeFees.CallOpts, addr)
 }
 
 // IsAdmin is a free data retrieval call binding the contract method 0x24d7806c.
 //
 // Solidity: function isAdmin(address addr) view returns(bool)
-func (_Exchangefees *ExchangefeesCallerSession) IsAdmin(addr common.Address) (bool, error) {
-	return _Exchangefees.Contract.IsAdmin(&_Exchangefees.CallOpts, addr)
+func (_ExchangeFees *ExchangeFeesCallerSession) IsAdmin(addr common.Address) (bool, error) {
+	return _ExchangeFees.Contract.IsAdmin(&_ExchangeFees.CallOpts, addr)
 }
 
 // AddAdmin is a paid mutator transaction binding the contract method 0x70480275.
 //
 // Solidity: function addAdmin(address admin) returns()
-func (_Exchangefees *ExchangefeesTransactor) AddAdmin(opts *bind.TransactOpts, admin common.Address) (*types.Transaction, error) {
-	return _Exchangefees.contract.Transact(opts, "addAdmin", admin)
+func (_ExchangeFees *ExchangeFeesTransactor) AddAdmin(opts *bind.TransactOpts, admin common.Address) (*types.Transaction, error) {
+	return _ExchangeFees.contract.Transact(opts, "addAdmin", admin)
 }
 
 // AddAdmin is a paid mutator transaction binding the contract method 0x70480275.
 //
 // Solidity: function addAdmin(address admin) returns()
-func (_Exchangefees *ExchangefeesSession) AddAdmin(admin common.Address) (*types.Transaction, error) {
-	return _Exchangefees.Contract.AddAdmin(&_Exchangefees.TransactOpts, admin)
+func (_ExchangeFees *ExchangeFeesSession) AddAdmin(admin common.Address) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.AddAdmin(&_ExchangeFees.TransactOpts, admin)
 }
 
 // AddAdmin is a paid mutator transaction binding the contract method 0x70480275.
 //
 // Solidity: function addAdmin(address admin) returns()
-func (_Exchangefees *ExchangefeesTransactorSession) AddAdmin(admin common.Address) (*types.Transaction, error) {
-	return _Exchangefees.Contract.AddAdmin(&_Exchangefees.TransactOpts, admin)
+func (_ExchangeFees *ExchangeFeesTransactorSession) AddAdmin(admin common.Address) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.AddAdmin(&_ExchangeFees.TransactOpts, admin)
 }
 
 // MatchOrders is a paid mutator transaction binding the contract method 0xd2539b37.
 //
 // Solidity: function matchOrders((uint256,address,address,address,uint256,uint256,uint256,uint256,uint256,uint256,uint8,uint8,bytes) takerOrder, (uint256,address,address,address,uint256,uint256,uint256,uint256,uint256,uint256,uint8,uint8,bytes)[] makerOrders, uint256 takerFillAmount, uint256[] makerFillAmounts, uint256 makerFeeRate) returns()
-func (_Exchangefees *ExchangefeesTransactor) MatchOrders(opts *bind.TransactOpts, takerOrder Order, makerOrders []Order, takerFillAmount *big.Int, makerFillAmounts []*big.Int, makerFeeRate *big.Int) (*types.Transaction, error) {
-	return _Exchangefees.contract.Transact(opts, "matchOrders", takerOrder, makerOrders, takerFillAmount, makerFillAmounts, makerFeeRate)
+func (_ExchangeFees *ExchangeFeesTransactor) MatchOrders(opts *bind.TransactOpts, takerOrder Order, makerOrders []Order, takerFillAmount *big.Int, makerFillAmounts []*big.Int, makerFeeRate *big.Int) (*types.Transaction, error) {
+	return _ExchangeFees.contract.Transact(opts, "matchOrders", takerOrder, makerOrders, takerFillAmount, makerFillAmounts, makerFeeRate)
 }
 
 // MatchOrders is a paid mutator transaction binding the contract method 0xd2539b37.
 //
 // Solidity: function matchOrders((uint256,address,address,address,uint256,uint256,uint256,uint256,uint256,uint256,uint8,uint8,bytes) takerOrder, (uint256,address,address,address,uint256,uint256,uint256,uint256,uint256,uint256,uint8,uint8,bytes)[] makerOrders, uint256 takerFillAmount, uint256[] makerFillAmounts, uint256 makerFeeRate) returns()
-func (_Exchangefees *ExchangefeesSession) MatchOrders(takerOrder Order, makerOrders []Order, takerFillAmount *big.Int, makerFillAmounts []*big.Int, makerFeeRate *big.Int) (*types.Transaction, error) {
-	return _Exchangefees.Contract.MatchOrders(&_Exchangefees.TransactOpts, takerOrder, makerOrders, takerFillAmount, makerFillAmounts, makerFeeRate)
+func (_ExchangeFees *ExchangeFeesSession) MatchOrders(takerOrder Order, makerOrders []Order, takerFillAmount *big.Int, makerFillAmounts []*big.Int, makerFeeRate *big.Int) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.MatchOrders(&_ExchangeFees.TransactOpts, takerOrder, makerOrders, takerFillAmount, makerFillAmounts, makerFeeRate)
 }
 
 // MatchOrders is a paid mutator transaction binding the contract method 0xd2539b37.
 //
 // Solidity: function matchOrders((uint256,address,address,address,uint256,uint256,uint256,uint256,uint256,uint256,uint8,uint8,bytes) takerOrder, (uint256,address,address,address,uint256,uint256,uint256,uint256,uint256,uint256,uint8,uint8,bytes)[] makerOrders, uint256 takerFillAmount, uint256[] makerFillAmounts, uint256 makerFeeRate) returns()
-func (_Exchangefees *ExchangefeesTransactorSession) MatchOrders(takerOrder Order, makerOrders []Order, takerFillAmount *big.Int, makerFillAmounts []*big.Int, makerFeeRate *big.Int) (*types.Transaction, error) {
-	return _Exchangefees.Contract.MatchOrders(&_Exchangefees.TransactOpts, takerOrder, makerOrders, takerFillAmount, makerFillAmounts, makerFeeRate)
+func (_ExchangeFees *ExchangeFeesTransactorSession) MatchOrders(takerOrder Order, makerOrders []Order, takerFillAmount *big.Int, makerFillAmounts []*big.Int, makerFeeRate *big.Int) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.MatchOrders(&_ExchangeFees.TransactOpts, takerOrder, makerOrders, takerFillAmount, makerFillAmounts, makerFeeRate)
 }
 
 // OnERC1155BatchReceived is a paid mutator transaction binding the contract method 0xbc197c81.
 //
 // Solidity: function onERC1155BatchReceived(address , address , uint256[] , uint256[] , bytes ) returns(bytes4)
-func (_Exchangefees *ExchangefeesTransactor) OnERC1155BatchReceived(opts *bind.TransactOpts, arg0 common.Address, arg1 common.Address, arg2 []*big.Int, arg3 []*big.Int, arg4 []byte) (*types.Transaction, error) {
-	return _Exchangefees.contract.Transact(opts, "onERC1155BatchReceived", arg0, arg1, arg2, arg3, arg4)
+func (_ExchangeFees *ExchangeFeesTransactor) OnERC1155BatchReceived(opts *bind.TransactOpts, arg0 common.Address, arg1 common.Address, arg2 []*big.Int, arg3 []*big.Int, arg4 []byte) (*types.Transaction, error) {
+	return _ExchangeFees.contract.Transact(opts, "onERC1155BatchReceived", arg0, arg1, arg2, arg3, arg4)
 }
 
 // OnERC1155BatchReceived is a paid mutator transaction binding the contract method 0xbc197c81.
 //
 // Solidity: function onERC1155BatchReceived(address , address , uint256[] , uint256[] , bytes ) returns(bytes4)
-func (_Exchangefees *ExchangefeesSession) OnERC1155BatchReceived(arg0 common.Address, arg1 common.Address, arg2 []*big.Int, arg3 []*big.Int, arg4 []byte) (*types.Transaction, error) {
-	return _Exchangefees.Contract.OnERC1155BatchReceived(&_Exchangefees.TransactOpts, arg0, arg1, arg2, arg3, arg4)
+func (_ExchangeFees *ExchangeFeesSession) OnERC1155BatchReceived(arg0 common.Address, arg1 common.Address, arg2 []*big.Int, arg3 []*big.Int, arg4 []byte) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.OnERC1155BatchReceived(&_ExchangeFees.TransactOpts, arg0, arg1, arg2, arg3, arg4)
 }
 
 // OnERC1155BatchReceived is a paid mutator transaction binding the contract method 0xbc197c81.
 //
 // Solidity: function onERC1155BatchReceived(address , address , uint256[] , uint256[] , bytes ) returns(bytes4)
-func (_Exchangefees *ExchangefeesTransactorSession) OnERC1155BatchReceived(arg0 common.Address, arg1 common.Address, arg2 []*big.Int, arg3 []*big.Int, arg4 []byte) (*types.Transaction, error) {
-	return _Exchangefees.Contract.OnERC1155BatchReceived(&_Exchangefees.TransactOpts, arg0, arg1, arg2, arg3, arg4)
+func (_ExchangeFees *ExchangeFeesTransactorSession) OnERC1155BatchReceived(arg0 common.Address, arg1 common.Address, arg2 []*big.Int, arg3 []*big.Int, arg4 []byte) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.OnERC1155BatchReceived(&_ExchangeFees.TransactOpts, arg0, arg1, arg2, arg3, arg4)
 }
 
 // OnERC1155Received is a paid mutator transaction binding the contract method 0xf23a6e61.
 //
 // Solidity: function onERC1155Received(address , address , uint256 , uint256 , bytes ) returns(bytes4)
-func (_Exchangefees *ExchangefeesTransactor) OnERC1155Received(opts *bind.TransactOpts, arg0 common.Address, arg1 common.Address, arg2 *big.Int, arg3 *big.Int, arg4 []byte) (*types.Transaction, error) {
-	return _Exchangefees.contract.Transact(opts, "onERC1155Received", arg0, arg1, arg2, arg3, arg4)
+func (_ExchangeFees *ExchangeFeesTransactor) OnERC1155Received(opts *bind.TransactOpts, arg0 common.Address, arg1 common.Address, arg2 *big.Int, arg3 *big.Int, arg4 []byte) (*types.Transaction, error) {
+	return _ExchangeFees.contract.Transact(opts, "onERC1155Received", arg0, arg1, arg2, arg3, arg4)
 }
 
 // OnERC1155Received is a paid mutator transaction binding the contract method 0xf23a6e61.
 //
 // Solidity: function onERC1155Received(address , address , uint256 , uint256 , bytes ) returns(bytes4)
-func (_Exchangefees *ExchangefeesSession) OnERC1155Received(arg0 common.Address, arg1 common.Address, arg2 *big.Int, arg3 *big.Int, arg4 []byte) (*types.Transaction, error) {
-	return _Exchangefees.Contract.OnERC1155Received(&_Exchangefees.TransactOpts, arg0, arg1, arg2, arg3, arg4)
+func (_ExchangeFees *ExchangeFeesSession) OnERC1155Received(arg0 common.Address, arg1 common.Address, arg2 *big.Int, arg3 *big.Int, arg4 []byte) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.OnERC1155Received(&_ExchangeFees.TransactOpts, arg0, arg1, arg2, arg3, arg4)
 }
 
 // OnERC1155Received is a paid mutator transaction binding the contract method 0xf23a6e61.
 //
 // Solidity: function onERC1155Received(address , address , uint256 , uint256 , bytes ) returns(bytes4)
-func (_Exchangefees *ExchangefeesTransactorSession) OnERC1155Received(arg0 common.Address, arg1 common.Address, arg2 *big.Int, arg3 *big.Int, arg4 []byte) (*types.Transaction, error) {
-	return _Exchangefees.Contract.OnERC1155Received(&_Exchangefees.TransactOpts, arg0, arg1, arg2, arg3, arg4)
+func (_ExchangeFees *ExchangeFeesTransactorSession) OnERC1155Received(arg0 common.Address, arg1 common.Address, arg2 *big.Int, arg3 *big.Int, arg4 []byte) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.OnERC1155Received(&_ExchangeFees.TransactOpts, arg0, arg1, arg2, arg3, arg4)
 }
 
 // RemoveAdmin is a paid mutator transaction binding the contract method 0x1785f53c.
 //
 // Solidity: function removeAdmin(address admin) returns()
-func (_Exchangefees *ExchangefeesTransactor) RemoveAdmin(opts *bind.TransactOpts, admin common.Address) (*types.Transaction, error) {
-	return _Exchangefees.contract.Transact(opts, "removeAdmin", admin)
+func (_ExchangeFees *ExchangeFeesTransactor) RemoveAdmin(opts *bind.TransactOpts, admin common.Address) (*types.Transaction, error) {
+	return _ExchangeFees.contract.Transact(opts, "removeAdmin", admin)
 }
 
 // RemoveAdmin is a paid mutator transaction binding the contract method 0x1785f53c.
 //
 // Solidity: function removeAdmin(address admin) returns()
-func (_Exchangefees *ExchangefeesSession) RemoveAdmin(admin common.Address) (*types.Transaction, error) {
-	return _Exchangefees.Contract.RemoveAdmin(&_Exchangefees.TransactOpts, admin)
+func (_ExchangeFees *ExchangeFeesSession) RemoveAdmin(admin common.Address) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.RemoveAdmin(&_ExchangeFees.TransactOpts, admin)
 }
 
 // RemoveAdmin is a paid mutator transaction binding the contract method 0x1785f53c.
 //
 // Solidity: function removeAdmin(address admin) returns()
-func (_Exchangefees *ExchangefeesTransactorSession) RemoveAdmin(admin common.Address) (*types.Transaction, error) {
-	return _Exchangefees.Contract.RemoveAdmin(&_Exchangefees.TransactOpts, admin)
+func (_ExchangeFees *ExchangeFeesTransactorSession) RemoveAdmin(admin common.Address) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.RemoveAdmin(&_ExchangeFees.TransactOpts, admin)
 }
 
 // RenounceAdmin is a paid mutator transaction binding the contract method 0x8bad0c0a.
 //
 // Solidity: function renounceAdmin() returns()
-func (_Exchangefees *ExchangefeesTransactor) RenounceAdmin(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Exchangefees.contract.Transact(opts, "renounceAdmin")
+func (_ExchangeFees *ExchangeFeesTransactor) RenounceAdmin(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _ExchangeFees.contract.Transact(opts, "renounceAdmin")
 }
 
 // RenounceAdmin is a paid mutator transaction binding the contract method 0x8bad0c0a.
 //
 // Solidity: function renounceAdmin() returns()
-func (_Exchangefees *ExchangefeesSession) RenounceAdmin() (*types.Transaction, error) {
-	return _Exchangefees.Contract.RenounceAdmin(&_Exchangefees.TransactOpts)
+func (_ExchangeFees *ExchangeFeesSession) RenounceAdmin() (*types.Transaction, error) {
+	return _ExchangeFees.Contract.RenounceAdmin(&_ExchangeFees.TransactOpts)
 }
 
 // RenounceAdmin is a paid mutator transaction binding the contract method 0x8bad0c0a.
 //
 // Solidity: function renounceAdmin() returns()
-func (_Exchangefees *ExchangefeesTransactorSession) RenounceAdmin() (*types.Transaction, error) {
-	return _Exchangefees.Contract.RenounceAdmin(&_Exchangefees.TransactOpts)
+func (_ExchangeFees *ExchangeFeesTransactorSession) RenounceAdmin() (*types.Transaction, error) {
+	return _ExchangeFees.Contract.RenounceAdmin(&_ExchangeFees.TransactOpts)
 }
 
 // WithdrawFees is a paid mutator transaction binding the contract method 0x425c2096.
 //
 // Solidity: function withdrawFees(address to, uint256 id, uint256 amount) returns()
-func (_Exchangefees *ExchangefeesTransactor) WithdrawFees(opts *bind.TransactOpts, to common.Address, id *big.Int, amount *big.Int) (*types.Transaction, error) {
-	return _Exchangefees.contract.Transact(opts, "withdrawFees", to, id, amount)
+func (_ExchangeFees *ExchangeFeesTransactor) WithdrawFees(opts *bind.TransactOpts, to common.Address, id *big.Int, amount *big.Int) (*types.Transaction, error) {
+	return _ExchangeFees.contract.Transact(opts, "withdrawFees", to, id, amount)
 }
 
 // WithdrawFees is a paid mutator transaction binding the contract method 0x425c2096.
 //
 // Solidity: function withdrawFees(address to, uint256 id, uint256 amount) returns()
-func (_Exchangefees *ExchangefeesSession) WithdrawFees(to common.Address, id *big.Int, amount *big.Int) (*types.Transaction, error) {
-	return _Exchangefees.Contract.WithdrawFees(&_Exchangefees.TransactOpts, to, id, amount)
+func (_ExchangeFees *ExchangeFeesSession) WithdrawFees(to common.Address, id *big.Int, amount *big.Int) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.WithdrawFees(&_ExchangeFees.TransactOpts, to, id, amount)
 }
 
 // WithdrawFees is a paid mutator transaction binding the contract method 0x425c2096.
 //
 // Solidity: function withdrawFees(address to, uint256 id, uint256 amount) returns()
-func (_Exchangefees *ExchangefeesTransactorSession) WithdrawFees(to common.Address, id *big.Int, amount *big.Int) (*types.Transaction, error) {
-	return _Exchangefees.Contract.WithdrawFees(&_Exchangefees.TransactOpts, to, id, amount)
+func (_ExchangeFees *ExchangeFeesTransactorSession) WithdrawFees(to common.Address, id *big.Int, amount *big.Int) (*types.Transaction, error) {
+	return _ExchangeFees.Contract.WithdrawFees(&_ExchangeFees.TransactOpts, to, id, amount)
 }
 
-// ExchangefeesFeeRefundedIterator is returned from FilterFeeRefunded and is used to iterate over the raw logs and unpacked data for FeeRefunded events raised by the Exchangefees contract.
-type ExchangefeesFeeRefundedIterator struct {
-	Event *ExchangefeesFeeRefunded // Event containing the contract specifics and raw log
+// ExchangeFeesFeeRefundedIterator is returned from FilterFeeRefunded and is used to iterate over the raw logs and unpacked data for FeeRefunded events raised by the ExchangeFees contract.
+type ExchangeFeesFeeRefundedIterator struct {
+	Event *ExchangeFeesFeeRefunded // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -514,7 +515,7 @@ type ExchangefeesFeeRefundedIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *ExchangefeesFeeRefundedIterator) Next() bool {
+func (it *ExchangeFeesFeeRefundedIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -523,7 +524,7 @@ func (it *ExchangefeesFeeRefundedIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(ExchangefeesFeeRefunded)
+			it.Event = new(ExchangeFeesFeeRefunded)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -538,7 +539,7 @@ func (it *ExchangefeesFeeRefundedIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(ExchangefeesFeeRefunded)
+		it.Event = new(ExchangeFeesFeeRefunded)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -554,19 +555,19 @@ func (it *ExchangefeesFeeRefundedIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *ExchangefeesFeeRefundedIterator) Error() error {
+func (it *ExchangeFeesFeeRefundedIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *ExchangefeesFeeRefundedIterator) Close() error {
+func (it *ExchangeFeesFeeRefundedIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// ExchangefeesFeeRefunded represents a FeeRefunded event raised by the Exchangefees contract.
-type ExchangefeesFeeRefunded struct {
+// ExchangeFeesFeeRefunded represents a FeeRefunded event raised by the ExchangeFees contract.
+type ExchangeFeesFeeRefunded struct {
 	Token  common.Address
 	To     common.Address
 	Id     *big.Int
@@ -577,21 +578,21 @@ type ExchangefeesFeeRefunded struct {
 // FilterFeeRefunded is a free log retrieval operation binding the contract event 0x18fe0464eb77016dc4e227eb0d690e4002756d82b442143bbfb874548952b5f2.
 //
 // Solidity: event FeeRefunded(address token, address to, uint256 id, uint256 amount)
-func (_Exchangefees *ExchangefeesFilterer) FilterFeeRefunded(opts *bind.FilterOpts) (*ExchangefeesFeeRefundedIterator, error) {
+func (_ExchangeFees *ExchangeFeesFilterer) FilterFeeRefunded(opts *bind.FilterOpts) (*ExchangeFeesFeeRefundedIterator, error) {
 
-	logs, sub, err := _Exchangefees.contract.FilterLogs(opts, "FeeRefunded")
+	logs, sub, err := _ExchangeFees.contract.FilterLogs(opts, "FeeRefunded")
 	if err != nil {
 		return nil, err
 	}
-	return &ExchangefeesFeeRefundedIterator{contract: _Exchangefees.contract, event: "FeeRefunded", logs: logs, sub: sub}, nil
+	return &ExchangeFeesFeeRefundedIterator{contract: _ExchangeFees.contract, event: "FeeRefunded", logs: logs, sub: sub}, nil
 }
 
 // WatchFeeRefunded is a free log subscription operation binding the contract event 0x18fe0464eb77016dc4e227eb0d690e4002756d82b442143bbfb874548952b5f2.
 //
 // Solidity: event FeeRefunded(address token, address to, uint256 id, uint256 amount)
-func (_Exchangefees *ExchangefeesFilterer) WatchFeeRefunded(opts *bind.WatchOpts, sink chan<- *ExchangefeesFeeRefunded) (event.Subscription, error) {
+func (_ExchangeFees *ExchangeFeesFilterer) WatchFeeRefunded(opts *bind.WatchOpts, sink chan<- *ExchangeFeesFeeRefunded) (event.Subscription, error) {
 
-	logs, sub, err := _Exchangefees.contract.WatchLogs(opts, "FeeRefunded")
+	logs, sub, err := _ExchangeFees.contract.WatchLogs(opts, "FeeRefunded")
 	if err != nil {
 		return nil, err
 	}
@@ -601,8 +602,8 @@ func (_Exchangefees *ExchangefeesFilterer) WatchFeeRefunded(opts *bind.WatchOpts
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(ExchangefeesFeeRefunded)
-				if err := _Exchangefees.contract.UnpackLog(event, "FeeRefunded", log); err != nil {
+				event := new(ExchangeFeesFeeRefunded)
+				if err := _ExchangeFees.contract.UnpackLog(event, "FeeRefunded", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -626,18 +627,18 @@ func (_Exchangefees *ExchangefeesFilterer) WatchFeeRefunded(opts *bind.WatchOpts
 // ParseFeeRefunded is a log parse operation binding the contract event 0x18fe0464eb77016dc4e227eb0d690e4002756d82b442143bbfb874548952b5f2.
 //
 // Solidity: event FeeRefunded(address token, address to, uint256 id, uint256 amount)
-func (_Exchangefees *ExchangefeesFilterer) ParseFeeRefunded(log types.Log) (*ExchangefeesFeeRefunded, error) {
-	event := new(ExchangefeesFeeRefunded)
-	if err := _Exchangefees.contract.UnpackLog(event, "FeeRefunded", log); err != nil {
+func (_ExchangeFees *ExchangeFeesFilterer) ParseFeeRefunded(log types.Log) (*ExchangeFeesFeeRefunded, error) {
+	event := new(ExchangeFeesFeeRefunded)
+	if err := _ExchangeFees.contract.UnpackLog(event, "FeeRefunded", log); err != nil {
 		return nil, err
 	}
 	event.Raw = log
 	return event, nil
 }
 
-// ExchangefeesFeeWithdrawnIterator is returned from FilterFeeWithdrawn and is used to iterate over the raw logs and unpacked data for FeeWithdrawn events raised by the Exchangefees contract.
-type ExchangefeesFeeWithdrawnIterator struct {
-	Event *ExchangefeesFeeWithdrawn // Event containing the contract specifics and raw log
+// ExchangeFeesFeeWithdrawnIterator is returned from FilterFeeWithdrawn and is used to iterate over the raw logs and unpacked data for FeeWithdrawn events raised by the ExchangeFees contract.
+type ExchangeFeesFeeWithdrawnIterator struct {
+	Event *ExchangeFeesFeeWithdrawn // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -651,7 +652,7 @@ type ExchangefeesFeeWithdrawnIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *ExchangefeesFeeWithdrawnIterator) Next() bool {
+func (it *ExchangeFeesFeeWithdrawnIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -660,7 +661,7 @@ func (it *ExchangefeesFeeWithdrawnIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(ExchangefeesFeeWithdrawn)
+			it.Event = new(ExchangeFeesFeeWithdrawn)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -675,7 +676,7 @@ func (it *ExchangefeesFeeWithdrawnIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(ExchangefeesFeeWithdrawn)
+		it.Event = new(ExchangeFeesFeeWithdrawn)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -691,19 +692,19 @@ func (it *ExchangefeesFeeWithdrawnIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *ExchangefeesFeeWithdrawnIterator) Error() error {
+func (it *ExchangeFeesFeeWithdrawnIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *ExchangefeesFeeWithdrawnIterator) Close() error {
+func (it *ExchangeFeesFeeWithdrawnIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// ExchangefeesFeeWithdrawn represents a FeeWithdrawn event raised by the Exchangefees contract.
-type ExchangefeesFeeWithdrawn struct {
+// ExchangeFeesFeeWithdrawn represents a FeeWithdrawn event raised by the ExchangeFees contract.
+type ExchangeFeesFeeWithdrawn struct {
 	Token  common.Address
 	To     common.Address
 	Id     *big.Int
@@ -714,21 +715,21 @@ type ExchangefeesFeeWithdrawn struct {
 // FilterFeeWithdrawn is a free log retrieval operation binding the contract event 0x6ce49f8691a80db5eb4f60cd55b14640529346a7ddf9bf8f77a423fa6a10bfdb.
 //
 // Solidity: event FeeWithdrawn(address token, address to, uint256 id, uint256 amount)
-func (_Exchangefees *ExchangefeesFilterer) FilterFeeWithdrawn(opts *bind.FilterOpts) (*ExchangefeesFeeWithdrawnIterator, error) {
+func (_ExchangeFees *ExchangeFeesFilterer) FilterFeeWithdrawn(opts *bind.FilterOpts) (*ExchangeFeesFeeWithdrawnIterator, error) {
 
-	logs, sub, err := _Exchangefees.contract.FilterLogs(opts, "FeeWithdrawn")
+	logs, sub, err := _ExchangeFees.contract.FilterLogs(opts, "FeeWithdrawn")
 	if err != nil {
 		return nil, err
 	}
-	return &ExchangefeesFeeWithdrawnIterator{contract: _Exchangefees.contract, event: "FeeWithdrawn", logs: logs, sub: sub}, nil
+	return &ExchangeFeesFeeWithdrawnIterator{contract: _ExchangeFees.contract, event: "FeeWithdrawn", logs: logs, sub: sub}, nil
 }
 
 // WatchFeeWithdrawn is a free log subscription operation binding the contract event 0x6ce49f8691a80db5eb4f60cd55b14640529346a7ddf9bf8f77a423fa6a10bfdb.
 //
 // Solidity: event FeeWithdrawn(address token, address to, uint256 id, uint256 amount)
-func (_Exchangefees *ExchangefeesFilterer) WatchFeeWithdrawn(opts *bind.WatchOpts, sink chan<- *ExchangefeesFeeWithdrawn) (event.Subscription, error) {
+func (_ExchangeFees *ExchangeFeesFilterer) WatchFeeWithdrawn(opts *bind.WatchOpts, sink chan<- *ExchangeFeesFeeWithdrawn) (event.Subscription, error) {
 
-	logs, sub, err := _Exchangefees.contract.WatchLogs(opts, "FeeWithdrawn")
+	logs, sub, err := _ExchangeFees.contract.WatchLogs(opts, "FeeWithdrawn")
 	if err != nil {
 		return nil, err
 	}
@@ -738,8 +739,8 @@ func (_Exchangefees *ExchangefeesFilterer) WatchFeeWithdrawn(opts *bind.WatchOpt
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(ExchangefeesFeeWithdrawn)
-				if err := _Exchangefees.contract.UnpackLog(event, "FeeWithdrawn", log); err != nil {
+				event := new(ExchangeFeesFeeWithdrawn)
+				if err := _ExchangeFees.contract.UnpackLog(event, "FeeWithdrawn", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -763,18 +764,18 @@ func (_Exchangefees *ExchangefeesFilterer) WatchFeeWithdrawn(opts *bind.WatchOpt
 // ParseFeeWithdrawn is a log parse operation binding the contract event 0x6ce49f8691a80db5eb4f60cd55b14640529346a7ddf9bf8f77a423fa6a10bfdb.
 //
 // Solidity: event FeeWithdrawn(address token, address to, uint256 id, uint256 amount)
-func (_Exchangefees *ExchangefeesFilterer) ParseFeeWithdrawn(log types.Log) (*ExchangefeesFeeWithdrawn, error) {
-	event := new(ExchangefeesFeeWithdrawn)
-	if err := _Exchangefees.contract.UnpackLog(event, "FeeWithdrawn", log); err != nil {
+func (_ExchangeFees *ExchangeFeesFilterer) ParseFeeWithdrawn(log types.Log) (*ExchangeFeesFeeWithdrawn, error) {
+	event := new(ExchangeFeesFeeWithdrawn)
+	if err := _ExchangeFees.contract.UnpackLog(event, "FeeWithdrawn", log); err != nil {
 		return nil, err
 	}
 	event.Raw = log
 	return event, nil
 }
 
-// ExchangefeesNewAdminIterator is returned from FilterNewAdmin and is used to iterate over the raw logs and unpacked data for NewAdmin events raised by the Exchangefees contract.
-type ExchangefeesNewAdminIterator struct {
-	Event *ExchangefeesNewAdmin // Event containing the contract specifics and raw log
+// ExchangeFeesNewAdminIterator is returned from FilterNewAdmin and is used to iterate over the raw logs and unpacked data for NewAdmin events raised by the ExchangeFees contract.
+type ExchangeFeesNewAdminIterator struct {
+	Event *ExchangeFeesNewAdmin // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -788,7 +789,7 @@ type ExchangefeesNewAdminIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *ExchangefeesNewAdminIterator) Next() bool {
+func (it *ExchangeFeesNewAdminIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -797,7 +798,7 @@ func (it *ExchangefeesNewAdminIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(ExchangefeesNewAdmin)
+			it.Event = new(ExchangeFeesNewAdmin)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -812,7 +813,7 @@ func (it *ExchangefeesNewAdminIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(ExchangefeesNewAdmin)
+		it.Event = new(ExchangeFeesNewAdmin)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -828,19 +829,19 @@ func (it *ExchangefeesNewAdminIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *ExchangefeesNewAdminIterator) Error() error {
+func (it *ExchangeFeesNewAdminIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *ExchangefeesNewAdminIterator) Close() error {
+func (it *ExchangeFeesNewAdminIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// ExchangefeesNewAdmin represents a NewAdmin event raised by the Exchangefees contract.
-type ExchangefeesNewAdmin struct {
+// ExchangeFeesNewAdmin represents a NewAdmin event raised by the ExchangeFees contract.
+type ExchangeFeesNewAdmin struct {
 	Admin           common.Address
 	NewAdminAddress common.Address
 	Raw             types.Log // Blockchain specific contextual infos
@@ -849,7 +850,7 @@ type ExchangefeesNewAdmin struct {
 // FilterNewAdmin is a free log retrieval operation binding the contract event 0xf9ffabca9c8276e99321725bcb43fb076a6c66a54b7f21c4e8146d8519b417dc.
 //
 // Solidity: event NewAdmin(address indexed admin, address indexed newAdminAddress)
-func (_Exchangefees *ExchangefeesFilterer) FilterNewAdmin(opts *bind.FilterOpts, admin []common.Address, newAdminAddress []common.Address) (*ExchangefeesNewAdminIterator, error) {
+func (_ExchangeFees *ExchangeFeesFilterer) FilterNewAdmin(opts *bind.FilterOpts, admin []common.Address, newAdminAddress []common.Address) (*ExchangeFeesNewAdminIterator, error) {
 
 	var adminRule []interface{}
 	for _, adminItem := range admin {
@@ -860,17 +861,17 @@ func (_Exchangefees *ExchangefeesFilterer) FilterNewAdmin(opts *bind.FilterOpts,
 		newAdminAddressRule = append(newAdminAddressRule, newAdminAddressItem)
 	}
 
-	logs, sub, err := _Exchangefees.contract.FilterLogs(opts, "NewAdmin", adminRule, newAdminAddressRule)
+	logs, sub, err := _ExchangeFees.contract.FilterLogs(opts, "NewAdmin", adminRule, newAdminAddressRule)
 	if err != nil {
 		return nil, err
 	}
-	return &ExchangefeesNewAdminIterator{contract: _Exchangefees.contract, event: "NewAdmin", logs: logs, sub: sub}, nil
+	return &ExchangeFeesNewAdminIterator{contract: _ExchangeFees.contract, event: "NewAdmin", logs: logs, sub: sub}, nil
 }
 
 // WatchNewAdmin is a free log subscription operation binding the contract event 0xf9ffabca9c8276e99321725bcb43fb076a6c66a54b7f21c4e8146d8519b417dc.
 //
 // Solidity: event NewAdmin(address indexed admin, address indexed newAdminAddress)
-func (_Exchangefees *ExchangefeesFilterer) WatchNewAdmin(opts *bind.WatchOpts, sink chan<- *ExchangefeesNewAdmin, admin []common.Address, newAdminAddress []common.Address) (event.Subscription, error) {
+func (_ExchangeFees *ExchangeFeesFilterer) WatchNewAdmin(opts *bind.WatchOpts, sink chan<- *ExchangeFeesNewAdmin, admin []common.Address, newAdminAddress []common.Address) (event.Subscription, error) {
 
 	var adminRule []interface{}
 	for _, adminItem := range admin {
@@ -881,7 +882,7 @@ func (_Exchangefees *ExchangefeesFilterer) WatchNewAdmin(opts *bind.WatchOpts, s
 		newAdminAddressRule = append(newAdminAddressRule, newAdminAddressItem)
 	}
 
-	logs, sub, err := _Exchangefees.contract.WatchLogs(opts, "NewAdmin", adminRule, newAdminAddressRule)
+	logs, sub, err := _ExchangeFees.contract.WatchLogs(opts, "NewAdmin", adminRule, newAdminAddressRule)
 	if err != nil {
 		return nil, err
 	}
@@ -891,8 +892,8 @@ func (_Exchangefees *ExchangefeesFilterer) WatchNewAdmin(opts *bind.WatchOpts, s
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(ExchangefeesNewAdmin)
-				if err := _Exchangefees.contract.UnpackLog(event, "NewAdmin", log); err != nil {
+				event := new(ExchangeFeesNewAdmin)
+				if err := _ExchangeFees.contract.UnpackLog(event, "NewAdmin", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -916,18 +917,18 @@ func (_Exchangefees *ExchangefeesFilterer) WatchNewAdmin(opts *bind.WatchOpts, s
 // ParseNewAdmin is a log parse operation binding the contract event 0xf9ffabca9c8276e99321725bcb43fb076a6c66a54b7f21c4e8146d8519b417dc.
 //
 // Solidity: event NewAdmin(address indexed admin, address indexed newAdminAddress)
-func (_Exchangefees *ExchangefeesFilterer) ParseNewAdmin(log types.Log) (*ExchangefeesNewAdmin, error) {
-	event := new(ExchangefeesNewAdmin)
-	if err := _Exchangefees.contract.UnpackLog(event, "NewAdmin", log); err != nil {
+func (_ExchangeFees *ExchangeFeesFilterer) ParseNewAdmin(log types.Log) (*ExchangeFeesNewAdmin, error) {
+	event := new(ExchangeFeesNewAdmin)
+	if err := _ExchangeFees.contract.UnpackLog(event, "NewAdmin", log); err != nil {
 		return nil, err
 	}
 	event.Raw = log
 	return event, nil
 }
 
-// ExchangefeesRemovedAdminIterator is returned from FilterRemovedAdmin and is used to iterate over the raw logs and unpacked data for RemovedAdmin events raised by the Exchangefees contract.
-type ExchangefeesRemovedAdminIterator struct {
-	Event *ExchangefeesRemovedAdmin // Event containing the contract specifics and raw log
+// ExchangeFeesRemovedAdminIterator is returned from FilterRemovedAdmin and is used to iterate over the raw logs and unpacked data for RemovedAdmin events raised by the ExchangeFees contract.
+type ExchangeFeesRemovedAdminIterator struct {
+	Event *ExchangeFeesRemovedAdmin // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -941,7 +942,7 @@ type ExchangefeesRemovedAdminIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *ExchangefeesRemovedAdminIterator) Next() bool {
+func (it *ExchangeFeesRemovedAdminIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -950,7 +951,7 @@ func (it *ExchangefeesRemovedAdminIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(ExchangefeesRemovedAdmin)
+			it.Event = new(ExchangeFeesRemovedAdmin)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -965,7 +966,7 @@ func (it *ExchangefeesRemovedAdminIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(ExchangefeesRemovedAdmin)
+		it.Event = new(ExchangeFeesRemovedAdmin)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -981,19 +982,19 @@ func (it *ExchangefeesRemovedAdminIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *ExchangefeesRemovedAdminIterator) Error() error {
+func (it *ExchangeFeesRemovedAdminIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *ExchangefeesRemovedAdminIterator) Close() error {
+func (it *ExchangeFeesRemovedAdminIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// ExchangefeesRemovedAdmin represents a RemovedAdmin event raised by the Exchangefees contract.
-type ExchangefeesRemovedAdmin struct {
+// ExchangeFeesRemovedAdmin represents a RemovedAdmin event raised by the ExchangeFees contract.
+type ExchangeFeesRemovedAdmin struct {
 	Admin        common.Address
 	RemovedAdmin common.Address
 	Raw          types.Log // Blockchain specific contextual infos
@@ -1002,7 +1003,7 @@ type ExchangefeesRemovedAdmin struct {
 // FilterRemovedAdmin is a free log retrieval operation binding the contract event 0x787a2e12f4a55b658b8f573c32432ee11a5e8b51677d1e1e937aaf6a0bb5776e.
 //
 // Solidity: event RemovedAdmin(address indexed admin, address indexed removedAdmin)
-func (_Exchangefees *ExchangefeesFilterer) FilterRemovedAdmin(opts *bind.FilterOpts, admin []common.Address, removedAdmin []common.Address) (*ExchangefeesRemovedAdminIterator, error) {
+func (_ExchangeFees *ExchangeFeesFilterer) FilterRemovedAdmin(opts *bind.FilterOpts, admin []common.Address, removedAdmin []common.Address) (*ExchangeFeesRemovedAdminIterator, error) {
 
 	var adminRule []interface{}
 	for _, adminItem := range admin {
@@ -1013,17 +1014,17 @@ func (_Exchangefees *ExchangefeesFilterer) FilterRemovedAdmin(opts *bind.FilterO
 		removedAdminRule = append(removedAdminRule, removedAdminItem)
 	}
 
-	logs, sub, err := _Exchangefees.contract.FilterLogs(opts, "RemovedAdmin", adminRule, removedAdminRule)
+	logs, sub, err := _ExchangeFees.contract.FilterLogs(opts, "RemovedAdmin", adminRule, removedAdminRule)
 	if err != nil {
 		return nil, err
 	}
-	return &ExchangefeesRemovedAdminIterator{contract: _Exchangefees.contract, event: "RemovedAdmin", logs: logs, sub: sub}, nil
+	return &ExchangeFeesRemovedAdminIterator{contract: _ExchangeFees.contract, event: "RemovedAdmin", logs: logs, sub: sub}, nil
 }
 
 // WatchRemovedAdmin is a free log subscription operation binding the contract event 0x787a2e12f4a55b658b8f573c32432ee11a5e8b51677d1e1e937aaf6a0bb5776e.
 //
 // Solidity: event RemovedAdmin(address indexed admin, address indexed removedAdmin)
-func (_Exchangefees *ExchangefeesFilterer) WatchRemovedAdmin(opts *bind.WatchOpts, sink chan<- *ExchangefeesRemovedAdmin, admin []common.Address, removedAdmin []common.Address) (event.Subscription, error) {
+func (_ExchangeFees *ExchangeFeesFilterer) WatchRemovedAdmin(opts *bind.WatchOpts, sink chan<- *ExchangeFeesRemovedAdmin, admin []common.Address, removedAdmin []common.Address) (event.Subscription, error) {
 
 	var adminRule []interface{}
 	for _, adminItem := range admin {
@@ -1034,7 +1035,7 @@ func (_Exchangefees *ExchangefeesFilterer) WatchRemovedAdmin(opts *bind.WatchOpt
 		removedAdminRule = append(removedAdminRule, removedAdminItem)
 	}
 
-	logs, sub, err := _Exchangefees.contract.WatchLogs(opts, "RemovedAdmin", adminRule, removedAdminRule)
+	logs, sub, err := _ExchangeFees.contract.WatchLogs(opts, "RemovedAdmin", adminRule, removedAdminRule)
 	if err != nil {
 		return nil, err
 	}
@@ -1044,8 +1045,8 @@ func (_Exchangefees *ExchangefeesFilterer) WatchRemovedAdmin(opts *bind.WatchOpt
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(ExchangefeesRemovedAdmin)
-				if err := _Exchangefees.contract.UnpackLog(event, "RemovedAdmin", log); err != nil {
+				event := new(ExchangeFeesRemovedAdmin)
+				if err := _ExchangeFees.contract.UnpackLog(event, "RemovedAdmin", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -1069,9 +1070,9 @@ func (_Exchangefees *ExchangefeesFilterer) WatchRemovedAdmin(opts *bind.WatchOpt
 // ParseRemovedAdmin is a log parse operation binding the contract event 0x787a2e12f4a55b658b8f573c32432ee11a5e8b51677d1e1e937aaf6a0bb5776e.
 //
 // Solidity: event RemovedAdmin(address indexed admin, address indexed removedAdmin)
-func (_Exchangefees *ExchangefeesFilterer) ParseRemovedAdmin(log types.Log) (*ExchangefeesRemovedAdmin, error) {
-	event := new(ExchangefeesRemovedAdmin)
-	if err := _Exchangefees.contract.UnpackLog(event, "RemovedAdmin", log); err != nil {
+func (_ExchangeFees *ExchangeFeesFilterer) ParseRemovedAdmin(log types.Log) (*ExchangeFeesRemovedAdmin, error) {
+	event := new(ExchangeFeesRemovedAdmin)
+	if err := _ExchangeFees.contract.UnpackLog(event, "RemovedAdmin", log); err != nil {
 		return nil, err
 	}
 	event.Raw = log

@@ -6,7 +6,6 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/polymarket/go-order-utils/pkg/config"
 	"github.com/polymarket/go-order-utils/pkg/eip712"
 	"github.com/polymarket/go-order-utils/pkg/model"
 	"github.com/polymarket/go-order-utils/pkg/signer"
@@ -37,13 +36,13 @@ func NewExchangeOrderBuilderImpl(chainId *big.Int, saltGenerator func() int64) *
 // @param orderData
 //
 // @returns a SignedOrder object (order + signature)
-func (e *ExchangeOrderBuilderImpl) BuildSignedOrder(privateKey *ecdsa.PrivateKey, orderData *model.OrderData) (*model.SignedOrder, error) {
+func (e *ExchangeOrderBuilderImpl) BuildSignedOrder(privateKey *ecdsa.PrivateKey, orderData *model.OrderData, contract model.VerifyingContract) (*model.SignedOrder, error) {
 	order, err := e.BuildOrder(orderData)
 	if err != nil {
 		return nil, err
 	}
 
-	orderHash, err := e.BuildOrderHash(order)
+	orderHash, err := e.BuildOrderHash(order, contract)
 	if err != nil {
 		return nil, err
 	}
@@ -135,13 +134,13 @@ func (e *ExchangeOrderBuilderImpl) BuildOrder(orderData *model.OrderData) (*mode
 // @param Order
 //
 // @returns a OrderHash that is a 'common.Hash'
-func (e *ExchangeOrderBuilderImpl) BuildOrderHash(order *model.Order) (model.OrderHash, error) {
-	contracts, err := config.GetContracts(e.chainId.Int64())
+func (e *ExchangeOrderBuilderImpl) BuildOrderHash(order *model.Order, contract model.VerifyingContract) (model.OrderHash, error) {
+	verifyingContract, err := utils.GetVerifyingContractAddress(e.chainId, contract)
 	if err != nil {
 		return model.OrderHash{}, err
 	}
 
-	domainSeparator, err := eip712.BuildEIP712DomainSeparator(_PROTOCOL_NAME, _PROTOCOL_VERSION, e.chainId, contracts.Exchange)
+	domainSeparator, err := eip712.BuildEIP712DomainSeparator(_PROTOCOL_NAME, _PROTOCOL_VERSION, e.chainId, verifyingContract)
 	if err != nil {
 		return model.OrderHash{}, err
 	}
