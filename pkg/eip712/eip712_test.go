@@ -1,7 +1,6 @@
 package eip712
 
 import (
-	"encoding/hex"
 	"math/big"
 	"testing"
 
@@ -12,31 +11,31 @@ import (
 )
 
 func TestBuildEIP712DomainSeparator(t *testing.T) {
-	expectedMumbai := common.Hex2Bytes("66b157d2cc69ba84f05ab5f6ae3a7438d209df5c167c89848968e301da841e1c")
+	expectedAmoy := common.HexToHash("0x029ca49b31e01a0230787b3673a6977ee0dbb02f78e68d2ee41d330893e17594")
 	name := crypto.Keccak256Hash([]byte("Polymarket CTF Exchange"))
 	version := crypto.Keccak256Hash([]byte("1"))
-	chainId := big.NewInt(80001)
+	chainId := big.NewInt(80002)
 	address := common.HexToAddress("0x0000000000000000000000000000000000000000")
 
 	actual, err := BuildEIP712DomainSeparator(name, version, chainId, address)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, actual)
-	assert.Equal(t, expectedMumbai, actual[:])
+	assert.Equal(t, expectedAmoy.String(), actual.String())
 
-	expectedPolygon := common.Hex2Bytes("0ba60c2a4504ef46ef2d139f27cd131dbc8b9643d0565a54bb14de0e31cd5600")
+	expectedPolygon := common.HexToHash("0ba60c2a4504ef46ef2d139f27cd131dbc8b9643d0565a54bb14de0e31cd5600")
 	chainId = big.NewInt(137)
 
 	actual, err = BuildEIP712DomainSeparator(name, version, chainId, address)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, actual)
-	assert.NotEqual(t, expectedMumbai, actual[:])
-	assert.Equal(t, expectedPolygon, actual[:])
+	assert.NotEqual(t, expectedAmoy.String(), actual.String())
+	assert.Equal(t, expectedPolygon.String(), actual.String())
 }
 
 func TestBuildEIP712DomainSeparatorNoContract(t *testing.T) {
 	// Calculated in foundry
-	expectedMumbai := common.Hex2Bytes("4a3577f6d2decf700867987650d4fe51bd2b991c2e7603094244852187451f06")
-	chainId := big.NewInt(80001)
+	expectedAmoy := common.HexToHash("0xf231a704e0942ea4f4f4a68a19fa01e198ddae4595d821697230159c60e562b0")
+	chainId := big.NewInt(80002)
 
 	name := crypto.Keccak256Hash([]byte("Polymarket CTF Exchange"))
 	version := crypto.Keccak256Hash([]byte("1"))
@@ -44,23 +43,23 @@ func TestBuildEIP712DomainSeparatorNoContract(t *testing.T) {
 	actual, err := BuildEIP712DomainSeparatorNoContract(name, version, chainId)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, actual)
-	assert.Equal(t, expectedMumbai, actual[:])
+	assert.Equal(t, expectedAmoy.String(), actual.String())
 
 	// Calculated in foundry
-	expectedPolygon := common.Hex2Bytes("aee1d7dd93bb10f6c6a59417017905bc5dbec7ddbd71475cd19d8a95845e632d")
+	expectedPolygon := common.HexToHash("aee1d7dd93bb10f6c6a59417017905bc5dbec7ddbd71475cd19d8a95845e632d")
 	chainId = big.NewInt(137)
 
 	actual, err = BuildEIP712DomainSeparatorNoContract(name, version, chainId)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, actual)
-	assert.NotEqual(t, expectedMumbai, actual[:])
-	assert.Equal(t, expectedPolygon, actual[:])
+	assert.NotEqual(t, expectedAmoy.String(), actual.String())
+	assert.Equal(t, expectedPolygon.String(), actual.String())
 }
 
 func TestHashTypedDataV4(t *testing.T) {
 	name := crypto.Keccak256Hash([]byte("Polymarket CTF Exchange"))
 	version := crypto.Keccak256Hash([]byte("1"))
-	chainId := big.NewInt(80001)
+	chainId := big.NewInt(80002)
 	address := common.HexToAddress("0x0000000000000000000000000000000000000000")
 
 	domainSeparator, err := BuildEIP712DomainSeparator(name, version, chainId, address)
@@ -82,11 +81,6 @@ func TestHashTypedDataV4(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotEmpty(t, dataHashBytes)
 
-	expectedTypedDataHash := "caaea30a004febfda6fd75f0ccf024a806839d6a6f9e1fd79424787ab078a7e3"
-	expectedTypedDataHashBytes := common.Hex2Bytes(expectedTypedDataHash)
-
-	assert.Equal(t, expectedTypedDataHashBytes, dataHashBytes[:])
-
-	typedDataHash := hex.EncodeToString(dataHashBytes[:])
-	assert.Equal(t, expectedTypedDataHash, typedDataHash)
+	expectedTypedDataHash := "0x5b9fd6432c2890e6293b3880add5e3d40ead280b31f7cd70f06b43f8d37dcc13"
+	assert.Equal(t, expectedTypedDataHash, dataHashBytes.String())
 }
