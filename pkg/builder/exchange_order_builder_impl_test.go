@@ -404,3 +404,24 @@ func TestBuildSignedOrder(t *testing.T) {
 	expectedSignature = "1b3646ef347e5bd144c65bd3357ba19c12c12abaeedae733cf8579bc51a2752c0454c3bc6b236957e393637982c769b8dc0706c0f5c399983d933850afd1cbcd1c"
 	assert.Equal(t, expectedSignature, common.Bytes2Hex(signedOrder.Signature))
 }
+
+func TestBuildSignedOrder2(t *testing.T) {
+	builder := NewExchangeOrderBuilderImpl(chainId, nil)
+
+	signedOrder, err := builder.BuildSignedOrder(privateKey, &model.OrderData{
+		Maker:         "0xaFB8270A801862270FebB3763505b136491e557b",
+		Signer:        "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+		Taker:         common.HexToAddress("0x0").Hex(),
+		TokenId:       "100",
+		MakerAmount:   "50000000",
+		TakerAmount:   "100000000",
+		Side:          model.BUY,
+		FeeRateBps:    "100",
+		Nonce:         "0",
+		Expiration:    "0",
+		SignatureType: model.POLY_GNOSIS_SAFE,
+	}, model.NegRiskCTFExchange)
+	assert.NoError(t, err)
+	assert.NotNil(t, signedOrder)
+
+}

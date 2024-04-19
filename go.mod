@@ -3,7 +3,7 @@ module github.com/polymarket/go-order-utils
 go 1.21
 
 require (
-	github.com/ethereum/go-ethereum v1.13.14
+	github.com/ethereum/go-ethereum v1.13.15
 	github.com/stretchr/testify v1.8.4
 )
 

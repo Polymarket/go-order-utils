@@ -52,6 +52,10 @@ func (e *ExchangeOrderBuilderImpl) BuildSignedOrder(privateKey *ecdsa.PrivateKey
 		return nil, err
 	}
 
+	fmt.Println(order.Salt.String())
+	fmt.Println(orderHash.String())
+	fmt.Println(common.Bytes2Hex(signature))
+
 	ok, err := signer.ValidateSignature(order.Signer, orderHash, signature)
 	if err != nil {
 		return nil, err
