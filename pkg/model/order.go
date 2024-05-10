@@ -28,9 +28,6 @@ type OrderData struct {
 	// Taker amount, i.e the minimum amount of tokens to be received
 	TakerAmount string
 
-	// The side of the order, BUY or SELL
-	Side Side
-
 	// Fee rate, in basis points, charged to the order maker, charged on proceeds
 	FeeRateBps string
 
@@ -44,6 +41,9 @@ type OrderData struct {
 	// Optional, if it is not present the value is '0' (no expiration)
 	Expiration string
 
+	// The side of the order, BUY or SELL
+	Side Side
+
 	// Signature type used by the Order. Default value 'EOA'
 	SignatureType SignatureType
 }
@@ -51,15 +51,6 @@ type OrderData struct {
 type Order struct {
 	//  Unique salt to ensure entropy
 	Salt *big.Int
-
-	// Maker of the order, i.e the source of funds for the order
-	Maker common.Address
-
-	// Address of the order taker. The zero address is used to indicate a public order
-	Taker common.Address
-
-	// Signer of the order
-	Signer common.Address
 
 	// Token Id of the CTF ERC1155 asset to be bought or sold.
 	// If BUY, this is the tokenId of the asset to be bought, i.e the makerAssetId
@@ -86,6 +77,15 @@ type Order struct {
 
 	// Signature type used by the Order
 	SignatureType *big.Int
+
+	// Maker of the order, i.e the source of funds for the order
+	Maker common.Address
+
+	// Address of the order taker. The zero address is used to indicate a public order
+	Taker common.Address
+
+	// Signer of the order
+	Signer common.Address
 }
 
 type SignedOrder struct {
