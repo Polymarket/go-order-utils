@@ -3,10 +3,10 @@ package signer
 import (
 	"bytes"
 	"crypto/ecdsa"
+  "fmt"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/crypto/secp256k1"
 )
 
 func Sign(privateKey *ecdsa.PrivateKey, hashedData common.Hash) ([]byte, error) {
@@ -23,7 +23,7 @@ func ValidateSignature(signer common.Address, hashedData common.Hash, signature 
 	copy(sigCopy, signature)
 
 	if len(sigCopy) != 65 {
-		return false, secp256k1.ErrInvalidSignatureLen
+		return false, fmt.Errorf("invalid signature length")
 	}
 
 	if sigCopy[64] != 0 && sigCopy[64] != 1 { // in case of ledger signing v might already be 0 or 1
