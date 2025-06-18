@@ -3,7 +3,7 @@ package signer
 import (
 	"bytes"
 	"crypto/ecdsa"
-  "fmt"
+	"fmt"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
