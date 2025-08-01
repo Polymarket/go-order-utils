@@ -12,7 +12,7 @@ func TestGetContracts(t *testing.T) {
 	var (
 		amoy = &Contracts{
 			Exchange:         common.HexToAddress("0xdFE02Eb6733538f8Ea35D585af8DE5958AD99E40"),
-			FeeModule:        common.HexToAddress("0x6144986D3dd85fF13DE54EeB13cFf869F1c24ceD"),
+			FeeModule:        common.HexToAddress("0xE3f18aCc55091e2c48d883fc8C8413319d4Ab7b0"),
 			NegRiskExchange:  common.HexToAddress("0xC5d563A36AE78145C45a50134d48A1215220f80a"),
 			NegRiskFeeModule: common.HexToAddress("0x78769d50be1763ed1ca0d5e878d93f05aabff29e"),
 			NegRiskAdapter:   common.HexToAddress("0xd91E80cF2E7be2e162c6513ceD06f1dD0dA35296"),
