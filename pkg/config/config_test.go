@@ -28,7 +28,7 @@ func TestGetContracts(t *testing.T) {
 			FeeModuleV2:        common.HexToAddress("0xE3f18aCc55091e2c48d883fc8C8413319d4Ab7b0"),
 			Collateral:         common.HexToAddress("0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"),
 			Conditional:        common.HexToAddress("0x4D97DCd97eC945f40cF65F87097ACe5EA0476045"),
-			NegRiskFeeModuleV1: common.HexToAddress("0x78769d50be1763ed1ca0d5e878d93f05aabff29e"),
+			NegRiskFeeModuleV1: common.HexToAddress("0x78769D50Be1763ed1CA0D5E878D93f05aabff29e"),
 			NegRiskFeeModuleV2: common.HexToAddress("0xB768891e3130F6dF18214Ac804d4DB76c2C37730"),
 			NegRiskExchange:    common.HexToAddress("0xC5d563A36AE78145C45a50134d48A1215220f80a"),
 			NegRiskAdapter:     common.HexToAddress("0xd91E80cF2E7be2e162c6513ceD06f1dD0dA35296"),

@@ -24,7 +24,7 @@ var (
 		FeeModuleV1:        common.HexToAddress("0x9A9faEf45C671cc57B3e117c5B3053075416490f"),
 		FeeModuleV2:        common.HexToAddress("0xE3f18aCc55091e2c48d883fc8C8413319d4Ab7b0"),
 		NegRiskExchange:    common.HexToAddress("0xC5d563A36AE78145C45a50134d48A1215220f80a"),
-		NegRiskFeeModuleV1: common.HexToAddress("0x78769d50be1763ed1ca0d5e878d93f05aabff29e"),
+		NegRiskFeeModuleV1: common.HexToAddress("0x78769D50Be1763ed1CA0D5E878D93f05aabff29e"),
 		NegRiskFeeModuleV2: common.HexToAddress("0xB768891e3130F6dF18214Ac804d4DB76c2C37730"),
 		NegRiskAdapter:     common.HexToAddress("0xd91E80cF2E7be2e162c6513ceD06f1dD0dA35296"),
 		Collateral:         common.HexToAddress("0x9c4e1703476e875070ee25b56a58b008cfb8fa78"),
