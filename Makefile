@@ -24,9 +24,9 @@ test:
 	@echo "----------------------------------------------------------------"
 	@echo " ⚙️  Testign the code..."
 	@echo "----------------------------------------------------------------"
-	GOPRIVATE=${PRIVATE_REPOS} go test ./... -v
+	GOPRIVATE=${PRIVATE_REPOS} go test -coverprofile cover.out ./... -v
 	@echo "Tests complete!"
 
-.PHONE: build
-build:
-	@echo
+.PHONY: test.coverage
+test.coverage: test
+	go tool cover -html=cover.out
